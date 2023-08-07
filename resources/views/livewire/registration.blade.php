@@ -18,9 +18,7 @@
                             <h6>Kindly fill out all fields on the next slides. Thank you!</h5>
                                 <br>
                                 <button  wire:click='nextPanel' wire:ignore type="button"
-                                    class="btn btn-orange trigger-enter text-white fs-4">Start</button> <span
-                                    class="ps-3 text-muted -bottom-3 disabled">You may
-                                    press enter to proceed ↲</span>
+                                    class="btn btn-orange trigger-enter text-white fs-4">Start</button> 
                         </div>
                     @elseif($activePanel === 'membership')
                         <div>
@@ -55,9 +53,7 @@
                             </div>
                             <br>
                             <button  wire:click='nextPanel' wire:ignore type="button"
-                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span class="ps-3  disabled">You
-                                may
-                                press enter to proceed ↲</span>
+                                class="btn btn-orange trigger-enter text-white fs-4">Next</button>
                         </div>
                     @elseif($activePanel === 'name')
                         <div>
@@ -87,9 +83,7 @@
                             </div>
                             <br>
                             <button  wire:click='nextPanel' wire:ignore type="button"
-                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span class="ps-3  disabled">You
-                                may
-                                press enter to proceed ↲</span>
+                                class="btn btn-orange trigger-enter text-white fs-4">Next</button>
 
                         </div>
                     @elseif($activePanel === 'email_address')
@@ -104,9 +98,7 @@
                             </div>
 
                             <br>
-                            <button onclick="next_panel();" class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span
-                                class="ps-3  disabled">You may
-                                press enter to proceed ↲</span>
+                            <button onclick="next_panel();" class="btn btn-orange trigger-enter text-white fs-4">Next</button> 
                         </div>
                     @elseif($activePanel === 'company')
                         <div>
@@ -121,9 +113,7 @@
 
                             <br>
                             <button  wire:click='nextPanel' wire:ignore type="button"
-                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span class="ps-3  disabled">You
-                                may
-                                press enter to proceed ↲</span>
+                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> 
                         </div>
                     @elseif($activePanel === 'sectorBoxoption')
                         <div>
@@ -178,9 +168,7 @@
                             </div>
                             <br>
                             <button  wire:click='nextPanel' wire:ignore type="button"
-                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span class="ps-3  disabled">You
-                                may
-                                press enter to proceed ↲</span>
+                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> 
 
                         </div>
                     @elseif($activePanel === 'industry')
@@ -197,9 +185,7 @@
 
                             <br>
                             <button  wire:click='nextPanel' wire:ignore type="button"
-                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span class="ps-3  disabled">You
-                                may
-                                press enter to proceed ↲</span>
+                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> 
                         </div>
                     @elseif($activePanel === 'reference')
                         <div>
@@ -261,10 +247,7 @@
                                 </div>
                                 <br>
                                 <button  wire:click='nextPanel' wire:ignore type="button"
-                                    class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span
-                                    class="ps-3  disabled">You
-                                    may
-                                    press enter to proceed ↲</span>
+                                    class="btn btn-orange trigger-enter text-white fs-4">Next</button> 
                         </div>
                     @elseif($activePanel === 'expectation')
                         <div>
@@ -288,9 +271,7 @@
                             </div>
                             <br>
                             <button  wire:click='nextPanel' wire:ignore type="button"
-                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span class="ps-3  disabled">You
-                                may
-                                press enter to proceed ↲</span>
+                                class="btn btn-orange trigger-enter text-white fs-4">Next</button>
                         </div>
                     @elseif($activePanel === 'connect')
                         <div>
@@ -364,9 +345,7 @@
                             <br>
 
                             <button  wire:click='nextPanel' wire:ignore type="button"
-                                class="btn btn-orange trigger-enter text-white fs-4">Next</button> <span class="ps-3  disabled">You
-                                may
-                                press enter to proceed ↲</span>
+                                class="btn btn-orange trigger-enter text-white fs-4">Next</button>
 
                         </div>
                     @elseif($activePanel === 'ticket_type')

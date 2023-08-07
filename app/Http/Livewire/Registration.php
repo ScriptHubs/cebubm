@@ -82,16 +82,7 @@ class Registration extends Component
         $this->imagePosterImage = $this->events[0]->poster;
         return view('livewire.registration');
     }
-    public function updated($propertyName)
-    {
-        if ($propertyName === 'someProperty') {
-            // Check if the Enter key was pressed
-            if ($this->someProperty === "ENTER_KEY_VALUE") {
-                // Handle the Enter key press here
-                $this->nextPanel();
-            }
-        }
-    }
+
     public function mount()
     {
 
