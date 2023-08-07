@@ -1,0 +1,22 @@
+.card-login{
+  width: 500px;
+}
+  
+  @media (max-width: 767px) {
+    .card-login{
+        width: 400px !important;
+      }
+  }
+  
+  
+  @media (max-width: 991px) {
+    
+  }
+  
+  
+  @media (min-width: 992px) {
+    
+  }
+  
+  
+  

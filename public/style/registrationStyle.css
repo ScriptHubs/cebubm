@@ -1,0 +1,168 @@
+
+
+.btn-orange {
+    background-color: #eb763f;
+  }
+  
+  .btn-orange:hover {
+    background-color: #f04c00;
+  }
+  
+#back_btn {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #eb763f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor  : pointer;
+    transition: 0.5s all ease-in-out;
+  }
+  
+  #back_btn_content {
+    padding-top: 10px;
+    text-align: center;
+    margin: 0;
+  }
+  
+  #back_btn:hover {
+    transform: scale(1.2);
+  }
+
+.form-check-input[type="radio"]:not(:checked) {
+    border-color: orange;
+  }
+  .form-check-input[type="radio"]:checked {
+    background-color: orange;
+    border-color: orange;
+  }
+  
+  .form-check-input[type="checkbox"]:not(:checked) {
+    border-color: orange;
+  }
+  
+  .form-check-input[type="checkbox"]:checked {
+    background-color: orange;
+    border-color: orange;
+  }
+  .no-border {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 5px;
+    margin: 5px;
+  }
+
+
+#loader{
+    width: 100px;
+    height: 100px;
+}
+.loader {
+    transform: rotateZ(45deg);
+    perspective: 1000px;
+    border-radius: 50%;
+    width: 2%;
+    height: 100px;
+    color: #fff;
+    transition: 0.5s ease-in-out;
+}
+.loader:before,
+.loader:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    transform: rotateX(70deg);
+    animation: 1s spin linear infinite;
+}
+.loader:after {
+    color: #eb763f;
+    transform: rotateY(70deg);
+    animation-delay: 0.4s;
+}
+.thank-you-panel{
+    transition: 1s all linear ease-in;
+}
+.hidden{
+    display: none !important;
+}
+.loader.clear {
+    opacity: 0;
+}
+.loader.hide {
+   display: none !important;
+}
+
+.fade-in {
+    opacity: 0;
+}
+
+/* Define the start state of the animation */
+.fade-in-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+/* Define the end state of the animation */
+.fade-in-enter-active {
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+/* When the animation is done, apply these styles */
+.fade-in-enter-done {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@keyframes rotate {
+    0% {
+        transform: translate(-50%, -50%) rotateZ(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotateZ(360deg);
+    }
+}
+
+@keyframes rotateccw {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(-360deg);
+    }
+}
+
+@keyframes spin {
+    0%,
+    100% {
+        box-shadow: 0.2em 0px 0 0px currentcolor;
+    }
+    12% {
+        box-shadow: 0.2em 0.2em 0 0 currentcolor;
+    }
+    25% {
+        box-shadow: 0 0.2em 0 0px currentcolor;
+    }
+    37% {
+        box-shadow: -0.2em 0.2em 0 0 currentcolor;
+    }
+    50% {
+        box-shadow: -0.2em 0 0 0 currentcolor;
+    }
+    62% {
+        box-shadow: -0.2em -0.2em 0 0 currentcolor;
+    }
+    75% {
+        box-shadow: 0px -0.2em 0 0 currentcolor;
+    }
+    87% {
+        box-shadow: 0.2em -0.2em 0 0 currentcolor;
+    }
+}
