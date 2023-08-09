@@ -79,7 +79,12 @@ class Registration extends Component
                 'table_events.poster',
             ]);
 
-        $this->imagePosterImage = $this->events[0]->poster;
+      
+if($this->imagePoster){
+    $this->imagePoster = $this->events[0]->poster;
+
+}
+
         return view('livewire.registration');
     }
 
