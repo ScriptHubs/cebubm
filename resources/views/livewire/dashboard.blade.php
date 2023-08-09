@@ -170,10 +170,13 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($tickets as $index => $ticket)
-                                                <tr>
-                                                    <td>{{ $ticket }}</td>
-                                                    <td>{{ $payment_links[$index] }}</td>
-                                                </tr>
+                                           @if( $ticket  &&  $payment_links[$index]  ){
+                                            <tr>
+                                                <td>{{ $ticket }}</td>
+                                                <td>{{ $payment_links[$index] }}</td>
+                                            </tr>
+                                           }
+                                           @endif
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -182,7 +185,7 @@
                             </div>
                             <hr>
                             <div class="text-end">
-                                <button wire:click='testButton' type="button"
+                                <button wire:click='clearAll' type="button"
                                     class="btn btn-secondary">Clear</button>
                                 <button type="submit" wire:click="storeEvent" class="btn btn-success">Add
                                     Event</button>

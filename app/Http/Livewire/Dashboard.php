@@ -86,6 +86,7 @@ class Dashboard extends Component
     {
 
 
+
         if ($active === 0) {
             $this->activeSetTicket = false;
             $this->activeSetConfirm = false;
@@ -96,11 +97,13 @@ class Dashboard extends Component
             $this->activeSetTicket = true;
             $this->activeSetConfirm = true;
         }
+
         $this->saveCookie();
 
         if ($this->event_poster) {
             $this->event_poster_file_name = $this->event_poster->getClientOriginalName();
         }
+
 
     }
 
@@ -109,11 +112,11 @@ class Dashboard extends Component
     {
         $this->ticketRows += 1;
     }
-    public function testButton()
+    public function clearAll()
     {
-        $adminCookie = Cookie::get('adminCookie');
-        $data = unserialize($adminCookie);
-        dd($data);
+        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links']);
+        $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
+        Cookie::queue(Cookie::forget('adminCookie'));
     }
 
 
@@ -135,6 +138,7 @@ class Dashboard extends Component
 
     public function saveCookie()
     {
+        $this->tickets = array_intersect($this->tickets, $this->payment_links);
 
         $adminCookie = [
             'page' => $this->page,
@@ -151,6 +155,18 @@ class Dashboard extends Component
             'payment_links' => implode('_@_', $this->payment_links)
         ];
 
+        $ticketCount = count($this->tickets);
+        $paymentLinksCount = count($this->payment_links);
+
+
+         $additionalData = [
+                'tickets' => implode('_@_', $this->tickets),
+                'payment_links' => implode('_@_', $this->payment_links)
+         ];
+
+      
+
+        $adminCookie = array_merge($adminCookie, $additionalData);
         Cookie::queue('adminCookie', serialize($adminCookie), 365);
 
 
