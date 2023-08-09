@@ -118,7 +118,7 @@
                             <table class="table table-hover w-100">
                                 <thead>
                                     <tr>
-                                        <th colspan="5" scope="col">Ticket Name</th>
+                                        <th colspan="5" scope="col">Ticket Name & Price</th>
                                         <th colspan="5" scope="col">Payment Link</th>
                                         <th colspan="1" scope="col"></th>
                                     </tr>
