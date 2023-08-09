@@ -118,7 +118,8 @@
                             <table class="table table-hover w-100">
                                 <thead>
                                     <tr>
-                                        <th colspan="5" scope="col">Ticket Name & Price</th>
+                                        <th colspan="5" scope="col">Ticket Name</th>
+                                        <th colspan="5" scope="col">Price</th>
                                         <th colspan="5" scope="col">Payment Link</th>
                                         <th colspan="1" scope="col"></th>
                                     </tr>
@@ -127,11 +128,13 @@
                                     @for ($i = 0; $i < $ticketRows; $i++)
                                         <tr id="tr_ticket_{{ $i + 1 }}">
                                             <td colspan="5"> <input wire:model.lazy="tickets.{{ $i }}"
-                                                    type="text" id="event_name_{{ $i }}"
+                                                    type="text" id="ticket_name_{{ $i }}"
                                                     class="form-control" /> </td>
-                                            <td colspan="5"> <input
-                                                    wire:model.lazy="payment_links.{{ $i }}" type="text"
-                                                    id="event_name_{{ $i }}" class="form-control" /> </td>
+                                                    <td colspan="5"> <input wire:model.lazy="ticket_prices.{{ $i }}" type="text"
+                                                        id="ticket_price_{{ $i }}" class="form-control" /> </td>
+                                            <td colspan="5"> <input wire:model.lazy="payment_links.{{ $i }}" type="text"
+                                                    id="ticket_link_{{ $i }}" class="form-control" /> </td>
+                                                 
                                             <td colspan="1"> <button class="btn"
                                                     wire:click='deleteTicketRow({{ $i }})'><i
                                                         class="fa fa-trash"></i></button> </td>
@@ -151,7 +154,7 @@
                                 <div class="col">
                                     <h5 class="@if(!$event_name) text-danger @endif">Event Name: {{ $event_name }} </h5>
                                     <h5 class="@if(!$event_from) text-danger @endif">Date: {{ $event_from }} - {{ $event_to }}</h5>
-                                    <h5 class="@if(!$event_description) text-danger @endif"">Description: {{ $event_description }}</h5>
+                                    <h5 class="@if(!$event_description) text-danger @endif">Description: {{ $event_description }}</h5>
                                 </div>
                                 <div class="col">
                                     <h5 class="fw-bold @if(!$event_poster_file_name) text-danger @endif">Poster: {{ $event_poster_file_name }}</h5>
@@ -160,28 +163,29 @@
                             </div>
                             <hr>
                             <div class="row mt-3">
-                                <div class="table-responsive ">
+                                <div class="table-responsive">
                                     <table class="table table-sm table-borderless">
                                         <thead>
                                             <tr>
                                                 <th>Tickets</th>
+                                                <th>Price</th>
                                                 <th>Payment Link</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($tickets as $index => $ticket)
-                                           @if( $ticket  &&  $payment_links[$index]  ){
+
                                             <tr>
                                                 <td>{{ $ticket }}</td>
+                                                
+                                                <td>{{ $ticket_prices[$index] }}</td>
+
                                                 <td>{{ $payment_links[$index] }}</td>
                                             </tr>
-                                           }
-                                           @endif
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                             <hr>
                             <div class="text-end">

@@ -15,6 +15,7 @@ return new class extends Migration
         $table->id();
         $table->unsignedBigInteger('event_id');
         $table->string('ticket_names');
+        $table->string('ticket_prices');
         $table->text('payment_links');
         $table->timestamps();
 

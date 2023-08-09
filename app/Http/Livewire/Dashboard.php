@@ -18,7 +18,6 @@ class Dashboard extends Component
 
     public $activeSetTicket;
     public $activeSetConfirm;
-
     public $event_name;
     public $event_from;
     public $event_to;
@@ -26,6 +25,7 @@ class Dashboard extends Component
     public $event_poster;
     public $tickets = [];
     public $payment_links = [];
+    public $ticket_prices = [];
 
 
     public $ticketRows;
@@ -60,6 +60,7 @@ class Dashboard extends Component
             $this->ticketRows = $data['ticketRows'] ?? $this->ticketRows;
 
             $this->tickets = isset($data['tickets']) ? explode('_@_', $data['tickets']) : $this->tickets;
+            $this->ticket_prices = isset($data['ticket_prices']) ? explode('_@_', $data['ticket_prices']) : $this->ticket_prices;
             $this->payment_links = isset($data['payment_links']) ? explode('_@_', $data['payment_links']) : $this->payment_links;
         } else {
 
@@ -114,7 +115,7 @@ class Dashboard extends Component
     }
     public function clearAll()
     {
-        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links']);
+        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links', 'ticket_prices']);
         $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
         Cookie::queue(Cookie::forget('adminCookie'));
     }
@@ -124,10 +125,14 @@ class Dashboard extends Component
 
     public function deleteTicketRow($row_id)
     {
+        $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
+        $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
+        $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
 
         if ($this->ticketRows >= 2) {
             $this->ticketRows -= 1;
             array_splice($this->tickets, $row_id, 1);
+            array_splice($this->ticket_prices, $row_id, 1);
             array_splice($this->payment_links, $row_id, 1);
         }
 
@@ -138,7 +143,13 @@ class Dashboard extends Component
 
     public function saveCookie()
     {
-        $this->tickets = array_intersect($this->tickets, $this->payment_links);
+        $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
+        $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
+        $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
+// dump($this->payment_links,$this->tickets,$this->ticket_prices);
+        
+
+
 
         $adminCookie = [
             'page' => $this->page,
@@ -150,23 +161,12 @@ class Dashboard extends Component
             'event_to' => $this->event_to,
             'event_description' => $this->event_description,
             'ticketRows' => $this->ticketRows,
-
             'tickets' => implode('_@_', $this->tickets),
+            'ticket_prices' => implode('_@_', $this->ticket_prices),
             'payment_links' => implode('_@_', $this->payment_links)
         ];
 
-        $ticketCount = count($this->tickets);
-        $paymentLinksCount = count($this->payment_links);
 
-
-         $additionalData = [
-                'tickets' => implode('_@_', $this->tickets),
-                'payment_links' => implode('_@_', $this->payment_links)
-         ];
-
-      
-
-        $adminCookie = array_merge($adminCookie, $additionalData);
         Cookie::queue('adminCookie', serialize($adminCookie), 365);
 
 
@@ -195,7 +195,7 @@ class Dashboard extends Component
             'event_description' => $this->event_description,
             'event_date_from' => $this->event_from,
             'event_date_to' => $this->event_to,
-            'poster' =>  $data['poster'],
+            'poster' => $data['poster'],
             'active' => '1'
         ]);
 
@@ -210,6 +210,7 @@ class Dashboard extends Component
             Tickets::create([
                 'event_id' => $event->id,
                 'ticket_names' => $this->tickets[$i],
+                'ticket_prices' => $this->ticket_prices[$i],
                 'payment_links' => $this->payment_links[$i],
             ]);
         }
@@ -217,7 +218,7 @@ class Dashboard extends Component
         $this->activeSetTicket = false;
         $this->activeSetConfirm = false;
 
-        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links']);
+        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'ticket_prices', 'payment_links']);
         $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
         Cookie::queue(Cookie::forget('adminCookie'));
 
