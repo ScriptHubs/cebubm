@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Tickets;
 
 class Events extends Model
 {
@@ -18,5 +19,11 @@ class Events extends Model
         'active',
         'poster'
     ];
+
+
+    public function tickets()
+    {
+        return $this->hasMany(Tickets::class, 'event_id');
+    }
 }
  	

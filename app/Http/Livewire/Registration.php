@@ -68,24 +68,44 @@ class Registration extends Component
 
     public function render()
     {
-        $this->events = Events::leftJoin('table_tickets', 'table_events.id', '=', 'table_tickets.event_id')
-            ->where('table_events.active', 1)
-            ->get([
-                'table_tickets.payment_links',
-                'table_tickets.ticket_names',
-                'table_tickets.id as ticket_id',
-                'table_events.event_name',
-                'table_events.event_description',
-                'table_events.poster',
-            ]);
+        // $this->events = Events::leftJoin('table_tickets', 'table_events.id', '=', 'table_tickets.event_id')
+        //     ->where('table_events.active', 1)
+        //     ->get([
+        //         'table_tickets.payment_links',
+        //         'table_tickets.ticket_names',
+        //         'table_tickets.ticket_prices',
+        //         'table_tickets.id as ticket_id',
+        //         'table_events.event_name',
+        //         'table_events.event_description',
+        //         'table_events.poster',
+        //     ]);
 
-      
+
+        $latestEventId = Events::orderBy('created_at', 'desc')
+        ->limit(1)
+        ->value('id');
+    
+    $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
+        ->where('table_tickets.event_id', '=', $latestEventId)
+        ->get([
+            'table_tickets.*', // Select all columns from table_tickets
+            'table_events.event_name',
+            'table_events.event_description',
+            'table_events.poster',
+        ]);
+    
+
+    $this->events = $events;
+    
+        
+
+     
 if($this->imagePoster){
     $this->imagePoster = $this->events[0]->poster;
 
 }
 
-        return view('livewire.registration');
+        return view('livewire.registration', compact('events'));
     }
 
     public function mount()

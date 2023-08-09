@@ -13,9 +13,9 @@
                 <div class="col-12 col-lg-8 pb-5 h-100 justify-content-center d-flex flex-column">
                     @if ($activePanel === 'intro')
                         <div class="">
-                            <h3>You are on your way to buying a ticket for the event: <br> <b>A SUMMIT ON TOURISM</b>.
+                            <h3>You are on your way to buying a ticket for the event: <br> <b>{{ $events[0]->event_name }}</b>.
                             </h3>
-                            <h6>Kindly fill out all fields on the next slides. Thank you!</h5>
+                            <h6>{{ $events[0]->event_description }}</h5>
                                 <br>
                                 <button  wire:click='nextPanel' wire:ignore type="button"
                                     class="btn btn-orange trigger-enter text-white fs-4">Start</button> 
@@ -366,7 +366,7 @@
                             <input  wire:model.lazy="ticketLink" value="{{ $event->payment_links }}" class="form-check-input radio-reference" type="radio" name="ticketChoices"
                                 id="ticket_{{ $event->ticket_id }}" >
                             <label class="form-check-label" for="ticket_{{ $event->ticket_id }}">
-                                {{ $event->ticket_names }}
+                                {{ $event->ticket_names }} ({{ $event->ticket_prices }})
                             </label>
                         </div>
                         @endforeach

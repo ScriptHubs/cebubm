@@ -199,11 +199,7 @@ class Dashboard extends Component
             'active' => '1'
         ]);
 
-        if ($this->event_poster) {
-            $path = $this->event_poster->store('posters', 'public');
-            $data['poster'] = $path;
-        }
-
+        
 
         $numTickets = count($this->tickets);
         for ($i = 0; $i < $numTickets; $i++) {
