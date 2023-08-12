@@ -33,8 +33,6 @@ function explode(separator, string) {
 
 function openModal() {
 
-    var modal = $('#viewEvent');
-    
     setTimeout(function() {
         var modal = $('#viewEvent');
         modal.modal('show');
@@ -42,3 +40,15 @@ function openModal() {
     
     
 }
+
+function openModalGuest() {
+
+    setTimeout(function() {
+        var modal = $('#viewGuestDetails');
+        modal.modal('show');
+    }, 500); // Adjust the delay time as needed
+    
+    
+}
+
+

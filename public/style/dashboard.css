@@ -9,12 +9,35 @@
    cursor: pointer;
 } 
 
+.responsive-text h5{
+font-size: 1rem !important;
+}
+
 
 input, textarea{
     border-bottom: 1px solid rgba(0, 0, 0, 0.267) !important;
 }
 
 
+@media (max-width: 767px) {
+    .card-login{
+        width: 400px !important;
+      }
 
-
-
+      .responsive-text h5{
+        font-size: 0.8rem !important;
+        }
+  }
+  
+  
+  @media (max-width: 991px) {
+    
+  }
+  
+  
+  @media (min-width: 992px) {
+    
+  }
+  
+  
+  
