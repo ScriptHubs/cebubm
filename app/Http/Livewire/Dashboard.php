@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\Tickets;
+use App\Models\Guests;
+use Illuminate\Support\Facades\DB;
 
 class Dashboard extends Component
 {
@@ -26,22 +28,69 @@ class Dashboard extends Component
     public $tickets = [];
     public $payment_links = [];
     public $ticket_prices = [];
-
-
+    public $viewTickets;
+    public $eventValue;
     public $ticketRows;
     public $event_poster_file_name;
-
-
+    public $selectedGuestEvent;
+public $eventList;
+public $guestList;
     public function render()
     {
+
+        
+
+        $latestEventId = Events::orderBy('created_at', 'desc')
+            ->limit(1)
+            ->value('id');
+
+        $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
+            ->where('table_tickets.event_id', '=', $latestEventId)
+            ->limit(8)
+            ->get([
+                'table_tickets.id',
+                'table_tickets.ticket_names',
+                'table_tickets.ticket_prices',
+                'table_tickets.payment_links',
+                'table_events.event_name',
+                'table_events.event_date_from',
+                'table_events.event_date_to',
+                'table_events.event_description',
+            ]);
+
+        $originalSqlMode = DB::selectOne('SELECT @@sql_mode as sql_mode')->sql_mode;
+
+        DB::statement("SET SESSION sql_mode=''");
+
+        $eventsWithTotalGuests = DB::table('table_events AS te')
+            ->select('te.*', DB::raw('SUM(guest_counts.guest_count) AS total_guests'))
+            ->leftJoinSub(function ($query) {
+                $query->select('tt.event_id', DB::raw('COUNT(guests.id) AS guest_count'))
+                    ->from('table_tickets AS tt')
+                    ->leftJoin('guests', 'tt.payment_links', '=', 'guests.tickets')
+                    ->groupBy('tt.event_id');
+            }, 'guest_counts', 'te.id', '=', 'guest_counts.event_id')
+            ->groupBy('te.id')
+            ->get();
+
+        $this->events = $events;
+
+        if ($events->isEmpty()) {
+            $events = 'empty';
+            return view('livewire.dashboard')->with('events', $events);
+        } else {
+            return view('livewire.dashboard', compact('events'))->with('eventsWithTotalGuests', $eventsWithTotalGuests);
+        }
+
+
+        $this->selectedGuestEvent = 0;
 
         return view('livewire.dashboard');
     }
 
-    public function mount()
+    public function mount($page)
     {
         $this->ticketRows = 1;
-        $this->page = 'create';
 
 
         $adminCookie = Cookie::get('adminCookie');
@@ -65,13 +114,27 @@ class Dashboard extends Component
         } else {
 
         }
+        $latestEventId = Events::orderBy('created_at', 'desc')
+        ->limit(1)
+        ->value('id');
 
+        $guests = Guests::select('guests.*', 'table_tickets.*', 'table_events.*')
+        ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
+        ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
+        ->where('table_events.id', '=', $latestEventId)
+        ->get();
 
+        $this->guestList = $guests;
+        $this->page = 'view';
+        $this->subPage = 'events';
+        $this->eventList = Events::get();
     }
 
     public function createWindow()
     {
         $this->page = 'create';
+        $this->activeSetTicket = false;
+        $this->activeSetConfirm = false;
     }
     public function viewWindow()
     {
@@ -80,7 +143,41 @@ class Dashboard extends Component
 
     public function changeSubpage($subPage)
     {
+
         $this->subPage = $subPage;
+
+if($subPage === 'guest'){
+        $latestEventId = Events::orderBy('created_at', 'desc')
+        ->limit(1)
+        ->value('id');
+        $guests = Guests::select('guests.*', 'table_tickets.*', 'table_events.*')
+        ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
+        ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
+        ->where('table_events.id', '=', $latestEventId)
+        ->get();
+        $this->guestList = $guests;
+}
+
+    }
+
+    public function getGuestEvent(){
+ 
+        $guests = Guests::select('guests.*', 'table_tickets.*', 'table_events.*')
+        ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
+        ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
+        ->where('table_events.id', '=', $this->selectedGuestEvent)
+        ->get();
+        $this->guestList = $guests;
+
+    }
+    public function viewEventDetails($event_id)
+    {
+
+        $this->viewEvent = Events::where('id', $event_id)->first();
+        $this->viewTickets = Tickets::where('event_id', $event_id)->get();
+
+
+
     }
 
     public function activeSet($active)
@@ -138,16 +235,15 @@ class Dashboard extends Component
 
     }
 
-
-
+  
 
     public function saveCookie()
     {
         $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
         $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
         $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-// dump($this->payment_links,$this->tickets,$this->ticket_prices);
-        
+        // dump($this->payment_links,$this->tickets,$this->ticket_prices);
+
 
 
 
@@ -199,7 +295,7 @@ class Dashboard extends Component
             'active' => '1'
         ]);
 
-        
+
 
         $numTickets = count($this->tickets);
         for ($i = 0; $i < $numTickets; $i++) {

@@ -1,13 +1,11 @@
-
-
 .btn-orange {
     background-color: #eb763f;
-  }
-  
-  .btn-orange:hover {
+}
+
+.btn-orange:hover {
     background-color: #f04c00;
-  }
-  
+}
+
 #back_btn {
     height: 50px;
     width: 50px;
@@ -17,46 +15,46 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor  : pointer;
+    cursor: pointer;
     transition: 0.5s all ease-in-out;
-  }
-  
-  #back_btn_content {
+    top: 80px;
+}
+
+#back_btn_content {
     padding-top: 10px;
     text-align: center;
     margin: 0;
-  }
-  
-  #back_btn:hover {
+}
+
+#back_btn:hover {
     transform: scale(1.2);
-  }
+}
 
 .form-check-input[type="radio"]:not(:checked) {
     border-color: orange;
-  }
-  .form-check-input[type="radio"]:checked {
+}
+.form-check-input[type="radio"]:checked {
     background-color: orange;
     border-color: orange;
-  }
-  
-  .form-check-input[type="checkbox"]:not(:checked) {
+}
+
+.form-check-input[type="checkbox"]:not(:checked) {
     border-color: orange;
-  }
-  
-  .form-check-input[type="checkbox"]:checked {
+}
+
+.form-check-input[type="checkbox"]:checked {
     background-color: orange;
     border-color: orange;
-  }
-  .no-border {
+}
+.no-border {
     border-top: 0;
     border-left: 0;
     border-right: 0;
     padding: 5px;
     margin: 5px;
-  }
+}
 
-
-#loader{
+#loader {
     width: 100px;
     height: 100px;
 }
@@ -87,17 +85,17 @@
     transform: rotateY(70deg);
     animation-delay: 0.4s;
 }
-.thank-you-panel{
+.thank-you-panel {
     transition: 1s all linear ease-in;
 }
-.hidden{
+.hidden {
     display: none !important;
 }
 .loader.clear {
     opacity: 0;
 }
 .loader.hide {
-   display: none !important;
+    display: none !important;
 }
 
 .fade-in {
@@ -119,6 +117,33 @@
 .fade-in-enter-done {
     opacity: 1;
     transform: scale(1);
+}
+
+.inset-top-right {
+    position: absolute;
+    inset: 0 0 auto auto;
+}
+
+@media (max-width: 767px) {
+    #back_btn{
+        height: 30px;
+        width: 30px;
+        top: 25px;
+    }
+}
+
+@media (max-width: 991px) {
+    .image-panel {
+        display: none !important;
+    }
+    #back_btn{
+        height: 35px;
+        width: 35px;
+        top: 35px;
+    }
+}
+
+@media (min-width: 992px) {
 }
 
 @keyframes rotate {

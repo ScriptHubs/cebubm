@@ -5,7 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-5">
             <div class="card card-login">
-                <div class="card-header">{{ __('Cebu Business Month') }}</div>
+                <div class="card-header text-center">
+                    <img class="img-fluid" src="{{ asset('../images/cbm.png') }}" alt="">
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

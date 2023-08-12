@@ -30,3 +30,15 @@ function explode(separator, string) {
     return string.split(separator);
 }
 
+
+function openModal() {
+
+    var modal = $('#viewEvent');
+    
+    setTimeout(function() {
+        var modal = $('#viewEvent');
+        modal.modal('show');
+    }, 500); // Adjust the delay time as needed
+    
+    
+}

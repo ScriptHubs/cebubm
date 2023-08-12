@@ -7,7 +7,7 @@
                 <div class="card d-flex dashboard-body">
                     <div class="card-body p-1">
 
-                        @livewire('dashboard')
+                        @livewire('dashboard', ['page' => 'view'])
 
                     </div>
                 </div>

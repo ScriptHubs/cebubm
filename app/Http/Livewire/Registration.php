@@ -34,7 +34,7 @@ class Registration extends Component
     public $count = 0;
     public $linkSet;
     public $imagePoster;
-
+public $ticket_id_bought;
     protected $rules = [
         'name_first' => 'required|string|max:255',
         'name_last' => 'required|string|max:255',
@@ -43,11 +43,13 @@ class Registration extends Component
         'email_address' => 'required|email|max:255',
         'company' => 'nullable|string|max:255',
         'industry' => 'nullable|string|max:255',
+        'expectation' => 'nullable|string|max:255',
         'reference' => 'nullable|string|max:255',
         'reference_text' => 'nullable|string|max:255',
         'connect_text' => 'nullable|string|max:255',
         'sectorBoxoption' => 'nullable|string|max:255',
         'connect' => 'nullable|string|max:255',
+        'tickets' => 'nullable|string|max:255',
     ];
     public $panels = [
         'intro',
@@ -88,13 +90,17 @@ class Registration extends Component
         $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
             ->where('table_tickets.event_id', '=', $latestEventId)
             ->get([
-                'table_tickets.*',
-                // Select all columns from table_tickets
+                'table_tickets.id',
+                'table_tickets.ticket_names',
+                'table_tickets.ticket_prices',
+                'table_tickets.payment_links',
                 'table_events.event_name',
                 'table_events.event_description',
                 'table_events.poster',
             ]);
+
         $this->events = $events;
+
 
         if ($events->isEmpty()) {
 
@@ -131,6 +137,8 @@ class Registration extends Component
             $this->selectedMembership = $data['selectedMembership'] ?? $this->selectedMembership;
             $this->email_address = $data['email_address'] ?? $this->email_address;
 
+            $this->expectation = $data['expectation'] ?? $this->expectation;
+
             $this->company = $data['company'] ?? $this->company;
             $this->industry = $data['industry'] ?? $this->industry;
             $this->reference = $data['reference'] ?? $this->reference;
@@ -159,6 +167,7 @@ class Registration extends Component
             'name_last' => $this->name_last,
             'name_middle' => $this->name_middle,
             'selectedMembership' => $this->selectedMembership,
+            'expectation' => $this->expectation,
 
             'email_address' => $this->email_address,
             'company' => $this->company,
@@ -194,11 +203,8 @@ class Registration extends Component
 
 
 
-
     public function saveGuest()
     {
-
-
 
         $data = [
             'name_first' => $this->name_first,
@@ -207,23 +213,69 @@ class Registration extends Component
             'selectedMembership' => $this->selectedMembership,
             'email_address' => $this->email_address,
             'company' => $this->company,
+            'expectation' => $this->expectation,
             'industry' => $this->industry,
             'reference' => $this->reference,
-            'reference_text' => $this->reference_text,
-            'connect_text' => $this->connect_text,
+            'tickets' => $this->ticketLink,
             'sectorBoxoption' => implode('_@_', $this->sectorBoxoption),
             'connect' => implode('_@_', $this->connect)
         ];
 
-
-        Guests::create($data);
-
-        $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
+   
 
 
-        Cookie::queue(Cookie::forget('adminCookie'));
+        $emptyValues = [];
 
-        $this->render();
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                $emptyValues[] = $key;
+            }
+        }
+
+        $additionalData = [
+            'reference_text' => $this->reference_text,
+            'connect_text' => $this->connect_text,
+        ];
+
+
+        $data = array_merge($data, $additionalData);
+
+
+
+        if (count($emptyValues) > 0) {
+
+        } else {
+            Guests::create($data);
+
+            Cookie::queue(Cookie::forget('adminCookie'));
+
+            $this->reset(
+                [
+                    'name_first',
+                    'name_last',
+                    'name_middle',
+                    'selectedMembership',
+                    'email_address',
+                    'company',
+                    'expectation',
+                    'industry',
+                    'reference',
+                    'reference_text',
+                    'connect_text',
+                    'sectorBoxoption',
+                    'connect'
+                ]
+            );
+
+
+
+
+            $this->render();
+
+        }
+
+
+
     }
 
 }

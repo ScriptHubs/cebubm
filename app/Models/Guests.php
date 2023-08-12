@@ -18,6 +18,7 @@ class Guests extends Model
         'email_address',
         'company',
         'industry',
+        'expectation',
         'reference',
         'reference_text',
         'connect_text',
