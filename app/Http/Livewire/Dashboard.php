@@ -10,13 +10,17 @@ use Illuminate\Support\Facades\Cookie;
 use App\Models\Tickets;
 use App\Models\Guests;
 use Illuminate\Support\Facades\DB;
+use Livewire\WithPagination;
+use App\Http\Controllers\Controller;
+use Illuminate\View\View;
+use Illuminate\Support\Facades\Redirect;
 
 class Dashboard extends Component
 {
     use WithFileUploads;
+    use WithPagination;
 
-
-    public $page;
+    public $pageActive;
     public $subPage;
 
     public $activeSetTicket;
@@ -36,7 +40,6 @@ class Dashboard extends Component
     public $selectedGuestEvent;
     public $guest;
     public $eventList;
-    public $guestList;
     public $viewEvent;
     public $guestInformation;
     public $latestEventId;
@@ -45,7 +48,7 @@ class Dashboard extends Component
 
 
 
-public $initialGuestId;
+    public $initialGuestId;
     public function render()
     {
 
@@ -54,29 +57,32 @@ public $initialGuestId;
             ->value('id');
 
 
+        // $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
+        //     ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
+        //     ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
+        //     ->where('table_events.id', '=', $this->selectedGuestEvent)
+        //     ->get();
+
         $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
             ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
             ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
             ->where('table_events.id', '=', $this->selectedGuestEvent)
-            ->get();
+            ->paginate(11); // Use paginate() to get a paginated result
 
-
-
-        $this->guestList = $guests;
 
         $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
             ->where('table_tickets.event_id', '=', $this->latestEventId)
             ->limit(8)
             ->get([
-                    'table_tickets.id',
-                    'table_tickets.ticket_names',
-                    'table_tickets.ticket_prices',
-                    'table_tickets.payment_links',
-                    'table_events.event_name',
-                    'table_events.event_date_from',
-                    'table_events.event_date_to',
-                    'table_events.event_description',
-                ]);
+                'table_tickets.id',
+                'table_tickets.ticket_names',
+                'table_tickets.ticket_prices',
+                'table_tickets.payment_links',
+                'table_events.event_name',
+                'table_events.event_date_from',
+                'table_events.event_date_to',
+                'table_events.event_description',
+            ]);
 
         $originalSqlMode = DB::selectOne('SELECT @@sql_mode as sql_mode')->sql_mode;
 
@@ -95,17 +101,20 @@ public $initialGuestId;
 
 
         $this->events = $events;
-
         if ($events->isEmpty()) {
             $events = 'empty';
             return view('livewire.dashboard')->with('events', $events);
         } else {
-            return view('livewire.dashboard', compact('events'))->with('eventsWithTotalGuests', $eventsWithTotalGuests);
+            return view('livewire.dashboard', [
+                'guestList' => $guests,
+                'events' => $events,
+                'eventsWithTotalGuests' => $eventsWithTotalGuests,
+            ]);
         }
 
     }
 
-    public function mount($page)
+    public function mount($pageActive)
     {
         $this->ticketRows = 1;
         $this->latestEventId = Events::orderBy('created_at', 'desc')
@@ -117,12 +126,12 @@ public $initialGuestId;
         $data = unserialize($adminCookie);
 
         if ($data) {
-            $this->page = $data['page'] ?? $this->page;
+            $this->pageActive = $data['page'] ?? $this->pageActive;
             $this->subPage = $data['subPage'] ?? $this->subPage;
             $this->activeSetTicket = $data['activeSetTicket'] ?? $this->activeSetTicket;
             $this->activeSetConfirm = $data['activeSetConfirm'] ?? $this->activeSetConfirm;
             $this->event_name = $data['event_name'] ?? $this->event_name;
-
+            $this->selectedGuestEvent = $data['selectedGuestEvent'] ?? $this->selectedGuestEvent;
             $this->event_from = $data['event_from'] ?? $this->event_from;
             $this->event_to = $data['event_to'] ?? $this->event_to;
             $this->event_description = $data['event_description'] ?? $this->event_description;
@@ -131,72 +140,76 @@ public $initialGuestId;
             $this->tickets = isset($data['tickets']) ? explode('_@_', $data['tickets']) : $this->tickets;
             $this->ticket_prices = isset($data['ticket_prices']) ? explode('_@_', $data['ticket_prices']) : $this->ticket_prices;
             $this->payment_links = isset($data['payment_links']) ? explode('_@_', $data['payment_links']) : $this->payment_links;
-        } 
+        }
 
 
-
-    $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
-        ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
-        ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
-        ->where('table_events.id', '=', $this->latestEventId)
-        ->get();
+        $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
+            ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
+            ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
+            ->where('table_events.id', '=', $this->latestEventId)
+            ->get();
 
         if ($guests->isNotEmpty()) {
             $this->initialGuestId = $guests->first()->guest_id;
         }
 
         $this->viewGuestInfo($this->initialGuestId);
-
-        $this->page = 'view';
-        $this->subPage = 'events';
+        $this->pageActive = 'view';
         $this->eventList = Events::get();
     }
 
     public function createWindow()
     {
-        $this->page = 'create';
+        $this->pageActive = 'create';
         $this->activeSetTicket = false;
         $this->activeSetConfirm = false;
     }
     public function viewWindow()
     {
-        $this->page = 'view';
+        $this->pageActive = 'view';
     }
     public $tempId;
     public function changeSubpage($subPage)
     {
 
         $this->subPage = $subPage;
-
+        $this->saveCookie();
 
     }
 
     public function getGuestEvent()
     {
-
-
         $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
             ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
             ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
             ->where('table_events.id', '=', $this->selectedGuestEvent)
-            ->get();
-
-        $this->guestList = $guests;
-
-
-
-
+            ->paginate(11);
+        $this->saveCookie();
     }
 
+    public function activeToggle($eventId, $eventStatus)
+    {
 
+        $event = Events::find($eventId);
+
+        $newStatus = $eventStatus == 0 ? 1 : 0;
+
+        if ($event) {
+            // Update the event status to inactive
+            $event->update(['active' => $newStatus]);
+
+        }
+        return Redirect::to('/home');
+
+    }
     public function viewGuestInfo($guest_id)
     {
 
         // $this->guestInformation = Guests::where('id', $guest_id)->get();
         $this->guestInformation = Guests::select('*')
-        ->leftJoin('table_tickets', 'table_tickets.payment_links', '=', 'guests.tickets')
-        ->where('guests.id', '=', $guest_id)
-        ->get();
+            ->leftJoin('table_tickets', 'table_tickets.payment_links', '=', 'guests.tickets')
+            ->where('guests.id', '=', $guest_id)
+            ->get();
 
     }
 
@@ -275,10 +288,11 @@ public $initialGuestId;
 
 
         $adminCookie = [
-            'page' => $this->page,
+            'page' => $this->pageActive,
             'subPage' => $this->subPage,
             'activeSetTicket' => $this->activeSetTicket,
             'activeSetConfirm' => $this->activeSetConfirm,
+            'selectedGuestEvent' => $this->selectedGuestEvent,
             'event_name' => $this->event_name,
             'event_from' => $this->event_from,
             'event_to' => $this->event_to,
@@ -288,7 +302,6 @@ public $initialGuestId;
             'ticket_prices' => implode('_@_', $this->ticket_prices),
             'payment_links' => implode('_@_', $this->payment_links)
         ];
-
 
         Cookie::queue('adminCookie', serialize($adminCookie), 365);
 
@@ -300,18 +313,18 @@ public $initialGuestId;
 
     public function storeEvent()
     {
+    
         $this->validate([
             'event_name' => 'required',
             'event_description' => 'required',
-            'event_from' => 'required|date',
-            'event_to' => 'required|date|after_or_equal:event_from',
-            'event_poster' => 'image|max:2048',
+            'event_from' => 'required',
         ]);
-
+      
         if ($this->event_poster) {
             $path = $this->event_poster->store('posters', 'public');
             $data['poster'] = $path;
         }
+      
 
         $event = Events::create([
             'event_name' => $this->event_name,
@@ -321,7 +334,6 @@ public $initialGuestId;
             'poster' => $data['poster'],
             'active' => '1'
         ]);
-
 
 
         $numTickets = count($this->tickets);

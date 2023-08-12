@@ -13,12 +13,25 @@
 font-size: 1rem !important;
 }
 
-
+span svg{
+    height: 18px !important;
+}
 input, textarea{
     border-bottom: 1px solid rgba(0, 0, 0, 0.267) !important;
 }
-
-
+.poster-thumb{
+    width: 250px;
+}
+#view-poster{
+    width: 50%;}
+#pagination-area{
+width: 100%;
+display: flex;
+justify-content: center;
+}
+.cursor-pointer{
+cursor: pointer !important;
+}
 @media (max-width: 767px) {
     .card-login{
         width: 400px !important;

@@ -444,7 +444,7 @@
                         <div class="col-1"></div>
                         <div class="image-panel col-4 justify-content-center d-flex flex-column">
                             <div class="">
-                                <img class="img-fluid" src="{{ asset('../images/event.jpg') }}" alt="">
+                                <img class="poster-thumb" src="{{ Storage::url($imagePoster) }}" alt="Event Poster">
                             </div>
                         </div>
                     </div>

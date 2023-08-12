@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
-
+use Illuminate\Support\Facades\Redirect;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,5 +22,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
 Route::post('/events', [EventController::class, 'storeEvent'])->name('events.store');
+
+Route::get('/livewire/message/dashboard', function () {
+    return Redirect::to('/home?' . request()->getQueryString());
+});

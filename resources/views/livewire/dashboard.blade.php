@@ -4,9 +4,9 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto col pt-1 ps-2">
                 <h6 class="text-test">
-                    <a class="me-2 no-decor @if ($page === 'view') fw-bold @endif"
+                    <a class="me-2 no-decor @if ($pageActive === 'view') fw-bold @endif"
                         wire:click='viewWindow'>View</a>
-                    <a class="me-2 no-decor @if ($page === 'create') fw-bold @endif"
+                    <a class="me-2 no-decor @if ($pageActive === 'create') fw-bold @endif"
                         wire:click='createWindow'>Create</a>
                 </h6>
             </ul>
@@ -46,7 +46,7 @@
 
 
     <div class="container ">
-        @if ($page === 'view')
+        @if ($pageActive === 'view')
             <div class="row my-2 pt-2">
                 <div class="col mb-3"> <button
                         class="w-100 btn @if ($subPage === 'events') btn-primary     @else btn-secondary @endif rounded rounded-5"
@@ -70,8 +70,23 @@
 
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h6 class="modal-title fs-6 text-muted" id="">
-                                                {{ $viewEvent->event_name }}
+                                            <h6 class="modal-title fs-6 text-muted pt-3" id="">
+                                                Status: {{ $viewEvent->active }} |
+
+                                                <span class="cursor-pointer"
+                                                    wire:click="activeToggle({{ $viewEvent->id }}, {{ $viewEvent->active }} )">
+                                                    @if ($viewEvent->active === '1')
+                                                        <i
+                                                            class=" p-1 border rounded-5 text-white bg-success fa fa-check"></i>
+                                                        event is active, disable this event?
+                                                    @elseif ($viewEvent->active === '0')
+                                                        <i
+                                                            class=" p-1 border rounded-5 text-white bg-danger fa fa-xmark"></i>
+                                                        event is disabled, activate event retistration?
+                                                    @endif
+                                                </span>
+
+
                                             </h6>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
@@ -93,11 +108,14 @@
                                                             @endif
                                                         </h5>
 
-                                                        @if (!empty($viewEvent->poster))
-                                                            <img src="data:image/jpeg;base64,{{ base64_encode($viewEvent->poster) }}"
-                                                                alt="Event Poster">
-                                                        @endif
+                                                        <div class="d-flex justify-content-center  img-thumbnail">
+                                                            @if (!empty($viewEvent->poster))
+                                                            <img class="poster-thumb" src="{{ Storage::url($viewEvent->poster) }}" alt="Event Poster">
+                                                            @endif
+                                                        </div>
+
                                                     </div>
+
                                                     <div class="col">
                                                         <h5><b> Tickets</b></h5>
                                                         <table class="table table-sm table-borderless">
@@ -202,7 +220,7 @@
                                     <td>{{ $guest->name_first }} {{ $guest->name_middle }} {{ $guest->name_last }}
                                     </td>
                                     <td>{{ Str::limit($guest->selectedMembership, 20) }}</td>
-                                    <td>{{ $guest->id }}</td>
+                                    <td>{{ $guest->ticket_names }}</td>
                                     <td><button class='btn p-0' onclick="openModalGuest();"
                                             wire:click='viewGuestInfo({{ $guest->guest_id }} )'><i
                                                 class="fa fa-eye fs-6 "></i></button>
@@ -211,10 +229,11 @@
                             @endforeach
                         </tbody>
                     </table>
-
-
-
-                    <div class="modal fade" id="viewGuestDetails" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                    <div id="pagination-area">
+                        {{ $guestList->links('pagination::bootstrap-4') }}
+                    </div>
+                    <div class="modal fade" id="viewGuestDetails" tabindex="-1" aria-labelledby=""
+                        aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -326,7 +345,7 @@
                     </div>
                 </div>
             @endif
-        @elseif($page === 'create')
+        @elseif($pageActive === 'create')
             <div class="row my-2 pt-2">
                 <div class="col mb-3"> <button class="w-100 btn btn-primary rounded rounded-5"
                         wire:click="activeSet(0)">
@@ -418,7 +437,6 @@
                                                             class="fa fa-trash"></i></button> </td>
                                             </tr>
                                         @endfor
-
                                     </tbody>
                                 </table>
                                 <div class="w-100 text-end">

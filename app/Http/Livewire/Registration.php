@@ -83,9 +83,10 @@ public $ticket_id_bought;
         //     ]);
 
 
-        $latestEventId = Events::orderBy('created_at', 'desc')
-            ->limit(1)
-            ->value('id');
+        $latestEventId = Events::where('active', 1)
+        ->orderBy('created_at', 'desc')
+        ->limit(1)
+        ->value('id');
 
         $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
             ->where('table_tickets.event_id', '=', $latestEventId)
@@ -98,25 +99,21 @@ public $ticket_id_bought;
                 'table_events.event_description',
                 'table_events.poster',
             ]);
-
+ 
         $this->events = $events;
 
 
+
         if ($events->isEmpty()) {
-
             $events = 'empty';
-
             return view('livewire.registration')->with('events', $events);
-
         } else {
-
-            if ($this->imagePoster) {
                 $this->imagePoster = $this->events[0]->poster;
-            }
+
             return view('livewire.registration', compact('events'));
 
         }
-
+   
 
     }
 
@@ -222,7 +219,7 @@ public $ticket_id_bought;
         ];
 
    
-
+dd($data);
 
         $emptyValues = [];
 
