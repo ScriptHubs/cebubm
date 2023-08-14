@@ -284,7 +284,6 @@ class Dashboard extends Component
         $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
         $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
         $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-        // dump($this->payment_links,$this->tickets,$this->ticket_prices);
 
 
 
@@ -351,7 +350,7 @@ class Dashboard extends Component
         $this->activeSetTicket = false;
         $this->activeSetConfirm = false;
 
-        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'ticket_prices', 'payment_links']);
+        $this->reset(['event_name',     'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'ticket_prices', 'payment_links']);
         $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
         Cookie::queue(Cookie::forget('adminCookie'));
 

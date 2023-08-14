@@ -215,7 +215,7 @@
                             </tr>
                         </thead>
                         <tbody>
-   @if (!$guestList->isEmpty())          
+                            @if (!$guestList->isEmpty())          
                             @foreach ($guestList as $guest)
                                 <tr>
                                     <td>{{ $guest->name_first }} {{ $guest->name_middle }} {{ $guest->name_last }}
@@ -228,7 +228,7 @@
                                     </td>
                                 </tr>
                             @endforeach
-                             @endif
+                            @endif
                         </tbody>
                     </table>
                     <div id="pagination-area">
@@ -365,7 +365,6 @@
 
 
 
-            <form wire:submit.prevent="storeEvent" enctype="multipart/form-data">
                 @csrf
                 <div class="container-fluid px-3 pb-2">
                     <div
@@ -493,17 +492,18 @@
                                     </div>
                                 </div>
                                 <hr>
+
                                 <div class="text-end">
                                     <button wire:click='clearAll' type="button"
                                         class="btn btn-secondary">Clear</button>
                                     <button type="submit" wire:click="storeEvent" class="btn btn-success">Add
                                         Event</button>
                                 </div>
+
                             </div>
                         @endif
                     </div>
                 </div>
-            </form>
         @endif
     </div>
 </div>
