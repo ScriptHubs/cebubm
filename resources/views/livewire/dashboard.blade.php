@@ -215,6 +215,7 @@
                             </tr>
                         </thead>
                         <tbody>
+   @if (!$guestList->isEmpty())          
                             @foreach ($guestList as $guest)
                                 <tr>
                                     <td>{{ $guest->name_first }} {{ $guest->name_middle }} {{ $guest->name_last }}
@@ -227,6 +228,7 @@
                                     </td>
                                 </tr>
                             @endforeach
+                             @endif
                         </tbody>
                     </table>
                     <div id="pagination-area">

@@ -6,8 +6,6 @@
                 <div class="col-11">
                     <div class="row h-100">
                         <div class="col-1"></div>
-
-
                         <div class="col-12 col-lg-6 pb-5 h-100 justify-content-center d-flex flex-column">
                             @if ($counter >= 1)
                                 <button wire:click='back' id="back_btn" type="button" class="position-fixed">
@@ -431,7 +429,19 @@
                                 </div>
 
                             @endif
-
+                            @if (Route::has('login'))
+                            <div id="login-btn" class="inset-top-right pt-3 pe-3">
+                                @auth
+                                    <a href="{{ url('/home') }}"
+                                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"><i
+                                            class="fa fa-grip"></i> </a>
+                                @else
+                                    <a href="{{ route('login') }}"
+                                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                                        <i class="fa fa-key"></i> </a>
+                                @endauth
+                            </div>
+                        @endif
 
                             <div id="thank-you-panel"
                                 class="col-12 col-lg-8 pb-5 h-100 justify-content-center d-flex flex-column  hidden ">
@@ -447,9 +457,11 @@
                         </div>
                         <div class="col-1"></div>
                         <div class="image-panel col-4 justify-content-center d-flex flex-column">
+                            @if (!$events->isEmpty())                       
                             <div class="">
                                 <img class="poster-thumb" src="{{ Storage::url($imagePoster) }}" alt="Event Poster">
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>

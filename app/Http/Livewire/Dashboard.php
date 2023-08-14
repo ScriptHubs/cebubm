@@ -101,17 +101,17 @@ class Dashboard extends Component
 
 
         $this->events = $events;
-        if ($events->isEmpty()) {
-            $events = 'empty';
-            return view('livewire.dashboard')->with('events', $events);
-        } else {
+
+        // if ($events->isEmpty()) {
+        //     $events = 'empty';
+        //     return view('livewire.dashboard')->with('events', $events);
+        // } else {
             return view('livewire.dashboard', [
                 'guestList' => $guests,
                 'events' => $events,
                 'eventsWithTotalGuests' => $eventsWithTotalGuests,
             ]);
-        }
-
+        // }
     }
 
     public function mount($pageActive)
@@ -156,6 +156,8 @@ class Dashboard extends Component
         $this->viewGuestInfo($this->initialGuestId);
         $this->pageActive = 'view';
         $this->eventList = Events::get();
+
+       
     }
 
     public function createWindow()
