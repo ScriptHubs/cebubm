@@ -34,7 +34,7 @@ class Registration extends Component
     public $count = 0;
     public $linkSet;
     public $imagePoster;
-public $ticket_id_bought;
+    public $ticket_id_bought;
     protected $rules = [
         'name_first' => 'required|string|max:255',
         'name_last' => 'required|string|max:255',
@@ -84,9 +84,9 @@ public $ticket_id_bought;
 
 
         $latestEventId = Events::where('active', 1)
-        ->orderBy('created_at', 'desc')
-        ->limit(1)
-        ->value('id');
+            ->orderBy('created_at', 'desc')
+            ->limit(1)
+            ->value('id');
 
         $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
             ->where('table_tickets.event_id', '=', $latestEventId)
@@ -99,7 +99,7 @@ public $ticket_id_bought;
                 'table_events.event_description',
                 'table_events.poster',
             ]);
- 
+
         $this->events = $events;
 
 
@@ -108,12 +108,12 @@ public $ticket_id_bought;
             $events = 'empty';
             return view('livewire.registration')->with('events', $events);
         } else {
-                $this->imagePoster = $this->events[0]->poster;
+            $this->imagePoster = $this->events[0]->poster;
 
             return view('livewire.registration', compact('events'));
 
         }
-   
+
 
     }
 
@@ -151,7 +151,6 @@ public $ticket_id_bought;
 
 
 
-
     }
     public function saveCookie()
     {
@@ -180,11 +179,89 @@ public $ticket_id_bought;
     }
 
 
-    public function nextPanel()
+    public function nextPanel($check)
     {
 
-        $this->counter += 1;
-        $this->saveCookie();
+        if ($check === 'intro') {
+            $this->counter += 1;
+            $this->saveCookie();
+        }
+        if ($check === 'membership') {
+            if ($this->selectedMembership === null) {
+
+            } else {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+
+        }
+        if ($check === 'name') {
+            if ($this->name_first === null || $this->name_last === null || $this->name_last === null) {
+            } else {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+
+        }
+        if ($check === 'email') {
+            if ($this->email_address === null) {
+            } else {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+
+        }
+        if ($check === 'company') {
+            if ($this->company === null) {
+            } else {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+
+        }
+        if ($check === 'sector') {
+            if (count($this->sectorBoxoption) === 1) {
+            } else {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+
+        }
+        if ($check === 'industry') {
+            if ($this->industry === null) {
+
+            } else {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+        }
+        if ($check === 'reference' || $check === 'reference_text') {
+            if ($this->reference != null || $this->reference_text != null) {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+
+        }
+        if ($check === 'expectation') {
+            if ($this->expectation === null) {
+
+            } else {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+
+        }
+        if ($check === 'connect' || $check === 'connect_text') {
+            if ($this->connect != null || $this->connect_text != null) {
+                $this->counter += 1;
+                $this->saveCookie();
+            }
+        }
+
+        $this->render();
+
+        // $this->counter += 1;
+        // $this->saveCookie();
 
     }
     public function back()
@@ -202,6 +279,16 @@ public $ticket_id_bought;
 
     public function saveGuest()
     {
+        
+        // if ($check === 'connect' || $check === 'connect_text') {
+        //     if ($this->connect != null || $this->connect_text != null) {
+        //         $this->counter += 1;
+        //         $this->saveCookie();
+        //     }
+        // }
+
+
+
 
         $data = [
             'name_first' => $this->name_first,
@@ -218,8 +305,7 @@ public $ticket_id_bought;
             'connect' => implode('_@_', $this->connect)
         ];
 
-   
-dd($data);
+
 
         $emptyValues = [];
 

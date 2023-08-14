@@ -16,26 +16,30 @@
                             @endif
                             @if (!$events->isEmpty())
                                 @if ($activePanel === 'intro')
-                                @if (Route::has('login'))
-                                <div id="login-btn" class="inset-top-right pt-3 pe-3">
-                                    @auth
-                                        <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"><i class="fa fa-grip"></i> </a>
-                                    @else
-                                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"> <i class="fa fa-key"></i> </a>
-                                    @endauth
-                                </div>
-                            @endif
+                                    @if (Route::has('login'))
+                                        <div id="login-btn" class="inset-top-right pt-3 pe-3">
+                                            @auth
+                                                <a href="{{ url('/home') }}"
+                                                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"><i
+                                                        class="fa fa-grip"></i> </a>
+                                            @else
+                                                <a href="{{ route('login') }}"
+                                                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                                                    <i class="fa fa-key"></i> </a>
+                                            @endauth
+                                        </div>
+                                    @endif
                                     <div class="">
                                         <h3 class="ps-1">You are on your way to buying a ticket for the event: <br>
                                             <b>{{ $events[0]->event_name }}</b>.
                                         </h3>
                                         <h6 class="ps-1">{{ $events[0]->event_description }}</h5>
                                             <br>
-                                            <button wire:click='nextPanel' wire:ignore type="button"
+                                            <button wire:click='nextPanel("intro")' wire:ignore type="button"
                                                 class="btn btn-orange trigger-enter text-white fs-4 ms-1">Start</button>
                                     </div>
                                 @elseif($activePanel === 'membership')
-                                    <div>
+                                    <div id="membership-panel">
                                         <h3 class="q-title fw-bold ps-1">Membership Type</h3>
                                         <br>
                                         <div class="form-check">
@@ -68,11 +72,11 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("{{$activePanel}}")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'name')
-                                    <div>
+                                    <div id="name-panel">
                                         <h3 class="q-title fw-bold ps-1">Last Name </h3>
                                         <div class="col-lg-8 col-12">
                                             <div class="input-group mb-3">
@@ -98,12 +102,12 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("name")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
 
                                     </div>
                                 @elseif($activePanel === 'email_address')
-                                    <div>
+                                    <div id="email-panel">
                                         <h3 class="q-title fw-bold ps-1">Email Address</h3>
                                         <div class="col-lg-8 col-12">
                                             <div class="input-group mb-3">
@@ -114,11 +118,11 @@
                                         </div>
 
                                         <br>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("email")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'company')
-                                    <div>
+                                    <div id="company-panel">
                                         <h3 class="q-title fw-bold ps-1">Company / Organization</h3>
                                         <div class="col-lg-8 col-12">
                                             <div class="input-group mb-3">
@@ -130,11 +134,11 @@
                                         </div>
 
                                         <br>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("company")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'sectorBoxoption')
-                                    <div>
+                                    <div id="sector-panel">
                                         <h3 class="q-title fw-bold ps-1">Sector</h3>
                                         <div class="ps-1">
                                             <div class="form-check">
@@ -193,12 +197,12 @@
                                             </div>
                                             <br>
                                         </div>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("sector")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
 
                                     </div>
                                 @elseif($activePanel === 'industry')
-                                    <div>
+                                    <div id="industry-panel">
 
                                         <h3 class="q-title fw-bold ps-1">Industry / Line of Business</h3>
                                         <div class="col-lg-8 col-12">
@@ -210,11 +214,11 @@
                                         </div>
 
                                         <br>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("industry")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'reference')
-                                    <div>
+                                    <div id="reference-panel">
 
 
                                         <h3 class="q-title fw-bold ps-1">Where did you head about this event?</h3>
@@ -271,11 +275,11 @@
                                             </div>
                                             <br>
                                         </div>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("reference")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'expectation')
-                                    <div>
+                                    <div id="expectation-panel">
                                         <div class="ps-1">
                                             <h3 class="q-title fw-bold">What are you looking forward to? </h3>
                                             <br>
@@ -300,11 +304,11 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("expectation")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
-                                    </div>
+                                    </div id="connect-panel">
                                 @elseif($activePanel === 'connect')
-                                    <div>
+                                    <div id="connect-panel">
                                         <div class="ps-1">
                                             <h3 class="q-title fw-bold">Who do you want to connect/network with? </h3>
                                             <br>
@@ -376,7 +380,7 @@
                                             </div>
                                             <br>
                                         </div>
-                                        <button wire:click='nextPanel' wire:ignore type="button"
+                                        <button wire:click='nextPanel("connect")' wire:ignore type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
 
                                     </div>

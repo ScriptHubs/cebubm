@@ -85,9 +85,7 @@
     transform: rotateY(70deg);
     animation-delay: 0.4s;
 }
-.thank-you-panel {
-    transition: 1s all linear ease-in;
-}
+
 .hidden {
     display: none !important;
 }

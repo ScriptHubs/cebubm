@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-  
-
 
     // #region loader
     setTimeout(function () {
@@ -9,7 +7,7 @@ $(document).ready(function () {
         setTimeout(function () {
             $("#loader").addClass("hide");
         }, 600); // 1
-    }, 3000);
+    }, 3000); 
     // #endregion
 
     $("#paymentWindowOpen").click(function () {
@@ -45,7 +43,7 @@ function openWindow(URL) {
 
      
         }
-    }, 2300); // Check every 1 second (adjust the interval as needed)
+    }, 3300); // Check every 1 second (adjust the interval as needed)
 }
 
 
