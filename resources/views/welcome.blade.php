@@ -17,11 +17,9 @@
   @include('cdn')
     </head>
     @livewireStyles
-    
+     
     <body class="antialiased">
         <div class="relative min-h-screen bg-dots-darker bg-gray-100 dark:bg-dots-lighter">
-           
-
             @livewire('registration')
             @livewireScripts
         </div>

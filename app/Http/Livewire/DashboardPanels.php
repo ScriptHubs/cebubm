@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Redirect;
 
-class Dashboard extends Component
+class DashboardPanels extends Component
 {
     use WithFileUploads;
     use WithPagination;
@@ -44,10 +44,7 @@ class Dashboard extends Component
     public $guestInformation;
     public $latestEventId;
 
-
-
-
-
+    public $selectedComponent;
     public $initialGuestId;
     public function render()
     {
@@ -55,7 +52,7 @@ class Dashboard extends Component
         $this->latestEventId = Events::orderBy('created_at', 'desc')
             ->limit(1)
             ->value('id');
-
+        $this->viewEventDetails($this->latestEventId);
 
         // $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
         //     ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
@@ -69,7 +66,6 @@ class Dashboard extends Component
             ->where('table_events.id', '=', $this->selectedGuestEvent)
             ->paginate(11); // Use paginate() to get a paginated result
 
-
         $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
             ->where('table_tickets.event_id', '=', $this->latestEventId)
             ->limit(8)
@@ -80,6 +76,7 @@ class Dashboard extends Component
                 'table_tickets.payment_links',
                 'table_events.event_name',
                 'table_events.event_date_from',
+                'table_events.poster',
                 'table_events.event_date_to',
                 'table_events.event_description',
             ]);
@@ -106,15 +103,15 @@ class Dashboard extends Component
         //     $events = 'empty';
         //     return view('livewire.dashboard')->with('events', $events);
         // } else {
-            return view('livewire.dashboard', [
-                'guestList' => $guests,
-                'events' => $events,
-                'eventsWithTotalGuests' => $eventsWithTotalGuests,
-            ]);
+        return view('livewire.dashboard-panels', [
+            'guestList' => $guests,
+            'events' => $events,
+            'eventsWithTotalGuests' => $eventsWithTotalGuests,
+        ]);
         // }
     }
 
-    public function mount($pageActive,$subPage)
+    public function mount($selectedComponent)
     {
         $this->ticketRows = 1;
         $this->latestEventId = Events::orderBy('created_at', 'desc')
@@ -126,6 +123,8 @@ class Dashboard extends Component
         $data = unserialize($adminCookie);
 
         if ($data) {
+
+            $this->selectedComponent = $data['selectedComponent'] ?? $this->selectedComponent;
             $this->pageActive = $data['page'] ?? $this->pageActive;
             $this->subPage = $data['subPage'] ?? $this->subPage;
             $this->activeSetTicket = $data['activeSetTicket'] ?? $this->activeSetTicket;
@@ -157,7 +156,12 @@ class Dashboard extends Component
         $this->pageActive = 'view';
         $this->eventList = Events::get();
 
-       
+
+    }
+    public function component($selected)
+    {
+        $this->selectedComponent = $selected;
+        $this->saveCookie();
     }
 
     public function createWindow()
@@ -178,7 +182,6 @@ class Dashboard extends Component
         $this->saveCookie();
 
     }
-
     public function getGuestEvent()
     {
         $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
@@ -187,6 +190,7 @@ class Dashboard extends Component
             ->where('table_events.id', '=', $this->selectedGuestEvent)
             ->paginate(11);
         $this->saveCookie();
+
     }
 
     public function activeToggle($eventId, $eventStatus)
@@ -246,33 +250,39 @@ class Dashboard extends Component
     }
 
 
-    public function addTicketRow()
-    {
-        $this->ticketRows += 1;
-    }
+    
+  
+        
+        public function addTicketRow()
+        {
+            $this->ticketRows += 1;
+            $this->tickets[] = '';
+            $this->ticket_prices[] = '';
+            $this->payment_links[] = '';
+    
+        }
+       
+    
+    
+        public function deleteTicketRow($row_id)
+        {
+     
+    
+            if ($this->ticketRows >= 2) {
+                $this->ticketRows -= 1;
+                array_splice($this->tickets, $row_id, 1);
+                array_splice($this->ticket_prices, $row_id, 1);
+                array_splice($this->payment_links, $row_id, 1);
+            }
+    
+        }
+    
+
     public function clearAll()
     {
         $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links', 'ticket_prices']);
-        $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
-        Cookie::queue(Cookie::forget('adminCookie'));
-    }
-
-
-
-
-    public function deleteTicketRow($row_id)
-    {
-        $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-        $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-        $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-
-        if ($this->ticketRows >= 2) {
-            $this->ticketRows -= 1;
-            array_splice($this->tickets, $row_id, 1);
-            array_splice($this->ticket_prices, $row_id, 1);
-            array_splice($this->payment_links, $row_id, 1);
-        }
-
+       
+        // Cookie::queue(Cookie::forget('adminCookie'));
     }
 
 
@@ -284,6 +294,7 @@ class Dashboard extends Component
         $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
 
         $adminCookie = [
+            'selectedComponent' => $this->selectedComponent,
             'page' => $this->pageActive,
             'subPage' => $this->subPage,
             'activeSetTicket' => $this->activeSetTicket,
@@ -308,18 +319,41 @@ class Dashboard extends Component
 
     public function storeEvent()
     {
-    
+
+        $this->tickets;
+        $this->ticket_prices;
+        $this->payment_links;
+
+        for ($i = count($this->tickets) - 1; $i >= 0; $i--) {
+            if (
+                empty($this->tickets[$i]) &&
+                empty($this->ticket_prices[$i]) &&
+                empty($this->payment_links[$i])
+            ) {
+                array_splice($this->tickets, $i, 1);
+                array_splice($this->ticket_prices, $i, 1);
+                array_splice($this->payment_links, $i, 1);
+            }
+        }
+
+dd(
+    $this->tickets,
+    $this->ticket_prices,
+    $this->payment_links
+);
+        
         $this->validate([
             'event_name' => 'required',
             'event_description' => 'required',
             'event_from' => 'required',
         ]);
-      
+
         if ($this->event_poster) {
             $path = $this->event_poster->store('posters', 'public');
             $data['poster'] = $path;
         }
       
+
         $event = Events::create([
             'event_name' => $this->event_name,
             'event_description' => $this->event_description,
@@ -328,7 +362,7 @@ class Dashboard extends Component
             'poster' => $data['poster'],
             'active' => '1'
         ]);
-
+       
         $numTickets = count($this->tickets);
         for ($i = 0; $i < $numTickets; $i++) {
             Tickets::create([
@@ -342,7 +376,7 @@ class Dashboard extends Component
         $this->activeSetTicket = false;
         $this->activeSetConfirm = false;
 
-        $this->reset(['event_name',     'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'ticket_prices', 'payment_links']);
+        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'ticket_prices', 'payment_links']);
         $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
         Cookie::queue(Cookie::forget('adminCookie'));
 

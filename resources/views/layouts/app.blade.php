@@ -12,21 +12,21 @@
 
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    {{-- <link rel="dns-prefetch" href="//fonts.bunny.net"> --}}
+    {{-- <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
     <!-- Scripts -->
     @include('layouts.cdnAdmin')
 
 </head>
 
 <body>
-@livewireStyles
-    <div id="app" class="bg-dark vh-100 justify-content-center d-flex flex-column">
-        <main class="py-4">
+    @livewireStyles
+    <div id="app" class="">
+        <main class="">
             @yield('content')
         </main>
     </div>
-        @livewireScripts
+    @livewireScripts
 </body>
 
 </html>

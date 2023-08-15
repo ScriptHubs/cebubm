@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-5">
+        <div class="col-md-8 col-lg-7">
             <div class="card card-login">
                 <div class="card-header text-center">
                     <img class="img-fluid" src="{{ asset('../images/cbm.png') }}" alt="">
