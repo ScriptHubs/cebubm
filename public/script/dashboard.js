@@ -1,5 +1,22 @@
 $(document).ready(function () {});
 
+    $('.delete-button').click(function() {
+        if (confirm('Are you sure you want to delete this event?')) {
+            $('#delete-form').submit();
+        }
+    });
+
+    $('#search_event').on('blur', function() {
+        // Your code when the input loses focus
+        console.log("Input has lost focus!");
+    });
+
+    // edit_event_poster_update
+    function clearUpdatePoster(){
+        $('#edit_event_poster_update').val(null);
+
+    }
+
 function addTicketRow() {
     const lastRowId = $("#ticket-table tr:last").attr("id"); // tr_ticket_1
     var id_array = explode("_", lastRowId);
