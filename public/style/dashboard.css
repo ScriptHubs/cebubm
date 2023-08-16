@@ -33,10 +33,30 @@ li{
     width: 50%;
 }
 
+.pagination{
+    justify-content: center;
+}
 #pagination-area {
     width: 100%;
-    display: flex;
     justify-content: center;
+}
+.pagination .page-item{
+    width: 45px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.pagination .page-link{
+    text-align: center;
+    border-radius: 100%;
+}
+.pagination .page-link{
+    text-align: center;
+    border-radius: 100%;
+}
+
+.page-item.active .page-link {
+    background-color: rgb(13,202,240);
+
 }
 
 .cursor-pointer {
@@ -130,6 +150,20 @@ background-color: #0000005d;
     .responsive-text h5 {
         font-size: 0.8rem !important;
     }
+    .pagination a , span{
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+    /* .sidebar{
+        transform: translateX(-100%);
+    }
+    .home-section{
+  width: 100%;
+
+    } */
 }
 
 @media (max-width: 991px) {

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name_first', 255)->nullable();
             $table->string('name_last', 255)->nullable();
             $table->string('name_middle', 255)->nullable();
+            $table->string('affiliated_event', 255)->nullable();
             $table->string('selectedMembership', 255)->nullable();
             $table->string('email_address', 255)->nullable();
             $table->string('company', 255)->nullable();
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->string('reference_text', 255)->nullable();
             $table->string('connect_text', 255)->nullable();
             $table->string('sectorBoxoption', 255)->nullable();
-            $table->string('connect', 255)->nullable();
+            $table->string('connect', 255)->nullable(); 
             $table->string('tickets', 255)->nullable();
 
             $table->timestamps();

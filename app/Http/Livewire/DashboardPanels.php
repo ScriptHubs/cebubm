@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Cookie;
 use App\Models\Tickets;
 use App\Models\Guests;
 use Illuminate\Support\Facades\DB;
-use Livewire\WithPagination;
+use Livewire\Withpaginate;
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
+use Livewire\WithPagination;
+
 class DashboardPanels extends Component
 {
     use WithFileUploads;
@@ -59,9 +61,11 @@ class DashboardPanels extends Component
     public $edit_event_to;
     public $edit_event_description;
     public $searchResultsList = [];
+    public $searchGuestResultsList = [];
 
     public $edit_event_id;
 
+    public $searchIsFocusedEdit;
     public $edit_event_poster;
     public $edit_tickets;
     public $edit_ticket_prices;
@@ -69,6 +73,7 @@ class DashboardPanels extends Component
     public $edit_ticket_names;
     public $edit_event_poster_update;
 
+    public $searchIsFocused;
     public $guest_view_event_id;
     public $guest_view_event_name;
     public $guest_view_event_to;
@@ -79,8 +84,10 @@ class DashboardPanels extends Component
     public $guest_view_ticket_names;
     public $guest_view_ticket_prices;
     public $guest_view_payment_links;
-
-
+    public $search_guest_event;
+    public $searchGuestFocus;
+    public $guestList;
+    public $eventGuestNames = [];
     public function render()
     {
 
@@ -90,45 +97,144 @@ class DashboardPanels extends Component
 
         $this->viewEventDetails($this->latestEventId);
 
-        // $this->guestList = $this->getGuests('render');
+        $eventGuests = DB::table('guests')
+            ->select(
+                'guests.id as guest_id',
+                'table_events.id as table_events_id',
+                'table_tickets.id as table_tickets_id',
+                'guests.name_first',
+                'guests.name_last',
+                'guests.name_middle',
+                'guests.selectedMembership',
+                'guests.email_address',
+                'guests.company',
+                'guests.industry',
+                'guests.expectation',
+                'guests.reference',
+                'guests.reference_text',
+                'guests.connect',
+                'guests.connect_text',
+                'guests.sectorBoxoption',
+                'table_tickets.id as payment_link_used',
+                'guests.created_at as date_registered',
+                'table_tickets.event_id',
+                'table_events.event_name',
+                'table_events.event_date_from',
+                'table_events.event_date_to',
+                'table_tickets.ticket_names',
+                'table_tickets.ticket_prices',
+                'table_tickets.payment_links'
+            )
+            ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.id')
+            ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
+            ->get();
 
-        $guests = Guests::select(
-            'guests.id as guest_id',
-            'table_events.id as table_events_id',
-            'table_tickets.id as table_tickets_id',
-            'name_first',
-            'name_last',
-            'name_middle',
-            'selectedMembership',
-            'email_address',
-            'company',
-            'industry',
-            'expectation',
-            'reference',
-            'reference_text',
-            'connect',
-            'connect_text',
-            'sectorBoxoption',
-            'tickets',
-            'guests.created_at as date_registered',
-            'event_id',
-            'event_name',
-            'event_date_from',
-            'event_date_to',
-            'ticket_names',
-            'ticket_prices',
-            'payment_links'
-        )
-        ->leftJoin('table_tickets', 'table_tickets.id', '=', 'Guests.tickets')
-        ->leftJoin('table_events', 'table_events.id', '=', 'table_tickets.event_id')
-        ->paginate(10);
+        $this->eventGuestNames = [];
+        $this->guestList = $eventGuests;
+        foreach ($eventGuests as $guest) {
+            array_push($this->eventGuestNames, $guest);
+        }
 
 
-        return view('livewire.dashboard-panels')->with(['guestList' => $guests]);
+        // $this->guestList = $eventGuests;
+        // return view('livewire.dashboard-panels')->with('guestList', $this->guestList);
+        return view('livewire.dashboard-panels')->with('eventGuestNames', $this->eventGuestNames);
 
     }
 
 
+    public function getEventGuests($id)
+    {
+
+        if ($id === 'render') {
+            $eventGuests = DB::table('guests')
+                ->select(
+                    'guests.id as guest_id',
+                    'table_events.id as table_events_id',
+                    'guests.affiliated_event',
+                    'guests.name_first',
+                    'guests.name_last',
+                    'guests.name_middle',
+                    'guests.selectedMembership',
+                    'guests.email_address',
+                    'guests.company',
+                    'guests.industry',
+                    'guests.expectation',
+                    'guests.reference',
+                    'guests.reference_text',
+                    'guests.connect',
+                    'guests.connect_text',
+                    'guests.sectorBoxoption',
+                    'guests.tickets',
+                    'guests.created_at as date_registered',
+                    'table_events.event_name',
+                    'table_events.event_date_from',
+                    'table_events.event_date_to',
+                    'table_tickets.event_id',
+                    'table_tickets.id as ticket_id',
+                    'table_tickets.ticket_names',
+                    'table_tickets.ticket_prices',
+                    'table_tickets.payment_links'
+                )
+                ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
+                ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
+                ->get();
+
+        } else {
+
+            $events = Events::with('tickets')
+                ->where('id', $id)
+                ->get();
+
+            $eventE = $events[0];
+            $this->search_guest_event = $eventE->event_name;
+
+            $eventGuests = DB::table('guests')
+                ->select(
+                    'guests.id as guest_id',
+                    'table_events.id as table_events_id',
+                    'guests.affiliated_event',
+                    'guests.name_first',
+                    'guests.name_last',
+                    'guests.name_middle',
+                    'guests.selectedMembership',
+                    'guests.email_address',
+                    'guests.company',
+                    'guests.industry',
+                    'guests.expectation',
+                    'guests.reference',
+                    'guests.reference_text',
+                    'guests.connect',
+                    'guests.connect_text',
+                    'guests.sectorBoxoption',
+                    'guests.tickets',
+                    'guests.created_at as date_registered',
+                    'table_events.event_name',
+                    'table_events.event_date_from',
+                    'table_events.event_date_to',
+                    'table_tickets.event_id',
+                    'table_tickets.id as ticket_id',
+                    'table_tickets.ticket_names',
+                    'table_tickets.ticket_prices',
+                    'table_tickets.payment_links'
+                )
+                ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
+                ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
+                ->where('guests.affiliated_event', '=', $id)
+                ->get();
+
+
+
+            dd($this->eventGuests);
+
+        }
+
+        $this->guestList = $eventGuests;
+        $this->eventGuestNames = [];
+        foreach ($eventGuests as $guest) {
+            array_push($this->eventGuestNames, $guest);
+        }
+    }
 
     public function mount($selectedComponent)
     {
@@ -137,7 +243,7 @@ class DashboardPanels extends Component
         $this->latestEventId = Events::orderBy('created_at', 'desc')
             ->limit(1)
             ->value('id');
-         $this->selectedComponent = 'selectedComponent';
+        $this->selectedComponent = 'selectedComponent';
 
         $this->selectedGuestEvent = $this->latestEventId;
         $adminCookie = Cookie::get('adminCookie');
@@ -165,41 +271,8 @@ class DashboardPanels extends Component
             $this->payment_links = isset($data['payment_links']) ? explode('_@_', $data['payment_links']) : $this->payment_links;
         }
 
-         $guests = Guests::select(
-            'guests.id as guest_id',
-            'table_events.id as table_events_id',
-            'table_tickets.id as table_tickets_id',
-            'name_first',
-            'name_last',
-            'name_middle',
-            'selectedMembership',
-            'email_address',
-            'company',
-            'industry',
-            'expectation',
-            'reference',
-            'reference_text',
-            'connect',
-            'connect_text',
-            'sectorBoxoption',
-            'tickets',
-            'guests.created_at as date_registered',
-            'event_id',
-            'event_name',
-            'event_date_from',
-            'event_date_to',
-            'ticket_names',
-            'ticket_prices',
-            'payment_links'
-        )
-        ->leftJoin('table_tickets', 'table_tickets.id', '=', 'Guests.tickets')
-        ->leftJoin('table_events', 'table_events.id', '=', 'table_tickets.event_id')
-        ->paginate(10);
 
-        if ($guests->isNotEmpty()) {
-            $this->initialGuestId = $guests->first()->guest_id;
-        }
-
+        $this->getEventGuests('render');
         $this->modalStatus = '';
 
         $this->mountEvents = Events::orderBy('id', 'desc')->get();
@@ -210,82 +283,46 @@ class DashboardPanels extends Component
         $this->eventList = Events::get();
 
 
-    }
+        $eventGuests = DB::table('guests')
+            ->select(
+                'guests.id as guest_id',
+                'table_events.id as table_events_id',
+                'table_tickets.id as table_tickets_id',
+                'guests.name_first',
+                'guests.name_last',
+                'guests.name_middle',
+                'guests.selectedMembership',
+                'guests.email_address',
+                'guests.company',
+                'guests.industry',
+                'guests.expectation',
+                'guests.reference',
+                'guests.reference_text',
+                'guests.connect',
+                'guests.connect_text',
+                'guests.sectorBoxoption',
+                'table_tickets.id as payment_link_used',
+                'guests.created_at as date_registered',
+                'table_tickets.event_id',
+                'table_events.event_name',
+                'table_events.event_date_from',
+                'table_events.event_date_to',
+                'table_tickets.ticket_names',
+                'table_tickets.ticket_prices',
+                'table_tickets.payment_links'
+            )
+            ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.id')
+            ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
+            ->get();
 
-    public function getGuests($event_id)
-    {
 
-        if ($event_id === 'render') {
-
-            $guests = DB::table('Guests')
-                ->leftJoin('table_tickets', 'table_tickets.id', '=', 'Guests.tickets')
-                ->leftJoin('table_events', 'table_events.id', '=', 'table_tickets.event_id')
-                ->select(
-                    'guests.id as guest_id',
-                    'table_events.id as table_events_id',
-                    'table_tickets.id as table_tickets_id',
-                    'name_first',
-                    'name_last',
-                    'name_middle',
-                    'selectedMembership',
-                    'email_address',
-                    'company',
-                    'industry',
-                    'expectation',
-                    'reference',
-                    'reference_text',
-                    'connect',
-                    'connect_text',
-                    'sectorBoxoption',
-                    'tickets',
-                    'guests.created_at as date_registered',
-                    'event_id',
-                    'event_name',
-                    'event_date_from',
-                    'event_date_to',
-                    'ticket_names',
-                    'ticket_prices',
-                    'payment_links'
-                )
-                ->paginate(10);
-    
-        } else {
-            $guests = DB::table('Guests')
-                ->leftJoin('table_tickets', 'table_tickets.id', '=', 'Guests.tickets')
-                ->leftJoin('table_events', 'table_events.id', '=', 'table_tickets.event_id')
-                ->where('table_events.id', '=', $event_id) // Add the condition here
-                ->select(
-                    'guests.id as guest_id',
-                    'table_events.id as table_events_id',
-                    'table_tickets.id as table_tickets_id',
-                    'name_first',
-                    'name_last',
-                    'name_middle',
-                    'selectedMembership',
-                    'email_address',
-                    'company',
-                    'industry',
-                    'expectation',
-                    'reference',
-                    'reference_text',
-                    'connect',
-                    'connect_text',
-                    'sectorBoxoption',
-                    'tickets',
-                    'guests.created_at as date_registered',
-                    'event_id',
-                    'event_name',
-                    'event_date_from',
-                    'event_date_to',
-                    'ticket_names',
-                    'ticket_prices',
-                    'payment_links'
-                )
-                ->paginate(10);
-dd($guests);
-                return view('livewire.dashboard-panels')->with(['guestList' => $guests]);
+        $this->guestList = $eventGuests;
+        foreach ($eventGuests as $guest) {
+            array_push($this->eventGuestNames, $guest);
         }
     }
+
+
     public function deleteEventConfirmation($event_id)
     {
         $event = Events::find($event_id);
@@ -305,6 +342,7 @@ dd($guests);
         }
 
     }
+
     public function searchEvent()
     {
         $this->searchIsFocused = true;
@@ -317,10 +355,24 @@ dd($guests);
                 $this->searchResultsList = '';
             }
         }
+    }
 
-
-
-
+    public function searchGuestEventUnfocused()
+    {
+        $this->searchGuestFocus = false;
+    }
+    public function searchGuestEvent()
+    {
+        $this->searchGuestFocus = true;
+        if ($this->search_guest_event != '') {
+            $results = Events::where('event_name', 'like', '%' . (string) $this->search_guest_event . '%')
+                ->get();
+            if (!empty($results)) {
+                $this->searchGuestResultsList = $results;
+            } else {
+                $this->searchGuestResultsList = '';
+            }
+        }
     }
     public function eventListGuest($event_id)
     {
@@ -444,11 +496,11 @@ dd($guests);
         $this->payment_links[] = '';
 
     }
-    public $searchIsFocused;
     public function searchUnfocused()
     {
         $this->searchIsFocused = false;
     }
+
 
     public function deleteTicketRow($row_id)
     {

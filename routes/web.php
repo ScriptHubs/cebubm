@@ -24,6 +24,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::post('/events', [EventController::class, 'storeEvent'])->name('events.store');
 
-Route::get('/livewire/message/dashboard', function () {
+Route::get('/livewire/message/dashboard-panels', function () {
     return Redirect::to('/home?' . request()->getQueryString());
 });

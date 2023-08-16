@@ -46,11 +46,14 @@
                 onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
                 <div class="w-100 text-end pe-5 pt-2">
-                    <a class="dropdown-item links-name" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
+                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                 </div>
                 <i class="bx bx-log-out" id="log_out"></i>
             </li>
@@ -332,7 +335,7 @@
                                     @endif
                                 </div>
 
-                                <div class="col-4"></div>
+                                <div class="col-12 col-lg-4 pt-3">
                                 @if (!empty($edit_event_poster) && !$edit_event_poster_update)
                                     <img class="poster-thumb object-fit-cover w-100"
                                         src="{{ asset('storage/' . $edit_event_poster) }}" alt="Event Poster">
@@ -341,6 +344,7 @@
                                     <img class="w-100" src="{{ $edit_event_poster_update->temporaryUrl() }}"
                                         alt="Event Poster Preview" />
                                 @endif
+                            </div>
                             </div>
 
                         </div>
@@ -414,22 +418,22 @@
                             <h3 class="fw-bold">View Guests</h3>
                         </div>
                         <div class="col col-lg-3 search-bar position-relative">
-                            <input wire:model="search_event" wire:keydown.debounce.300ms="searchEvent" type="text"
-                                id="search_event" class="form-control" placeholder="Search for event"
-                                wire:blur="searchUnfocused" />
-                            @if ($searchIsFocused)
+                            <input wire:model="search_guest_event" wire:keydown.debounce.300ms="searchGuestEvent" type="text"
+                                id="search_guest_event" class="form-control" placeholder="Search for event"
+                                wire:blur="searchGuestEventUnfocused" />
+                            @if ($searchGuestFocus)
                                 <div class="drop-down-search position-absolute rounded-search-dropdown border-bottom ">
-                                    @foreach ($searchResultsList as $event)
-                                        @if (count($searchResultsList) != 0)
-                                            <div wire:click="getGuests({{ $event->id }})"
+                                    @foreach ($searchGuestResultsList as $event)
+                                        @if (count($searchGuestResultsList) != 0)
+                                            <div wire:click="getEventGuests({{ $event->id }})"
                                                 class="cursor-pointer hover-highlight w-100 h-100 ps-3 pt-2 pb-1">
                                                 <h5 class=" fs-5">{{ $event->event_name }}</h5>
                                             </div>
                                         @endif
                                     @endforeach
-                                    @if (count($searchResultsList) === 0 && $search_event != '')
+                                    @if (count($searchGuestResultsList) === 0 && $search_guest_event != '')
                                         <div class="w-100 h-100 ps-3 pt-2 pb-1 cursor-none ">
-                                            <h5 class="fs-5 text-muted">No results for {{ $this->search_event }}</h5>
+                                            <h5 class="fs-5 text-muted">No results for {{ $this->search_guest_event }}</h5>
                                         </div>
                                     @endif
                                 </div>
@@ -439,27 +443,34 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-12 col-lg-2">
+                        <div class="col-12 col-lg-3 position-relative">
                             <h4>Guest Name</h4>
 
-                            @foreach ($guestList as $guest)
-                                <div id="{{ $guest->guest_id }}" wire:click="getGuest({{$guest->guest_id}})"
-                                    class="w-100 cursor-pointer hover-highlight p-2 pt-3 guest-row-rounded">
+                            @if(count($eventGuestNames) > 0)
+                            @foreach ($eventGuestNames as $guest)
+                                <div  id="{{ $guest->guest_id }}" wire:click="getGuest({{ $guest->guest_id }})"
+                                    class="w-100 cursor-pointer hover-highlight p-2 pt-3 guest-row-rounded text-nowrap">
                                     <h6 class="small">{{ $guest->name_first }} {{ $guest->name_middle }}
                                         {{ $guest->name_last }}</h6>
                                 </div>
                             @endforeach
-                      
-                            <div id="pagination-area">
-                                {{ $guestList->links('pagination::bootstrap-4') }}
-                            </div> 
+                            @endif
+                            <br>
+                        </div>
+                        <div class="col-12 col-lg-9">
 
                         </div>
-                        <div class="col-12 col-lg-7">
 
-                        </div>
 
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="pagination-area justify-content-center">
+                                {{-- {{ $guestList->links('pagination::bootstrap-4') }} --}}
+                            </div>
+                        </div>
+                    </div>
+
                 </section>
             @endif
         </div>
@@ -469,6 +480,9 @@
 
 
 
+
+
+    
 
 
 
@@ -1011,3 +1025,8 @@
     </div>
 </div>
 --}}
+<script>
+    Livewire.on('getGuest', (guestId) => {
+    Livewire.emit('showGuestDetails', guestId);
+    });
+    </script>
