@@ -115,8 +115,12 @@ background-color: #0000005d;
     border-radius: 0 6px 6px 0;
 
 }
+.guest-row-rounded{
+    border-radius: 0  50px 50px 0;
+}
+
 .hover-highlight:hover {
-    background-color: #e65c5c;
+    background-color: #afbaff8f;
 }
 .cursor-none{
     pointer-events: none;

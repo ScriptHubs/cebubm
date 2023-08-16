@@ -15,7 +15,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
-
 class DashboardPanels extends Component
 {
     use WithFileUploads;
@@ -69,6 +68,19 @@ class DashboardPanels extends Component
     public $edit_payment_links;
     public $edit_ticket_names;
     public $edit_event_poster_update;
+
+    public $guest_view_event_id;
+    public $guest_view_event_name;
+    public $guest_view_event_to;
+    public $guest_view_event_from;
+    public $guest_view_event_description;
+    public $guest_view_event_poster;
+    public $guest_view_tickets;
+    public $guest_view_ticket_names;
+    public $guest_view_ticket_prices;
+    public $guest_view_payment_links;
+
+
     public function render()
     {
 
@@ -78,71 +90,54 @@ class DashboardPanels extends Component
 
         $this->viewEventDetails($this->latestEventId);
 
-        // $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
-        //     ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
-        //     ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
-        //     ->where('table_events.id', '=', $this->selectedGuestEvent)
-        //     ->get();
+        // $this->guestList = $this->getGuests('render');
 
-        $this->mountEvents = Events::with('tickets')->orderBy('created_at', 'desc')->get();
-        $this->mountTickets = Tickets::all();
-
-        $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
-            ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
-            ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
-            ->where('table_events.id', '=', $this->selectedGuestEvent)
-            ->paginate(11); // Use paginate() to get a paginated result
-
-        $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
-            ->where('table_tickets.event_id', '=', $this->latestEventId)
-            ->limit(8)
-            ->get([
-                'table_tickets.id',
-                'table_tickets.ticket_names',
-                'table_tickets.ticket_prices',
-                'table_tickets.payment_links',
-                'table_events.event_name',
-                'table_events.event_date_from',
-                'table_events.poster',
-                'table_events.event_date_to',
-                'table_events.event_description',
-            ]);
-
-
-        DB::statement("SET SESSION sql_mode=''");
-
-        $eventsWithTotalGuests = DB::table('table_events AS te')
-            ->select('te.*', DB::raw('SUM(guest_counts.guest_count) AS total_guests'))
-            ->leftJoinSub(function ($query) {
-                $query->select('tt.event_id', DB::raw('COUNT(guests.id) AS guest_count'))
-                    ->from('table_tickets AS tt')
-                    ->leftJoin('guests', 'tt.payment_links', '=', 'guests.tickets')
-                    ->groupBy('tt.event_id');
-            }, 'guest_counts', 'te.id', '=', 'guest_counts.event_id')
-            ->groupBy('te.id')
-            ->get();
+        $guests = Guests::select(
+            'guests.id as guest_id',
+            'table_events.id as table_events_id',
+            'table_tickets.id as table_tickets_id',
+            'name_first',
+            'name_last',
+            'name_middle',
+            'selectedMembership',
+            'email_address',
+            'company',
+            'industry',
+            'expectation',
+            'reference',
+            'reference_text',
+            'connect',
+            'connect_text',
+            'sectorBoxoption',
+            'tickets',
+            'guests.created_at as date_registered',
+            'event_id',
+            'event_name',
+            'event_date_from',
+            'event_date_to',
+            'ticket_names',
+            'ticket_prices',
+            'payment_links'
+        )
+        ->leftJoin('table_tickets', 'table_tickets.id', '=', 'Guests.tickets')
+        ->leftJoin('table_events', 'table_events.id', '=', 'table_tickets.event_id')
+        ->paginate(10);
 
 
-        $this->events = $events;
+        return view('livewire.dashboard-panels')->with(['guestList' => $guests]);
 
-        // if ($events->isEmpty()) {
-        //     $events = 'empty';
-        //     return view('livewire.dashboard')->with('events', $events);
-        // } else {
-        return view('livewire.dashboard-panels', [
-            'guestList' => $guests,
-            'events' => $events,
-            'eventsWithTotalGuests' => $eventsWithTotalGuests,
-        ]);
-        // }
     }
+
+
 
     public function mount($selectedComponent)
     {
+
         $this->ticketRows = 1;
         $this->latestEventId = Events::orderBy('created_at', 'desc')
             ->limit(1)
             ->value('id');
+         $this->selectedComponent = 'selectedComponent';
 
         $this->selectedGuestEvent = $this->latestEventId;
         $adminCookie = Cookie::get('adminCookie');
@@ -154,9 +149,7 @@ class DashboardPanels extends Component
             $filename = base64_decode($posterIdentifier);
             $fileContents = Storage::disk('public')->get($filename);
             $this->event_poster = $fileContents;
-
         }
-
 
         if ($data) {
 
@@ -172,22 +165,126 @@ class DashboardPanels extends Component
             $this->payment_links = isset($data['payment_links']) ? explode('_@_', $data['payment_links']) : $this->payment_links;
         }
 
-        $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
-            ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
-            ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
-            ->where('table_events.id', '=', $this->latestEventId)
-            ->get();
+         $guests = Guests::select(
+            'guests.id as guest_id',
+            'table_events.id as table_events_id',
+            'table_tickets.id as table_tickets_id',
+            'name_first',
+            'name_last',
+            'name_middle',
+            'selectedMembership',
+            'email_address',
+            'company',
+            'industry',
+            'expectation',
+            'reference',
+            'reference_text',
+            'connect',
+            'connect_text',
+            'sectorBoxoption',
+            'tickets',
+            'guests.created_at as date_registered',
+            'event_id',
+            'event_name',
+            'event_date_from',
+            'event_date_to',
+            'ticket_names',
+            'ticket_prices',
+            'payment_links'
+        )
+        ->leftJoin('table_tickets', 'table_tickets.id', '=', 'Guests.tickets')
+        ->leftJoin('table_events', 'table_events.id', '=', 'table_tickets.event_id')
+        ->paginate(10);
 
         if ($guests->isNotEmpty()) {
             $this->initialGuestId = $guests->first()->guest_id;
         }
+
         $this->modalStatus = '';
+
+        $this->mountEvents = Events::orderBy('id', 'desc')->get();
+
 
         $this->viewGuestInfo($this->initialGuestId);
         $this->pageActive = 'view';
         $this->eventList = Events::get();
 
 
+    }
+
+    public function getGuests($event_id)
+    {
+
+        if ($event_id === 'render') {
+
+            $guests = DB::table('Guests')
+                ->leftJoin('table_tickets', 'table_tickets.id', '=', 'Guests.tickets')
+                ->leftJoin('table_events', 'table_events.id', '=', 'table_tickets.event_id')
+                ->select(
+                    'guests.id as guest_id',
+                    'table_events.id as table_events_id',
+                    'table_tickets.id as table_tickets_id',
+                    'name_first',
+                    'name_last',
+                    'name_middle',
+                    'selectedMembership',
+                    'email_address',
+                    'company',
+                    'industry',
+                    'expectation',
+                    'reference',
+                    'reference_text',
+                    'connect',
+                    'connect_text',
+                    'sectorBoxoption',
+                    'tickets',
+                    'guests.created_at as date_registered',
+                    'event_id',
+                    'event_name',
+                    'event_date_from',
+                    'event_date_to',
+                    'ticket_names',
+                    'ticket_prices',
+                    'payment_links'
+                )
+                ->paginate(10);
+    
+        } else {
+            $guests = DB::table('Guests')
+                ->leftJoin('table_tickets', 'table_tickets.id', '=', 'Guests.tickets')
+                ->leftJoin('table_events', 'table_events.id', '=', 'table_tickets.event_id')
+                ->where('table_events.id', '=', $event_id) // Add the condition here
+                ->select(
+                    'guests.id as guest_id',
+                    'table_events.id as table_events_id',
+                    'table_tickets.id as table_tickets_id',
+                    'name_first',
+                    'name_last',
+                    'name_middle',
+                    'selectedMembership',
+                    'email_address',
+                    'company',
+                    'industry',
+                    'expectation',
+                    'reference',
+                    'reference_text',
+                    'connect',
+                    'connect_text',
+                    'sectorBoxoption',
+                    'tickets',
+                    'guests.created_at as date_registered',
+                    'event_id',
+                    'event_name',
+                    'event_date_from',
+                    'event_date_to',
+                    'ticket_names',
+                    'ticket_prices',
+                    'payment_links'
+                )
+                ->paginate(10);
+dd($guests);
+                return view('livewire.dashboard-panels')->with(['guestList' => $guests]);
+        }
     }
     public function deleteEventConfirmation($event_id)
     {
@@ -225,6 +322,21 @@ class DashboardPanels extends Component
 
 
     }
+    public function eventListGuest($event_id)
+    {
+
+        $events = Events::with('tickets')
+            ->where('id', $event_id)
+            ->get();
+
+        $eventE = $events[0];
+        $this->search_event = $eventE->event_name;
+        $this->guest_view_event_id = $eventE->id;
+
+
+    }
+
+
 
     public function editEvent($event_id)
     {
@@ -288,24 +400,7 @@ class DashboardPanels extends Component
         }
     }
 
-    public function createWindow()
-    {
-        $this->pageActive = 'create';
-        $this->activeSetTicket = false;
-        $this->activeSetConfirm = false;
-    }
-    public function viewWindow()
-    {
-        $this->pageActive = 'view';
-    }
-    public $tempId;
-    public function changeSubpage($subPage)
-    {
 
-        $this->subPage = $subPage;
-        $this->saveCookie();
-
-    }
     public function getGuestEvent()
     {
         $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
@@ -317,21 +412,7 @@ class DashboardPanels extends Component
 
     }
 
-    public function activeToggle($eventId, $eventStatus)
-    {
 
-        $event = Events::find($eventId);
-
-        $newStatus = $eventStatus == 0 ? 1 : 0;
-
-        if ($event) {
-            // Update the event status to inactive
-            $event->update(['active' => $newStatus]);
-
-        }
-        return Redirect::to('/home');
-
-    }
     public function viewGuestInfo($guest_id)
     {
         $this->guestInformation = Guests::select('*')
@@ -348,28 +429,6 @@ class DashboardPanels extends Component
 
         $this->viewEvent = Events::where('id', $event_id)->first();
         $this->viewTickets = Tickets::where('event_id', $event_id)->get();
-
-    }
-
-    public function activeSet($active)
-    {
-
-        if ($active === 0) {
-            $this->activeSetTicket = false;
-            $this->activeSetConfirm = false;
-        } else if ($active === 1) {
-            $this->activeSetTicket = true;
-            $this->activeSetConfirm = false;
-        } else if ($active === 2) {
-            $this->activeSetTicket = true;
-            $this->activeSetConfirm = true;
-        }
-
-        $this->saveCookie();
-
-        if ($this->event_poster) {
-            $this->event_poster_file_name = $this->event_poster->getClientOriginalName();
-        }
 
     }
 
@@ -540,7 +599,7 @@ class DashboardPanels extends Component
 
         } else {
 
-            
+
         }
 
 
