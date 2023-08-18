@@ -1,10 +1,7 @@
 $(document).ready(function () {});
 
-    $('.delete-button').click(function() {
-        if (confirm('Are you sure you want to delete this event?')) {
-            $('#delete-form').submit();
-        }
-    });
+
+
 
     $('#search_event').on('blur', function() {
         // Your code when the input loses focus
@@ -64,8 +61,8 @@ function openModalGuest() {
         var modal = $('#viewGuestDetails');
         modal.modal('show');
     }, 500); // Adjust the delay time as needed
-    
-    
 }
+
+
 
 

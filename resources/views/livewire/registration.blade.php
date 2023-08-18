@@ -399,7 +399,7 @@
                                         @foreach ($events as $event)
                                             <div class="form-check">
                                                 <input wire:model.lazy="ticketLink"
-                                                    value="{{ $event->payment_links }}"
+                                                    value="{{ $event->id }}"
                                                     class="form-check-input radio-reference" type="radio"
                                                     name="ticketChoices" id="ticket_{{ $event->id }}">
                                                 <label class="form-check-label" for="ticket_{{ $event->id }}">

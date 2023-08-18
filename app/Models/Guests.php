@@ -15,6 +15,7 @@ class Guests extends Model
         'name_last',
         'name_middle',
         'selectedMembership',
+        'affiliated_event',
         'email_address',
         'company',
         'industry',

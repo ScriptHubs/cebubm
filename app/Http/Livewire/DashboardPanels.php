@@ -16,6 +16,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Log;
 
 class DashboardPanels extends Component
 {
@@ -86,8 +87,28 @@ class DashboardPanels extends Component
     public $guest_view_payment_links;
     public $search_guest_event;
     public $searchGuestFocus;
-    public $guestList;
-    public $eventGuestNames = [];
+    public $eventGuestListing = [];
+    public $tempInput;
+    public $viewingEventId;
+    public $tempRow;
+    public $guestNameFirst;
+    public $guestNameLast;
+    public $guestMiddle;
+    public $guestMembership;
+    public $guestEmail;
+    public $guestCompany;
+    public $guestIndustry;
+    public $guestExpectation;
+    public $guestReference;
+    public $guestReferenceText;
+    public $guestConnect;
+    public $guestConnectText;
+    public $guestSector;
+    public $guestPaymentLink;
+    public $guestAffiliatedEvent;
+    public $guestRegistrationDate;
+    public $emptyEvent;
+    public $guestTicketName;
     public function render()
     {
 
@@ -95,56 +116,38 @@ class DashboardPanels extends Component
             ->limit(1)
             ->value('id');
 
+
         $this->viewEventDetails($this->latestEventId);
 
-        $eventGuests = DB::table('guests')
-            ->select(
-                'guests.id as guest_id',
-                'table_events.id as table_events_id',
-                'table_tickets.id as table_tickets_id',
-                'guests.name_first',
-                'guests.name_last',
-                'guests.name_middle',
-                'guests.selectedMembership',
-                'guests.email_address',
-                'guests.company',
-                'guests.industry',
-                'guests.expectation',
-                'guests.reference',
-                'guests.reference_text',
-                'guests.connect',
-                'guests.connect_text',
-                'guests.sectorBoxoption',
-                'table_tickets.id as payment_link_used',
-                'guests.created_at as date_registered',
-                'table_tickets.event_id',
-                'table_events.event_name',
-                'table_events.event_date_from',
-                'table_events.event_date_to',
-                'table_tickets.ticket_names',
-                'table_tickets.ticket_prices',
-                'table_tickets.payment_links'
-            )
-            ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.id')
-            ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
-            ->get();
+        $this->renderOnce();
 
-        $this->eventGuestNames = [];
-        $this->guestList = $eventGuests;
-        foreach ($eventGuests as $guest) {
-            array_push($this->eventGuestNames, $guest);
+        $rendered = Cookie::get('rendered');
+
+
+
+        if ($rendered === '1') {
+            $guestList = $this->getEventGuests(Cookie::get('guestView'));
+        } else if ($rendered === '2') {
+            $guestList = $this->getEventGuests('render');
         }
 
+        $guestList = $this->getEventGuests(Cookie::get('guestView'));
 
-        // $this->guestList = $eventGuests;
-        // return view('livewire.dashboard-panels')->with('guestList', $this->guestList);
-        return view('livewire.dashboard-panels')->with('eventGuestNames', $this->eventGuestNames);
+        return view('livewire.dashboard-panels')->with('guestList', $guestList);
 
+    }
+
+
+    public function renderOnce()
+    {
+        Cookie::queue('rendered', '1', 365);
     }
 
 
     public function getEventGuests($id)
     {
+        $this->viewingEventId = $id;
+        $eventGuests = null;
 
         if ($id === 'render') {
             $eventGuests = DB::table('guests')
@@ -178,16 +181,10 @@ class DashboardPanels extends Component
                 )
                 ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
                 ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
-                ->get();
-
+                ->paginate(12);
         } else {
 
-            $events = Events::with('tickets')
-                ->where('id', $id)
-                ->get();
 
-            $eventE = $events[0];
-            $this->search_guest_event = $eventE->event_name;
 
             $eventGuests = DB::table('guests')
                 ->select(
@@ -221,30 +218,58 @@ class DashboardPanels extends Component
                 ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
                 ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
                 ->where('guests.affiliated_event', '=', $id)
+                ->orderBy('name_first', 'asc')
+                ->paginate(12);
+
+
+
+            $events = Events::with('tickets')
+                ->where('id', $id)
                 ->get();
+            if (count($events) != 0) {
+                $eventE = $events[0];
+            }
+            if ($id != Cookie::get('guestView')) {
+
+                Cookie::queue(Cookie::forget('guestView'));
+                Cookie::queue('guestView', (string) $id, 365);
+
+                Cookie::queue(Cookie::forget('currentSearch'));
+                Cookie::queue('currentSearch', $this->search_guest_event, 365);
 
 
+                return redirect(url('/home'));
 
-            dd($this->eventGuests);
+            }
+
+            $this->renderOnce();
+
+
 
         }
 
-        $this->guestList = $eventGuests;
-        $this->eventGuestNames = [];
-        foreach ($eventGuests as $guest) {
-            array_push($this->eventGuestNames, $guest);
-        }
+
+
+        // dump( Cookie::get('guestView'));
+
+        return $eventGuests;
+
     }
 
-    public function mount($selectedComponent)
-    {
+    // dump($this->eventGuestListing);
 
+    public function mount($selectedComponent, $guestListed)
+    {
+        if (Cookie::get('guestView') === null) {
+            Cookie::queue('guestView', 'render', 365);
+        }
         $this->ticketRows = 1;
         $this->latestEventId = Events::orderBy('created_at', 'desc')
             ->limit(1)
             ->value('id');
-        $this->selectedComponent = 'selectedComponent';
 
+        $this->selectedComponent = $selectedComponent;
+        $this->search_guest_event = Cookie::get('currentSearch');
         $this->selectedGuestEvent = $this->latestEventId;
         $adminCookie = Cookie::get('adminCookie');
         $posterCookie = Cookie::get('posterCookie');
@@ -256,6 +281,13 @@ class DashboardPanels extends Component
             $fileContents = Storage::disk('public')->get($filename);
             $this->event_poster = $fileContents;
         }
+        if (isset($this->viewingEventId)) {
+            $eventGuestsList = $this->getEventGuests($this->viewingEventId);
+        } else {
+            $eventGuestsList = $this->getEventGuests('render');
+        }
+
+
 
         if ($data) {
 
@@ -272,10 +304,25 @@ class DashboardPanels extends Component
         }
 
 
-        $this->getEventGuests('render');
+
         $this->modalStatus = '';
 
-        $this->mountEvents = Events::orderBy('id', 'desc')->get();
+
+        $this->mountEvents = Events::select('table_events.*', 'guest_count.guest_count')
+            ->leftJoinSub(
+                DB::table('guests')
+                    ->select('affiliated_event', DB::raw('COUNT(id) as guest_count'))
+                    ->groupBy('affiliated_event'),
+                'guest_count',
+                'table_events.id',
+                '=',
+                'guest_count.affiliated_event'
+            )
+            ->orderBy('id', 'desc')
+            ->get();
+
+
+
 
 
         $this->viewGuestInfo($this->initialGuestId);
@@ -283,43 +330,7 @@ class DashboardPanels extends Component
         $this->eventList = Events::get();
 
 
-        $eventGuests = DB::table('guests')
-            ->select(
-                'guests.id as guest_id',
-                'table_events.id as table_events_id',
-                'table_tickets.id as table_tickets_id',
-                'guests.name_first',
-                'guests.name_last',
-                'guests.name_middle',
-                'guests.selectedMembership',
-                'guests.email_address',
-                'guests.company',
-                'guests.industry',
-                'guests.expectation',
-                'guests.reference',
-                'guests.reference_text',
-                'guests.connect',
-                'guests.connect_text',
-                'guests.sectorBoxoption',
-                'table_tickets.id as payment_link_used',
-                'guests.created_at as date_registered',
-                'table_tickets.event_id',
-                'table_events.event_name',
-                'table_events.event_date_from',
-                'table_events.event_date_to',
-                'table_tickets.ticket_names',
-                'table_tickets.ticket_prices',
-                'table_tickets.payment_links'
-            )
-            ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.id')
-            ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
-            ->get();
 
-
-        $this->guestList = $eventGuests;
-        foreach ($eventGuests as $guest) {
-            array_push($this->eventGuestNames, $guest);
-        }
     }
 
 
@@ -357,23 +368,26 @@ class DashboardPanels extends Component
         }
     }
 
-    public function searchGuestEventUnfocused()
-    {
-        $this->searchGuestFocus = false;
-    }
+
+
     public function searchGuestEvent()
     {
         $this->searchGuestFocus = true;
+
         if ($this->search_guest_event != '') {
             $results = Events::where('event_name', 'like', '%' . (string) $this->search_guest_event . '%')
                 ->get();
+
             if (!empty($results)) {
                 $this->searchGuestResultsList = $results;
             } else {
                 $this->searchGuestResultsList = '';
             }
         }
+
     }
+
+
     public function eventListGuest($event_id)
     {
 
@@ -381,14 +395,17 @@ class DashboardPanels extends Component
             ->where('id', $event_id)
             ->get();
 
-        $eventE = $events[0];
-        $this->search_event = $eventE->event_name;
-        $this->guest_view_event_id = $eventE->id;
+        // $eventE = $events[0];
+        // $this->search_event = $eventE->event_name;
+        // $this->guest_view_event_id = $eventE->id;
 
 
     }
 
-
+    public function searchGuestEventUnfocused()
+    {
+        $this->searchGuestFocus = false;
+    }
 
     public function editEvent($event_id)
     {
@@ -398,6 +415,7 @@ class DashboardPanels extends Component
         $events = Events::with('tickets')
             ->where('id', $event_id)
             ->get();
+
         $eventE = $events[0];
 
         $this->search_event = $eventE->event_name;
@@ -463,6 +481,49 @@ class DashboardPanels extends Component
         $this->saveCookie();
 
     }
+
+    public function getGuest($id)
+    {
+
+
+        $guestInfo = Guests::find($id);
+
+
+        $paymentLink = Tickets::find($guestInfo->tickets);
+
+        $tempSector = explode('_@_', $guestInfo->sectorBoxoption);
+        $this->guestSector = implode(', ', $tempSector);
+
+        $tempConnect = explode('_@_', $guestInfo->connect);
+        $this->guestConnect = implode(', ', $tempConnect);
+
+
+        $this->guestNameFirst = $guestInfo->name_first;
+        $this->guestNameLast = $guestInfo->name_last;
+        $this->guestMiddle = $guestInfo->name_middle;
+        $this->guestMembership = $guestInfo->selectedMembership;
+        $this->guestEmail = $guestInfo->email_address;
+        $this->guestCompany = $guestInfo->company;
+        $this->guestIndustry = $guestInfo->industry;
+        $this->guestExpectation = $guestInfo->expectation;
+        $this->guestReference = $guestInfo->reference;
+        $this->guestReferenceText = $guestInfo->reference_text;
+        $this->guestConnectText = $guestInfo->connect_text;
+
+        $this->guestAffiliatedEvent = $guestInfo->affiliated_event;
+
+        $dateTimeString = $guestInfo->created_at;
+        $formattedTime = Carbon::parse($dateTimeString)->format('F j, Y - g:i A');
+
+        $this->guestRegistrationDate = $formattedTime;
+
+        $getLink = Tickets::find($guestInfo->tickets);
+        if (isset($getLink->payment_links)) {
+            $this->guestPaymentLink = $getLink->payment_links;
+            $this->guestTicketName = $getLink->ticket_names;
+        }
+    }
+
 
 
     public function viewGuestInfo($guest_id)
@@ -530,6 +591,7 @@ class DashboardPanels extends Component
         $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links', 'ticket_prices']);
 
         Cookie::queue(Cookie::forget('adminCookie'));
+        return redirect(url('/home'));
     }
     public function clearEdit()
     {
@@ -648,7 +710,7 @@ class DashboardPanels extends Component
         if ($saveSuccess) {
 
             $this->clearEdit();
-
+            return redirect(url('/'));
         } else {
 
 
@@ -715,7 +777,7 @@ class DashboardPanels extends Component
         Cookie::queue(Cookie::forget('adminCookie'));
 
         $this->render();
-
+        return redirect(url('/home'));
     }
 
 

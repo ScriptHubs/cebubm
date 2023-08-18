@@ -34,6 +34,7 @@ class Registration extends Component
     public $count = 0;
     public $linkSet;
     public $imagePoster;
+    public $affiliated_event;
     public $ticket_id_bought;
     protected $rules = [
         'name_first' => 'required|string|max:255',
@@ -70,17 +71,7 @@ class Registration extends Component
 
     public function render()
     {
-        // $this->events = Events::leftJoin('table_tickets', 'table_events.id', '=', 'table_tickets.event_id')
-        //     ->where('table_events.active', 1)
-        //     ->get([
-        //         'table_tickets.payment_links',
-        //         'table_tickets.ticket_names',
-        //         'table_tickets.ticket_prices',
-        //         'table_tickets.id as ticket_id',
-        //         'table_events.event_name',
-        //         'table_events.event_description',
-        //         'table_events.poster',
-        //     ]);
+   
 
 
         $latestEventId = Events::where('active', 1)
@@ -99,10 +90,10 @@ class Registration extends Component
                 'table_events.event_description',
                 'table_events.poster',
             ]);
+         
 
         $this->events = $events;
-
-
+        $this->affiliated_event = $latestEventId;
 
         if ($events->isEmpty()) {
             $events = 'empty';
@@ -111,7 +102,6 @@ class Registration extends Component
             $this->imagePoster = $this->events[0]->poster;
 
             return view('livewire.registration', compact('events'));
-
         }
 
 
@@ -221,6 +211,7 @@ class Registration extends Component
         }
         if ($check === 'sector') {
             if (count($this->sectorBoxoption) === 1) {
+       
             } else {
                 $this->counter += 1;
                 $this->saveCookie();
@@ -259,7 +250,7 @@ class Registration extends Component
         }
 
         $this->render();
-
+        return redirect(url('/'));
         // $this->counter += 1;
         // $this->saveCookie();
 
@@ -277,19 +268,9 @@ class Registration extends Component
 
 
 
-    public function saveGuest()
+    public function saveGuest() 
     {
         
-        // if ($check === 'connect' || $check === 'connect_text') {
-        //     if ($this->connect != null || $this->connect_text != null) {
-        //         $this->counter += 1;
-        //         $this->saveCookie();
-        //     }
-        // }
-
-
-
-
         $data = [
             'name_first' => $this->name_first,
             'name_last' => $this->name_last,
@@ -299,12 +280,12 @@ class Registration extends Component
             'company' => $this->company,
             'expectation' => $this->expectation,
             'industry' => $this->industry,
+            'affiliated_event' =>   $this->affiliated_event,
             'reference' => $this->reference,
             'tickets' => $this->ticketLink,
             'sectorBoxoption' => implode('_@_', $this->sectorBoxoption),
             'connect' => implode('_@_', $this->connect)
         ];
-
 
 
         $emptyValues = [];
@@ -324,13 +305,13 @@ class Registration extends Component
         $data = array_merge($data, $additionalData);
 
 
-
-        if (count($emptyValues) > 0) {
+        if (count($emptyValues) > 2) {
 
         } else {
+
             Guests::create($data);
 
-            Cookie::queue(Cookie::forget('adminCookie'));
+            Cookie::queue(Cookie::forget('cookie'));
 
             $this->reset(
                 [
@@ -349,9 +330,6 @@ class Registration extends Component
                     'connect'
                 ]
             );
-
-
-
 
             $this->render();
 
