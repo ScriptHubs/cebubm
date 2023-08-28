@@ -96,8 +96,7 @@
 
 
                                                         </h6>
-                                                        <h6 class="pt-2" style="white-space: pre-wrap;">
-                                                            {{ $event->event_description }}</h6>
+                                                        <h6 class="pt-2" style="white-space: pre-wrap;">{{ $event->event_description }}</h6>
 
 
                                                         <h6 class="pt-5 mt-auto">Guests for this event: @if ($event->guest_count != '')
