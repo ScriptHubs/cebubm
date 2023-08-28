@@ -63,6 +63,7 @@ class DashboardPanels extends Component
     public $edit_event_description;
     public $searchResultsList = [];
     public $searchGuestResultsList = [];
+    public $searchGuestNameResultsList = [];
 
     public $edit_event_id;
 
@@ -109,6 +110,12 @@ class DashboardPanels extends Component
     public $guestRegistrationDate;
     public $emptyEvent;
     public $guestTicketName;
+    public $searchNameFocus;
+    public $search_guest_name;
+
+public $guest_affiliated_event;
+    
+
     public function render()
     {
 
@@ -341,8 +348,10 @@ class DashboardPanels extends Component
         if ($event) {
             $event->delete();
             $this->modalToggle('0', '0');
+            return redirect(url('/admin'));
         }
 
+       
 
     }
     public function deleteEvent($event_id)
@@ -383,10 +392,35 @@ class DashboardPanels extends Component
             } else {
                 $this->searchGuestResultsList = '';
             }
+
+
         }
 
     }
+    public function searchGuestName()
+    {
+        $this->searchNameFocus = true;
 
+        if ($this->search_guest_name != '') {
+            
+            $results = Guests::where(function ($query) {
+                $query->where('name_first', 'like', '%' . (string) $this->search_guest_name . '%')
+                      ->orWhere('name_middle', 'like', '%' . (string) $this->search_guest_name . '%')
+                      ->orWhere('name_last', 'like', '%' . (string) $this->search_guest_name . '%');
+            })
+           
+            ->limit(10)
+            ->get();
+
+            if (!empty($results)) {
+                $this->searchGuestNameResultsList = $results;
+            } else {
+                $this->searchGuestNameResultsList = '';
+            }
+
+        }
+
+    }
 
     public function eventListGuest($event_id)
     {
@@ -395,16 +429,16 @@ class DashboardPanels extends Component
             ->where('id', $event_id)
             ->get();
 
-        // $eventE = $events[0];
-        // $this->search_event = $eventE->event_name;
-        // $this->guest_view_event_id = $eventE->id;
-
-
     }
 
     public function searchGuestEventUnfocused()
     {
         $this->searchGuestFocus = false;
+    }
+
+    public function searchGuestNameUnfocused()
+    {
+        $this->searchNameFocus = false;
     }
 
     public function editEvent($event_id)
@@ -470,33 +504,28 @@ class DashboardPanels extends Component
         }
     }
 
-
-    public function getGuestEvent()
-    {
-        $guests = Guests::select('guests.*', 'guests.id as guest_id', 'table_tickets.*', 'table_events.*')
-            ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
-            ->leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
-            ->where('table_events.id', '=', $this->selectedGuestEvent)
-            ->paginate(11);
-        $this->saveCookie();
-
-    }
-
     public function getGuest($id)
     {
 
 
         $guestInfo = Guests::find($id);
 
-
         $paymentLink = Tickets::find($guestInfo->tickets);
+
+        $eventInfo = Events::find($guestInfo->affiliated_event);
+        if($eventInfo){
+            $this->guest_affiliated_event = $eventInfo->event_name;
+        }else{
+            $this->guest_affiliated_event = "Info unavailable";
+        }
+
+
 
         $tempSector = explode('_@_', $guestInfo->sectorBoxoption);
         $this->guestSector = implode(', ', $tempSector);
 
         $tempConnect = explode('_@_', $guestInfo->connect);
         $this->guestConnect = implode(', ', $tempConnect);
-
 
         $this->guestNameFirst = $guestInfo->name_first;
         $this->guestNameLast = $guestInfo->name_last;

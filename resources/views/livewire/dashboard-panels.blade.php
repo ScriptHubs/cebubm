@@ -81,10 +81,9 @@
                                                     @endif
                                                 </div>
                                                 <div class="col mt-3 mt-lg-0 d-flex flex-column">
-                                                    <h5 class="text-center text-lg-start fw-bold">
-                                                        {{ $event->event_name }} <span><label
+                                                    <h3 class="text-center text-lg-start fw-bold">
+                                                        {{ $event->event_name }} <span><small
                                                                 class="text-secondary small fs-6 fw-normal">
-
                                                                 @if ($event->event_date_from != $event->event_date_to)
                                                                     {{ date('Y-m-d', strtotime($event->event_date_from)) }}
                                                                     -
@@ -92,19 +91,21 @@
                                                                 @else
                                                                     {{ date('Y-m-d', strtotime($event->event_date_from)) }}
                                                                 @endif
+                                                            </small>
                                                         </span>
 
 
-                                                    </h5>
-                                                    <h6 class="pt-2" style="white-space: pre-wrap;">{{ $event->event_description }}</h6>
+                                                        </h6>
+                                                        <h6 class="pt-2" style="white-space: pre-wrap;">
+                                                            {{ $event->event_description }}</h6>
 
 
-                                                    <h6 class="pt-5 mt-auto">Guests for this event: @if ($event->guest_count != '')
-                                                            {{ $event->guest_count }}
-                                                        @else
-                                                            0
-                                                        @endif
-                                                    </h6>
+                                                        <h6 class="pt-5 mt-auto">Guests for this event: @if ($event->guest_count != '')
+                                                                {{ $event->guest_count }}
+                                                            @else
+                                                                0
+                                                            @endif
+                                                        </h6>
 
                                                 </div>
                                             </div>
@@ -173,10 +174,10 @@
                                 </div>
                                 <div class="col">
                                     <label class="form-label ps-1 mb-0" for="description">Description</label>
-                                    <textarea wire:model.lazy='event_description' type="text" id="description" rows="3" class="form-control" style="white-space: pre-wrap;"
-                                        wire:blur="saveCookie"></textarea>
+                                    <textarea wire:model.lazy='event_description' type="text" id="description" rows="3" class="form-control"
+                                        style="white-space: pre-wrap;" wire:blur="saveCookie"></textarea>
                                     <br>
-                                 
+
                                 </div>
                             </div>
 
@@ -198,7 +199,7 @@
                         </div>
                         <div class="col-12 col-lg-6 ps-2">
                             <h3 class="opacity-0">Tickets</h3>
-    
+
                             <table class="table custom-table">
                                 <thead>
                                     <tr>
@@ -209,7 +210,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-    
+
                                     @for ($i = 0; $i < $ticketRows; $i++)
                                         <tr class="spacer">
                                             <td colspan="100"></td>
@@ -219,28 +220,28 @@
                                                     id="ticket_name_{{ $i }}" class="form-control"
                                                     wire:blur="saveCookie" />
                                             </td>
-    
+
                                             <td> <input wire:model.lazy="ticket_prices.{{ $i }}"
                                                     type="text" id="ticket_price_{{ $i }}"
                                                     class="form-control" wire:blur="saveCookie" />
                                             </td>
-    
+
                                             <td> <input wire:model.lazy="payment_links.{{ $i }}"
                                                     type="text" id="ticket_link_{{ $i }}"
                                                     class="form-control" wire:blur="saveCookie" /> </td>
-    
+
                                             <td> <button class="btn"
                                                     wire:click='deleteTicketRow({{ $i }})'><i
                                                         class="fa fa-trash"></i></button> </td>
                                         </tr>
-    
+
                                         <tr>
                                     @endfor
-    
+
                                 </tbody>
                             </table>
-    
-    
+
+
                             <div class="text-end pb-5 pt-2">
                                 <div class="row  justify-content-end d-flex">
                                     <div class="col-12 col-lg-6">
@@ -262,7 +263,7 @@
                             </div>
                         </div>
                     </div>
-                  
+
         </div>
     </section>
 @elseif ($selectedComponent === 'editEvent')
@@ -327,7 +328,7 @@
                     </div>
                     <div class="col">
                         <label class="form-label ps-1 mb-0" for="edit_event_description">Description</label>
-                        <textarea wire:model.lazy='edit_event_description' type="text" id="edit_description" rows="10" 
+                        <textarea wire:model.lazy='edit_event_description' type="text" id="edit_description" rows="10"
                             @if ($edit_event_id === '' || $edit_event_id === null) disabled @endif class="form-control" wire:blur="saveCookie"></textarea>
                     </div>
                 </div>
@@ -457,33 +458,34 @@
             </div>
             <div class="col col-lg-3 search-bar position-relative">
                 <input wire:model="search_guest_name" wire:keydown.debounce.100ms="searchGuestName" type="text"
-                id="search_guest_name" class="form-control" placeholder="Search for guest"
-                wire:blur="searchGuestNameUnfocused" />
-                {{-- @if ($searchGuestFocus)
+                    id="search_guest_name" class="form-control" placeholder="Search for guest"
+                    wire:blur="searchGuestNameUnfocused" />
+                @if ($searchNameFocus)
                     <div class="drop-down-search position-absolute rounded-search-dropdown border-bottom ">
-                        @if ($searchGuestResultsList)
-                            @foreach ($searchGuestResultsList as $event)
-                                @if (count($searchGuestResultsList) != 0)
-                                    <div wire:click="getEventGuests({{ $event->id }})"
+                        @if ($searchGuestNameResultsList)
+                            @foreach ($searchGuestNameResultsList as $guest)
+                                @if (count($searchGuestNameResultsList) != 0)
+                                    <div wire:click="getGuest({{ $guest->id }})"
                                         class="cursor-pointer hover-highlight w-100 h-100 ps-3 pt-2 pb-1 overflow-hidden">
-                                        <h5 class=" fs-5">{{ $event->event_name }}</h5>
+                                        <h5 class=" fs-5">{{ $guest->name_first }} {{ $guest->name_middle }}
+                                            {{ $guest->name_last }}</h5>
                                     </div>
                                 @endif
                             @endforeach
-                            @if (count($searchGuestResultsList) === 0 && $search_guest_event != '')
+                            @if (count($searchGuestNameResultsList) === 0 && $search_guest_event != '')
                                 <div class="w-100 h-100 ps-3 pt-2 pb-1 cursor-none ">
                                     <h5 class="fs-5 text-muted">No results for
-                                        {{ $this->search_guest_event }}
+                                        {{ $this->search_guest_name }}
                                     </h5>
                                 </div>
                             @endif
                         @endif
                     </div>
-                @endif --}}
+                @endif
             </div>
         </div>
         <hr>
-        <div class="row">
+        <div class="row m-0">
             <div class="col-12 col-lg-3 position-relative bg-white rounded-2 pt-3 ps-3 d-flex flex-column pb-3">
                 <h4>Guest Name</h4>
                 @if (isset($guestList))
@@ -558,10 +560,15 @@
                             </h5>
                             <h5 class="fw-normal text-muted mt-4 mt-lg-0">Looking forward for:<span
                                     class="text-dark fw-medium mt-4 mt-lg-0"> {{ $guestExpectation }}</span></h5>
-
-                            <h5 class="fw-normal mt-4 pt-lg-5 mt-lg-0">Ticket bought: <span
-                                    class="text-dark fw-medium">
-                                </span>{{ $guestTicketName }}</h5>
+                            @if ($guest_affiliated_event != null)
+                                <h5 class="fw-normal mt-4 pt-lg-5 mt-lg-0">Affiliated Event: <span
+                                        class="text-dark fw-medium">
+                                    {{ $guest_affiliated_event }}</span></h5>
+                            @endif
+                            </h5>
+                            <h5 class="fw-normal mt-4 mt-lg-0">Ticket bought: <span class="text-dark fw-medium">
+                            </span>{{ $guestTicketName }}</h5>
+                          
                             <h5 class="fw-normal mt-4 mt-lg-0">Payment link used: <span class="text-dark fw-medium">
                                 </span>{{ $guestPaymentLink }}</h5>
                             <h5 class="fw-normal pb-5 mt-4 mt-lg-0">Register Date: <span class="text-dark fw-medium">

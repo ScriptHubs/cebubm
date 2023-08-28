@@ -28,7 +28,9 @@ li{
 .poster-thumb {
     width: 100%;
 }
-
+.small{
+    font-size: 0.9rem !important;
+}
 #view-poster {
     width: 50%;
 }
