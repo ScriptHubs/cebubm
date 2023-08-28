@@ -14,23 +14,13 @@
                             @endif
                             @if (!$events->isEmpty())
                                 @if ($activePanel === 'intro')
-                                    @if (Route::has('login'))
-                                        <div id="login-btn" class="inset-top-right pt-3 pe-3">
-                                            @auth
-                                                <a href="{{ url('/home') }}"
-                                                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"><i
-                                                        class="fa fa-grip"></i> </a>
-                                            @else
-                                                <a href="{{ route('login') }}"
-                                                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                                    <i class="fa fa-key"></i> </a>
-                                            @endauth
-                                        </div>
-                                    @endif
+                                  
                                     <div class="">
-                                        <h3 class="ps-1">You are on your way to buying a ticket for the event: <br>
+                                        <h3 class="ps-1">You are on your way to buying a ticket for the event: 
+                                            <br>
                                             <b>{{ $events[0]->event_name }}</b>.
                                         </h3>
+                                        <br>
                                         <h6 class="ps-1">{{ $events[0]->event_description }}</h5>
                                             <br>
                                             <button wire:click='nextPanel("intro")' wire:ignore type="button"
@@ -429,19 +419,6 @@
                                 </div>
 
                             @endif
-                            @if (Route::has('login'))
-                            <div id="login-btn" class="inset-top-right pt-3 pe-3">
-                                @auth
-                                    <a href="{{ url('/home') }}"
-                                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"><i
-                                            class="fa fa-grip"></i> </a>
-                                @else
-                                    <a href="{{ route('login') }}"
-                                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                        <i class="fa fa-key"></i> </a>
-                                @endauth
-                            </div>
-                        @endif
 
                             <div id="thank-you-panel"
                                 class="col-12 col-lg-8 pb-5 h-100 justify-content-center d-flex flex-column  hidden ">
@@ -466,10 +443,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
 
         </section>
 </form>
