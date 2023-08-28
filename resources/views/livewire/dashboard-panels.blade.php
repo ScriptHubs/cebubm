@@ -176,8 +176,7 @@
                                     <textarea wire:model.lazy='event_description' type="text" id="description" rows="3" class="form-control" style="white-space: pre-wrap;"
                                         wire:blur="saveCookie"></textarea>
                                     <br>
-                                    <button type="button" class="btn btn-primary">Add Pharagraph
-                                        <i class="fa fa-plus"></i></button>
+                                 
                                 </div>
                             </div>
 
