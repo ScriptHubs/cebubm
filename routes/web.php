@@ -21,11 +21,11 @@ Route::get('/', function () {
 Auth::routes();
 
 
-Route::get('/admin', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/admin', [App\Http\Controllers\HomeController::class, 'index'])->name('admin');
 
 Route::post('/events', [EventController::class, 'storeEvent'])->name('events.store');
 
 Route::get('/livewire/message/dashboard-panels', function () {
-    return Redirect::to('/home?' . request()->getQueryString());
+    return Redirect::to('/admin?' . request()->getQueryString());
 });
 

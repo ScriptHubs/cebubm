@@ -15,19 +15,19 @@
                             @if (!$events->isEmpty())
                                 @if ($activePanel === 'intro')
                                   
-                                    <div class="">
+                                    <div class="fade-in">
                                         <h3 class="ps-1">You are on your way to buying a ticket for the event: 
                                             <br>
                                             <b>{{ $events[0]->event_name }}</b>.
                                         </h3>
                                         <br>
-                                        <h6 class="ps-1">{{ $events[0]->event_description }}</h5>
+                                        <h6 class="ps-1" style="white-space: pre-wrap;">{{ $events[0]->event_description }}</h5>
                                             <br>
                                             <button wire:click='nextPanel("intro")' wire:ignore type="button"
                                                 class="btn btn-orange trigger-enter text-white fs-4 ms-1">Start</button>
                                     </div>
                                 @elseif($activePanel === 'membership')
-                                    <div id="membership-panel">
+                                    <div id="membership-panel" class="fade-in">
                                         <h3 class="q-title fw-bold ps-1">Membership Type</h3>
                                         <br>
                                         <div class="form-check">
@@ -64,7 +64,7 @@
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'name')
-                                    <div id="name-panel">
+                                    <div id="name-panel" class="fade-in">
                                         <h3 class="q-title fw-bold ps-1">Last Name </h3>
                                         <div class="col-lg-8 col-12">
                                             <div class="input-group mb-3">
@@ -95,7 +95,7 @@
 
                                     </div>
                                 @elseif($activePanel === 'email_address')
-                                    <div id="email-panel">
+                                    <div id="email-panel" class="fade-in">
                                         <h3 class="q-title fw-bold ps-1">Email Address</h3>
                                         <div class="col-lg-8 col-12">
                                             <div class="input-group mb-3">
@@ -126,7 +126,7 @@
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'sectorBoxoption')
-                                    <div id="sector-panel">
+                                    <div id="sector-panel" class="fade-in">
                                         <h3 class="q-title fw-bold ps-1">Sector</h3>
                                         <div class="ps-1">
                                             <div class="form-check">
@@ -190,7 +190,7 @@
 
                                     </div>
                                 @elseif($activePanel === 'industry')
-                                    <div id="industry-panel">
+                                    <div id="industry-panel" class="fade-in">
 
                                         <h3 class="q-title fw-bold ps-1">Industry / Line of Business</h3>
                                         <div class="col-lg-8 col-12">
@@ -206,7 +206,7 @@
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'reference')
-                                    <div id="reference-panel">
+                                    <div id="reference-panel" class="fade-in">
 
 
                                         <h3 class="q-title fw-bold ps-1">Where did you head about this event?</h3>
@@ -267,7 +267,7 @@
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div>
                                 @elseif($activePanel === 'expectation')
-                                    <div id="expectation-panel">
+                                    <div id="expectation-panel" class="fade-in">
                                         <div class="ps-1">
                                             <h3 class="q-title fw-bold">What are you looking forward to? </h3>
                                             <br>
@@ -296,7 +296,7 @@
                                             class="btn btn-orange trigger-enter text-white fs-4 ms-1">Next</button>
                                     </div id="connect-panel">
                                 @elseif($activePanel === 'connect')
-                                    <div id="connect-panel">
+                                    <div id="connect-panel" class="fade-in">
                                         <div class="ps-1">
                                             <h3 class="q-title fw-bold">Who do you want to connect/network with? </h3>
                                             <br>
@@ -373,7 +373,7 @@
 
                                     </div>
                                 @elseif($activePanel === 'ticket_type')
-                                    <div id="final-window" class="">
+                                    <div id="final-window"class="fade-in">
                                         <h2 class="q-title fw-bold">3-Day Pass (Summit & Expo Inclusions)</h2>
                                         <h4>Your ticket includes full access to plenary talks and panel discussions at
                                             the
@@ -405,8 +405,8 @@
                                     </div>
                                 @endif
                             @else
-                                <div id="thank-you-panel"
-                                    class="col-12 col-lg-8 pb-5 h-100 justify-content-center d-flex flex-column   ">
+                                <div id="thank-you-panel" 
+                                    class="col-12 col-lg-8 pb-5 h-100 justify-content-center d-flex flex-column fade-in">
                                     <div class="">
                                         <h5 class="q-title fw-bold">Hi there!</h5>
                                         <br>

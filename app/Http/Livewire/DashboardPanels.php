@@ -238,7 +238,7 @@ class DashboardPanels extends Component
                 Cookie::queue('currentSearch', $this->search_guest_event, 365);
 
 
-                return redirect(url('/home'));
+                return redirect(url('/admin'));
 
             }
 
@@ -591,7 +591,7 @@ class DashboardPanels extends Component
         $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links', 'ticket_prices']);
 
         Cookie::queue(Cookie::forget('adminCookie'));
-        return redirect(url('/home'));
+        return redirect(url('/admin'));
     }
     public function clearEdit()
     {
@@ -710,7 +710,7 @@ class DashboardPanels extends Component
         if ($saveSuccess) {
 
             $this->clearEdit();
-            return redirect(url('/'));
+            return redirect(url('/admin'));
         } else {
 
 
@@ -777,7 +777,7 @@ class DashboardPanels extends Component
         Cookie::queue(Cookie::forget('adminCookie'));
 
         $this->render();
-        return redirect(url('/home'));
+        return redirect(url('/admin'));
     }
 
 

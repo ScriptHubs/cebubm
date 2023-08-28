@@ -377,9 +377,6 @@
                                 wire:click="activeSet(2)"> Confirm </button>
                         </div>
                     </div>
-
-
-
                     @csrf
                     <div class="container-fluid px-3 pb-2">
                         <div
@@ -411,7 +408,10 @@
                                         <label class="form-label ps-1 mb-0" for="description">Description</label>
                                         <textarea wire:model.lazy='event_description' type="text" id="description"
                                             rows="4" class="form-control"></textarea>
-                                    </div>
+                              
+
+
+                                    
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col">
