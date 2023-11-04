@@ -620,7 +620,6 @@ public $guest_affiliated_event;
         $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links', 'ticket_prices']);
 
         Cookie::queue(Cookie::forget('adminCookie'));
-        return redirect(url('/admin'));
     }
     public function clearEdit()
     {

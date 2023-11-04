@@ -227,7 +227,7 @@
 }
 .home-section{
   position: relative;
-  background: #E4E9F7;
+  background: #fff;
   min-height: 100vh;
   top: 0;
   left: 78px;
@@ -249,4 +249,16 @@
   .sidebar li .tooltip{
     display: none;
   }
+}
+
+.bg-info {
+  background: #0e34a0 !important;
+}
+
+.table-horizontal-scroll {
+  overflow-x: auto;
+}
+
+.thead {
+  min-width: 150px;
 }
