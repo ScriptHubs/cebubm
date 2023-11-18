@@ -10,11 +10,18 @@
 
     <title>Cebu Business Months</title>
 
+    @include('layouts.cdnAdmin')
 
 </head>
 
 <body>
-
+    @livewireStyles
+    <div id="app" class="">
+        <main class="">
+            @yield('content')
+        </main>
+    </div>
+    @livewireScripts
 </body>
 
 </html>

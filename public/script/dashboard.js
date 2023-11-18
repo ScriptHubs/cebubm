@@ -1,18 +1,31 @@
-$(document).ready(function () {});
-
-
-
-
-    $('#search_event').on('blur', function() {
-        // Your code when the input loses focus
-        console.log("Input has lost focus!");
+$(document).ready(function () {
+    // Handle header checkbox click event
+    $("#headerCheckbox").on("change", function () {
+        const isChecked = $(this).prop("checked");
+        $(".event-checkbox").prop("checked", isChecked);
     });
 
-    // edit_event_poster_update
-    function clearUpdatePoster(){
-        $('#edit_event_poster_update').val(null);
+    // Handle individual checkbox click events
+    $(".event-checkbox").on("change", function () {
+        if (
+            $(".event-checkbox:checked").length === $(".event-checkbox").length
+        ) {
+            $("#headerCheckbox").prop("checked", true);
+        } else {
+            $("#headerCheckbox").prop("checked", false);
+        }
+    });
+});
 
-    }
+$("#search_event").on("blur", function () {
+    // Your code when the input loses focus
+    console.log("Input has lost focus!");
+});
+
+// edit_event_poster_update
+function clearUpdatePoster() {
+    $("#edit_event_poster_update").val(null);
+}
 
 function addTicketRow() {
     const lastRowId = $("#ticket-table tr:last").attr("id"); // tr_ticket_1
@@ -44,25 +57,16 @@ function explode(separator, string) {
     return string.split(separator);
 }
 
-
 function openModal() {
-
-    setTimeout(function() {
-        var modal = $('#viewEvent');
-        modal.modal('show');
+    setTimeout(function () {
+        var modal = $("#viewEvent");
+        modal.modal("show");
     }, 500); // Adjust the delay time as needed
-    
-    
 }
 
 function openModalGuest() {
-
-    setTimeout(function() {
-        var modal = $('#viewGuestDetails');
-        modal.modal('show');
+    setTimeout(function () {
+        var modal = $("#viewGuestDetails");
+        modal.modal("show");
     }, 500); // Adjust the delay time as needed
 }
-
-
-
-
