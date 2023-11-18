@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Redirect;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('landing.index');
 });
 
 Auth::routes();
