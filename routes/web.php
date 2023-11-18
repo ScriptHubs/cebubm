@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\{
+    EventController,
+    HomeController
+};
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Redirect;
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +18,13 @@ use Illuminate\Support\Facades\Redirect;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Auth::routes();
 
 
-Route::get('/admin', [App\Http\Controllers\HomeController::class, 'index'])->name('admin');
+Route::get('/admin', [HomeController::class, 'index'])->name('admin');
 
 Route::post('/events', [EventController::class, 'storeEvent'])->name('events.store');
 
