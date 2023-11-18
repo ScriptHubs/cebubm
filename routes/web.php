@@ -19,7 +19,13 @@ use Illuminate\Support\Facades\Redirect;
 
 Route::get('/', function () {
     return view('landing.index');
-});
+})->name('index');
+Route::get('/about', function () {
+    return view('landing.about');
+})->name('about');
+Route::get('/events', function () {
+    return view('landing.events');
+})->name('landing-events');
 
 Auth::routes();
 
