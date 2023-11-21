@@ -41,6 +41,7 @@
       <div class="d-flex align-items-center">
         <nav id="navbar" class="navbar">
           <ul>
+            <li><a href="{{ route('gallery') }}">Gallery</a></li>
             <li><a href="{{ route('about') }}">About</a></li>
             <li><a href="{{ route('landing-events') }}">Events</a></li>
           </ul>

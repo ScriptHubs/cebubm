@@ -26,6 +26,14 @@ Route::get('/about', function () {
 Route::get('/events', function () {
     return view('landing.events');
 })->name('landing-events');
+Route::get('/gallery', function () {
+    return view('landing.gallery');
+})->name('gallery');
+Route::get('/gallery/{id}', function () {
+    return view('landing.gallery-view');
+})->name('gallery-images');
+
+
 
 Auth::routes();
 
