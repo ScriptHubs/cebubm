@@ -44,7 +44,7 @@
       <div class="container" data-aos="fade-up">
         <div class="row gy-4 justify-content-center">
           <div class="col-5 col-lg-4 position-relative about-img" data-aos="fade-up" data-aos-delay="150">
-            <img src="/images/main/ticket.jpg" class="w-100">
+            <img src="/images/main/events/ticket.jpg" class="w-100">
           </div>
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
             <div class="content">
@@ -92,13 +92,13 @@
         </div>
         <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
           <div class="swiper-wrapper">
-            <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 1">
-            <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 2">
-            <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 3">
-            <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 4">
-            <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 5">
-            <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 7">
-            <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 8">
+            <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 1">
+            <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 2">
+            <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 3">
+            <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 4">
+            <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 5">
+            <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 7">
+            <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 8">
           </div>
           <div class="swiper-pagination"></div>
     

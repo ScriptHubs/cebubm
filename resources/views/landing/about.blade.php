@@ -111,7 +111,7 @@
       </div>
       <div class="row gy-4 justify-content-center">
         <div class="col-6 col-lg-4 position-relative about-img" data-aos="fade-up" data-aos-delay="150">
-          <img src="/images/main/ticket.jpg" class="w-100">
+          <img src="/images/main/events/ticket.jpg" class="w-100">
         </div>
         <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
           <div class="content ps-0 ps-lg-5">

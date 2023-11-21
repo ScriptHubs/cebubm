@@ -45,13 +45,13 @@
       </div>
       <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
         <div class="swiper-wrapper">
-          <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 1">
-          <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 2">
-          <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 3">
-          <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 4">
-          <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 5">
-          <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 7">
-          <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 8">
+          <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 1">
+          <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 2">
+          <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 3">
+          <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 4">
+          <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 5">
+          <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 7">
+          <img class="swiper-slide event-item" src="/images/main/events/ticket.jpg" alt="Event Image 8">
         </div>
         <div class="swiper-pagination"></div>
         <!-- Add navigation arrows -->
