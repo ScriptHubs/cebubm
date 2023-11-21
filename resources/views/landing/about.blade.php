@@ -36,7 +36,7 @@
           <div class="content ps-0 ps-lg-5">
             <div class="text-center">
               <br>
-              <img src="/images/main/logo-2.JPG" class="rounded">
+              <img src="/images/main/logo-2.jpg" class="rounded">
               <h1 class="header-title">
                 CCCI
               </h1>
@@ -56,30 +56,52 @@
     </div>
   </section>
   <!-- End About Section -->
-  <!-- End About Section -->
   <section id="about" class="about">
     <div class="container" data-aos="fade-up">
       <div class="section-header">
-        <div class="d-flex justify-content-center">
-          <img src="/images/main/eye.JPG" style="width: 100px;">
-          <p class="fw-bold px-3">Our Vision</p>
+        <div class="slides-vision-mission swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide event-item">
+              <div class="section-header">
+                <div class="d-flex justify-content-center">
+                  <img src="/images/main/vision.jpg" style="width: 70px; height: 70px;" class="mt-1">
+                  <p class="fw-bold px-3">Our Vision</p>
+                </div>
+              </div>
+              <div class="col-lg-8 mx-auto">
+                <h5>
+                  Our vision is to be the leading catalyst for growth and transformation in the Cebu business
+                  community. We envision a future where our members thrive in an environment that embraces
+                  innovation, entrepreneurship, creativity, and digital transformation. By fostering a culture of
+                  resilience and global competitiveness, we aim to position Cebu as a hub for cutting-edge
+                  technologies, groundbreaking ideas, and sustainable business practices. Our ultimate goal is to
+                  empower our members to drive economic prosperity, create job opportunities, and contribute to
+                  the overall development of Cebu, making it a vibrant and globally recognized business
+                  destination.
+                </h5>
+              </div>
+            </div>
+            <div class="swiper-slide event-item">
+              <div class="section-header">
+                <div class="d-flex justify-content-center">
+                  <img src="/images/main/mission.jpg" style="width: 50px; height: 50px;" class="mt-2">
+                  <p class="fw-bold px-3">Our Mission</p>
+                </div>
+              </div>
+              <div class="col-lg-8 mx-auto">
+                <h5>
+                  Our mission is to meet the needs of our members in the Cebu business community by providing opportunities that promote and enable innovation, entrepreneurship, creativity, and digital transformation. We strive to enhance resilience and global competitiveness among our members, driving their growth and success through collaboration, networking, and knowledge sharing. As advocates for business innovation and sustainability, we aim to be a driving force in Cebu's economic development.
+                </h5>
+              </div>
+            </div>
+          </div>
+          <!-- Add navigation arrows -->
+          <div class="swiper-button-next ps-5"></div>
+          <div class="swiper-button-prev pe-5"></div>
         </div>
       </div>
-      <div class="col-lg-8 mx-auto">
-        <h5>
-          Our vision is to be the leading catalyst for growth and transformation in the Cebu business
-          community. We envision a future where our members thrive in an environment that embraces
-          innovation, entrepreneurship, creativity, and digital transformation. By fostering a culture of
-          resilience and global competitiveness, we aim to position Cebu as a hub for cutting-edge
-          technologies, groundbreaking ideas, and sustainable business practices. Our ultimate goal is to
-          empower our members to drive economic prosperity, create job opportunities, and contribute to
-          the overall development of Cebu, making it a vibrant and globally recognized business
-          destination.
-        </h5>
-      </div>
-    </div>
   </section>
-
+  <!-- End About Section -->
 
   <!-- ======= About Section ======= -->
   <section id="about" class="about">

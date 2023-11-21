@@ -128,13 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * Init swiper slider with 1 slide at once in desktop view
    */
-  new Swiper('.slides-1', {
+  new Swiper('.slides-vision-mission', {
     speed: 600,
     loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
     slidesPerView: 'auto',
     pagination: {
       el: '.swiper-pagination',
@@ -153,10 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
 new Swiper('.slides-3', {
   speed: 600,
   loop: true,
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false
-  },
   slidesPerView: 'auto',
   pagination: {
     el: '.swiper-pagination',
@@ -187,15 +179,15 @@ new Swiper('.slides-3', {
     speed: 400,
     loop: true,
     centeredSlides: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
     slidesPerView: 'auto',
     pagination: {
       el: '.swiper-pagination',
       type: 'bullets',
       clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
     breakpoints: {
       320: {
@@ -235,7 +227,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var carouselElement = document.getElementById('heroCarousel');
 
   var myCarousel = new bootstrap.Carousel(carouselElement, {
-    interval: 5000, // Set the interval for auto sliding
     wrap: true,     // Allow carousel to wrap around
   });
 

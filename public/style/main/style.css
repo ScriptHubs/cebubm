@@ -1,8 +1,11 @@
+/* Import Poppins font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 /* Fonts */
 :root {
-  --font-default: "Brooklyn", sans-serif;
-  --font-primary: "Brooklyn", sans-serif;
-  --font-secondary: "Brooklyn", sans-serif;
+  --font-default: "Poppins", sans-serif;
+  --font-primary: "Poppins", sans-serif;
+  --font-secondary: "Poppins", sans-serif;
 }
 
 /* Colors */
@@ -299,8 +302,8 @@ section {
   color: var(--color-primary);
 }
 
-.header .btn-book-a-table,
-.header .btn-book-a-table:focus {
+.header .btn-events,
+.header .btn-events:focus {
   font-size: 14px;
   color: #fff;
   background: var(--color-primary);
@@ -310,8 +313,8 @@ section {
   transition: 0.3s;
 }
 
-.header .btn-book-a-table:hover,
-.header .btn-book-a-table:focus:hover {
+.header .btn-events:hover,
+.header .btn-events:focus:hover {
   color: #fff;
   background: rgba(206, 18, 18, 0.8);
 }
@@ -725,6 +728,14 @@ section {
   position: relative;
 }
 
+.gallery .swiper-button-next {
+  padding-left: 50px !important;
+}
+
+.gallery .swiper-button-prev {
+  padding-right: 50px !important;
+}
+
 .gallery .swiper-pagination .swiper-pagination-bullet {
   width: 12px;
   height: 12px;
@@ -827,7 +838,7 @@ section {
   font-size: 64px;
   font-weight: 700;
   margin-bottom: 20px;
-  color: white;
+  color: #fff;
   font-family: var(--font-primary);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -839,7 +850,7 @@ section {
 }
 
 /* Original Styles for Desktop */
-.hero .btn-book-a-table {
+.hero .btn-events {
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 1px;
@@ -847,8 +858,8 @@ section {
   padding: 12px 36px;
   border-radius: 5%;
   transition: 0.5s;
-  color: rgba(255, 255, 255, 0.7);
-  background: none;
+  color: #000;
+  background: #fff;
   border: 2px solid rgba(255, 255, 255, 0.7);
 }
 
@@ -856,8 +867,8 @@ section {
   left: 12%!important;
 }
 
-.hero .btn-book-a-table:hover {
-  background: white;
+.hero .btn-events:hover {
+  background: rgba(255, 255, 255, 0.7);
   color: black;
 }
 
@@ -871,7 +882,7 @@ section {
     margin-bottom: 20px;
   }
 
-  .hero .btn-book-a-table {
+  .hero .btn-events {
     padding: 10px 30px;
     font-size: 13px;
   }
@@ -892,7 +903,7 @@ section {
     margin-bottom: 15px;
   }
 
-  .hero .btn-book-a-table {
+  .hero .btn-events {
     padding: 9px 32px;
     font-size: 12px;
   }
@@ -1067,8 +1078,8 @@ section {
 }
 
 
-.header .btn-events,
-.header .btn-events:focus {
+.header .btn-buy-tickets,
+.header .btn-buy-tickets:focus {
   font-size: 14px;
   color: #fff;
   background: var(--color-primary);
@@ -1078,8 +1089,8 @@ section {
   transition: 0.3s;
 }
 
-.header .btn-events:hover,
-.header .btn-events:focus:hover {
+.header .btn-buy-tickets:hover,
+.header .btn-buy-tickets:focus:hover {
   color: #fff;
   background: rgba(206, 18, 18, 0.8);
 }
@@ -1090,7 +1101,7 @@ section {
 }
 
 /* Original Styles for Desktop */
-.hero .btn-events {
+.hero .btn-buy-tickets {
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 1px;
@@ -1102,7 +1113,7 @@ section {
   background: #f6b300;
 }
 
-.hero .btn-events:hover {
+.hero .btn-buy-tickets:hover {
   background: white;
   color: black;
 }

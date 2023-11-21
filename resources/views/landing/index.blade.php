@@ -24,7 +24,7 @@
         <h2>Take Your Business To<br>
           New Heights And Join The<br> Industry Leaders</h2>
         <div class="d-flex">
-          <a href={{ route('landing-events') }} class="btn-book-a-table">EVENTS</a>
+          <a href={{ route('landing-events') }} class="btn-events">EVENTS</a>
         </div>
       </div>
 
@@ -101,6 +101,10 @@
             <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 8">
           </div>
           <div class="swiper-pagination"></div>
+    
+          <!-- Add navigation arrows -->
+          <div class="swiper-button-next ps-5"></div>
+          <div class="swiper-button-prev pe-5"></div>
         </div>
       </div>
     </section>
@@ -110,10 +114,10 @@
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
         <div class="row gy-4">
-          <div class="col-5 col-lg-3 position-relative about-img" data-aos="fade-up" data-aos-delay="150">
+          <div class="col-6 col-lg-2 position-relative about-img" data-aos="fade-up" data-aos-delay="150">
             <img src="/images/main/cbm.png" class="img-fluid" alt="CBM Image">
           </div>
-          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="300">
+          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
             <div class="content ps-0 ps-lg-5">
               <h1 class="header-title">THE CBM</h1>
               <br>
@@ -122,17 +126,15 @@
                 the Cebu business community for opportunities that promote and enable innovation, entrepreneurship,
                 creativity and digital transformation towards resilience and global competitiveness.
               </h5>
+              <h5>
+                It fosters interrelationships within the board of trustees, sectoral associations, CCCI MEMBERS, and private
+                & public entities; thus, engaging key players and champions to craft & mobilize towards the implementation
+                of relevant activities, projects, and programs such as the Cebu Business Month under the leadership of the
+                CBM Chair.
+              </h5>
               <br>
               <br>
             </div>
-          </div>
-          <div class="col-lg-10">
-            <h5>
-              It fosters interrelationships within the board of trustees, sectoral associations, CCCI MEMBERS, and private
-              & public entities; thus, engaging key players and champions to craft & mobilize towards the implementation
-              of relevant activities, projects, and programs such as the Cebu Business Month under the leadership of the
-              CBM Chair.
-            </h5>
           </div>
         </div>
       </div>

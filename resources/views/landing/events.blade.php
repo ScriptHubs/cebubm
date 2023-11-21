@@ -22,7 +22,7 @@
       <!-- Text Content -->
       <div class="text-content position-absolute translate-middle-y text-left ps-5 carousel-header-event">
         <div class="d-flex">
-          <a href={{ route('landing-events') }} class="btn-events">BUY TICKETS</a>
+          <a href={{ route('landing-events') }} class="btn-buy-tickets">BUY TICKETS</a>
         </div>
       </div>
 
@@ -54,6 +54,9 @@
           <img class="swiper-slide event-item" src="/images/main/ticket.JPG" alt="Event Image 8">
         </div>
         <div class="swiper-pagination"></div>
+        <!-- Add navigation arrows -->
+        <div class="swiper-button-next ps-5"></div>
+        <div class="swiper-button-prev pe-5"></div>
       </div>
     </div>
   </section>
@@ -69,57 +72,57 @@
 
       <div class="gallery-slider swiper">
         <div class="swiper-wrapper align-items-center">
-          <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-1.jpg"><img
-                src="/images/main/event-1.jpg" class="img-fluid" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-1.jpg"><img
+                src="/images/main/event-1.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-2.jpg"><img
-                src="/images/main/event-2.jpg" class="img-fluid" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-2.jpg"><img
+                src="/images/main/event-2.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-3.jpg"><img
-                src="/images/main/event-3.jpg" class="img-fluid" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-3.jpg"><img
+                src="/images/main/event-3.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-1.jpg"><img src="/images/main/event-1.jpg" class="img-fluid" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
+              href="/images/main/event-1.jpg"><img src="/images/main/event-1.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-2.jpg"><img src="/images/main/event-2.jpg" class="img-fluid" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
+              href="/images/main/event-2.jpg"><img src="/images/main/event-2.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-3.jpg"><img src="/images/main/event-3.jpg" class="img-fluid" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
+              href="/images/main/event-3.jpg"><img src="/images/main/event-3.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-1.jpg"><img src="/images/main/event-1.jpg" class="img-fluid" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
+              href="/images/main/event-1.jpg"><img src="/images/main/event-1.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-2.jpg"><img src="/images/main/event-2.jpg" class="img-fluid" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
+              href="/images/main/event-2.jpg"><img src="/images/main/event-2.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
@@ -127,8 +130,10 @@
           </div>
         </div>
         <div class="swiper-pagination"></div>
+        <!-- Add navigation arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
       </div>
-
     </div>
   </section>
   <!-- End Gallery Section -->

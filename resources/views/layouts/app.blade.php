@@ -46,7 +46,7 @@
           </ul>
         </nav><!-- .navbar -->
 
-        <a class="btn-book-a-table" href="{{ route('landing-events') }}">Buy Now</a>
+        <a class="btn-events" href="{{ route('landing-events') }}">Buy Now</a>
         <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
         <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       </div>
@@ -56,11 +56,12 @@
   <main id="main">
     @yield('content')
   </main>
+  <hr style="color: #0E34A0">
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="container">
       <div class="row gy-3">
-        <div class="col-6">
+        <div class="col-lg-6">
           <div class="row">
             <img src="/images/main/cbm.png" style="width: 200px;">
             <img src="/images/main/cebu-logo.JPG" style="width: 200px;">
@@ -68,7 +69,7 @@
           <p class="fw-bold mt-3">2023 Cebu Business Month. All rights reserved</p>
         </div>
 
-        <div class="col-6 footer-links-container">
+        <div class="col-lg-6 footer-links-container">
           <div class="row">
             <div class="col-6">
               <a href="#">Back to Top</a>
