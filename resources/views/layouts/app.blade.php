@@ -11,7 +11,7 @@
   <title>Cebu Business Months</title>
 
   <!-- Favicons -->
-  <link href="/images/main/cbm.png" rel="icon">
+  <link href="/images/main/logos/cbm.png" rel="icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +35,7 @@
     <div class="container d-flex align-items-center justify-content-between">
       <a href="{{ route('index') }}" class="logo d-flex align-items-center me-auto me-lg-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="/images/main/cbm.png" alt="company logo">
+        <img src="/images/main/logos/cbm.png" alt="company logo">
       </a>
 
       <div class="d-flex align-items-center">
@@ -63,8 +63,8 @@
       <div class="row gy-3">
         <div class="col-lg-6">
           <div class="row">
-            <img src="/images/main/cbm.png" style="width: 200px;">
-            <img src="/images/main/cebu-logo.JPG" style="width: 200px;">
+            <img src="/images/main/logos/cbm.png" style="width: 120px;">
+            <img src="/images/main/logos/cebu-logo.jpg" style="width: 120px;">
           </div>
           <p class="fw-bold mt-3">2023 Cebu Business Month. All rights reserved</p>
         </div>

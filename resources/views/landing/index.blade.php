@@ -8,13 +8,13 @@
       <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="/images/main/event-1.jpg" class="d-block w-100" alt="Slide 1">
+            <img src="/images/main/events/event-1.jpg" class="d-block w-100" alt="Slide 1">
           </div>
           <div class="carousel-item">
-            <img src="/images/main/event-2.jpg" class="d-block w-100" alt="Slide 2">
+            <img src="/images/main/events/event-2.jpg" class="d-block w-100" alt="Slide 2">
           </div>
           <div class="carousel-item">
-            <img src="/images/main/event-3.jpg" class="d-block w-100" alt="Slide 3">
+            <img src="/images/main/events/event-3.jpg" class="d-block w-100" alt="Slide 3">
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@
       <div class="container" data-aos="fade-up">
         <div class="row gy-4">
           <div class="col-6 col-lg-2 position-relative about-img" data-aos="fade-up" data-aos-delay="150">
-            <img src="/images/main/cbm.png" class="img-fluid" alt="CBM Image">
+            <img src="/images/main/logos/cbm.png" class="img-fluid" alt="CBM Image">
           </div>
           <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
             <div class="content ps-0 ps-lg-5">

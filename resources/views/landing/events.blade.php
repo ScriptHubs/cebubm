@@ -8,13 +8,13 @@
       <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="/images/main/event-1.jpg" class="d-block w-100" alt="Slide 1">
+            <img src="/images/main/events/event-1.jpg" class="d-block w-100" alt="Slide 1">
           </div>
           <div class="carousel-item">
-            <img src="/images/main/event-2.jpg" class="d-block w-100" alt="Slide 2">
+            <img src="/images/main/events/event-2.jpg" class="d-block w-100" alt="Slide 2">
           </div>
           <div class="carousel-item">
-            <img src="/images/main/event-3.jpg" class="d-block w-100" alt="Slide 3">
+            <img src="/images/main/events/event-3.jpg" class="d-block w-100" alt="Slide 3">
           </div>
         </div>
       </div>
@@ -72,57 +72,57 @@
 
       <div class="gallery-slider swiper">
         <div class="swiper-wrapper align-items-center">
-          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-1.jpg"><img
-                src="/images/main/event-1.jpg" class="img-fluid rounded" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/events/event-1.jpg"><img
+                src="/images/main/events/event-1.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-2.jpg"><img
-                src="/images/main/event-2.jpg" class="img-fluid rounded" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/events/event-2.jpg"><img
+                src="/images/main/events/event-2.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
-          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/event-3.jpg"><img
-                src="/images/main/event-3.jpg" class="img-fluid rounded" alt=""></a>
-            <div class="gallery-caption">
-              <h3>Event 1</h3>
-              <p>Description for Event 1.</p>
-            </div>
-          </div>
-          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-1.jpg"><img src="/images/main/event-1.jpg" class="img-fluid rounded" alt=""></a>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery" href="/images/main/events/event-3.jpg"><img
+                src="/images/main/events/event-3.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
           <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-2.jpg"><img src="/images/main/event-2.jpg" class="img-fluid rounded" alt=""></a>
+              href="/images/main/events/event-1.jpg"><img src="/images/main/events/event-1.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
           <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-3.jpg"><img src="/images/main/event-3.jpg" class="img-fluid rounded" alt=""></a>
+              href="/images/main/events/event-2.jpg"><img src="/images/main/events/event-2.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
           <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-1.jpg"><img src="/images/main/event-1.jpg" class="img-fluid rounded" alt=""></a>
+              href="/images/main/events/event-3.jpg"><img src="/images/main/events/event-3.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>
             </div>
           </div>
           <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
-              href="/images/main/event-2.jpg"><img src="/images/main/event-2.jpg" class="img-fluid rounded" alt=""></a>
+              href="/images/main/events/event-1.jpg"><img src="/images/main/events/event-1.jpg" class="img-fluid rounded" alt=""></a>
+            <div class="gallery-caption">
+              <h3>Event 1</h3>
+              <p>Description for Event 1.</p>
+            </div>
+          </div>
+          <div class="swiper-slide rounded"><a class="glightbox" data-gallery="images-gallery"
+              href="/images/main/events/event-2.jpg"><img src="/images/main/events/event-2.jpg" class="img-fluid rounded" alt=""></a>
             <div class="gallery-caption">
               <h3>Event 1</h3>
               <p>Description for Event 1.</p>

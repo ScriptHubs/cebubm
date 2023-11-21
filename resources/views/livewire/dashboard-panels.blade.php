@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="logo-details">
       <div class="logo_name mt-3">
-        <img class="img-fluid w-75 pt-5 mt-5 ps-5" src="{{ asset('../images/cbm.png') }}" alt="">
+        <img class="img-fluid w-75 pt-5 mt-5 ps-5" src="{{ asset('../images/logos/cbm.png') }}" alt="">
       </div>
       <i class="bx bx-menu" id="btnSideNav"></i>
     </div>

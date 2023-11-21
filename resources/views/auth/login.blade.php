@@ -7,7 +7,7 @@
                 <div class="col-md-8 col-lg-7">
                     <div class="card card-login">
                         <div class="card-header text-center">
-                            <img class="img-fluid" src="{{ asset('../images/cbm.png') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('../images/logos/cbm.png') }}" alt="">
                         </div>
 
                         <div class="card-body">

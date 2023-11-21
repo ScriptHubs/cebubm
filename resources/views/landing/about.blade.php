@@ -9,7 +9,7 @@
           <div class="content">
             <div class="text-center">
               <br>
-              <img src="/images/main/cbm.png" class="rounded">
+              <img src="/images/main/logos/cbm.png" class="rounded">
               <h1 class="header-title">
                 CBM
               </h1>
@@ -25,18 +25,18 @@
           </div>
         </div>
         <div class="col-lg-4 position-relative about-img" data-aos="fade-up" data-aos-delay="150">
-          <img src="/images/main/about-cbm.jpg" class="w-100 rounded" style="height: 500px;">
+          <img src="/images/main/events/event-4.jpg" class="w-100 rounded" style="height: 500px;">
         </div>
       </div>
       <div class="row gy-4 justify-content-center mt-3">
         <div class="col-lg-4 position-relative about-img" data-aos="fade-up" data-aos-delay="150">
-          <img src="/images/main/img-2.jpg" class="w-100 rounded" style="height: 500px;">
+          <img src="/images/main/events/event-5.jpg" class="w-100 rounded" style="height: 500px;">
         </div>
         <div class="col-lg-5" data-aos="fade-up" data-aos-delay="300">
           <div class="content ps-0 ps-lg-5">
             <div class="text-center">
               <br>
-              <img src="/images/main/logo-2.jpg" class="rounded">
+              <img src="/images/main/logos/logo-2.jpg" class="rounded">
               <h1 class="header-title">
                 CCCI
               </h1>
@@ -64,7 +64,7 @@
             <div class="swiper-slide event-item">
               <div class="section-header">
                 <div class="d-flex justify-content-center">
-                  <img src="/images/main/vision.jpg" style="width: 70px; height: 70px;" class="mt-1">
+                  <img src="/images/main/vision.jpg" style="width: 70px; height: 50px;" class="mt-1">
                   <p class="fw-bold px-3">Our Vision</p>
                 </div>
               </div>
