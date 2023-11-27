@@ -111,7 +111,7 @@
       </div>
       <div class="row gy-4 justify-content-center">
         <div class="col-6 col-lg-4 position-relative about-img" data-aos="fade-up" data-aos-delay="150">
-          <img src="/images/main/events/ticket.jpg" class="w-100">
+          <img src="/images/main/events/ticket.jpg" class="w-75">
         </div>
         <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
           <div class="content ps-0 ps-lg-5">
@@ -144,7 +144,9 @@
             <br>
             <h4>
               Get your tickets here!
-              <button type="button" class="btn btn-primary-blue">Pre-register</button>
+            </h4>
+            <h4>
+              <a href="{{ route('register-event') }}" class="btn btn-primary-blue">Buy Now</a>
             </h4>
           </div>
         </div>

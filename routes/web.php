@@ -33,7 +33,9 @@ Route::get('/gallery/{id}', function () {
     return view('landing.gallery-view');
 })->name('gallery-images');
 
-
+Route::get('/events/registration', function () {
+    return view('welcome');
+})->name('register-event');
 
 Auth::routes();
 

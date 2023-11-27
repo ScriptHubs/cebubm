@@ -250,7 +250,7 @@ class Registration extends Component
         }
 
         $this->render();
-        return redirect(url('/'));
+        return redirect(url('/events/registration'));
         // $this->counter += 1;
         // $this->saveCookie();
 
