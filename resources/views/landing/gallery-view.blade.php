@@ -55,18 +55,6 @@
           </div>
         </div>
       </div>
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        <div class="col">
-          <div class="card">
-            <img src="/images/main/events/event-1.jpg" class="card-img-top img-thumbnail" alt="Image 1">
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <img src="/images/main/events/event-4.jpg" class="card-img-top img-thumbnail" alt="Image 2">
-          </div>
-        </div>
-      </div>
   </section>
   <!-- End Gallery Section -->
 @endsection
