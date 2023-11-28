@@ -22,7 +22,7 @@
       <!-- Text Content -->
       <div class="text-content position-absolute translate-middle-y text-left ps-5 carousel-header-event">
         <div class="d-flex">
-          <a href={{ route('register-event') }} class="btn-buy-tickets">BUY TICKETS</a>
+          <a href="{{ route('register-event') }}" class="btn-buy-tickets">BUY TICKETS</a>
         </div>
       </div>
 
