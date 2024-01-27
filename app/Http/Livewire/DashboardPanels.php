@@ -36,6 +36,7 @@ class DashboardPanels extends Component
     public $tickets = [];
     public $payment_links = [];
     public $ticket_prices = [];
+    public $member_types = [];
     public $viewTickets;
     public $eventValue;
     public $ticketRows;
@@ -73,6 +74,7 @@ class DashboardPanels extends Component
     public $edit_ticket_prices;
     public $edit_payment_links;
     public $edit_ticket_names;
+    public $edit_member_types;
     public $edit_event_poster_update;
 
     public $searchIsFocused;
@@ -114,6 +116,13 @@ class DashboardPanels extends Component
     public $search_guest_name;
 
 public $guest_affiliated_event;
+
+    protected $rules = [
+        'event_name' => 'required',
+        'event_description' => 'required',
+        'event_from' => 'required',
+        'event_to' => 'required',
+    ];
     
 
     public function render()
@@ -184,7 +193,8 @@ public $guest_affiliated_event;
                     'table_tickets.id as ticket_id',
                     'table_tickets.ticket_names',
                     'table_tickets.ticket_prices',
-                    'table_tickets.payment_links'
+                    'table_tickets.payment_links',
+                    'table_tickets.member_types',
                 )
                 ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
                 ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
@@ -220,7 +230,8 @@ public $guest_affiliated_event;
                     'table_tickets.id as ticket_id',
                     'table_tickets.ticket_names',
                     'table_tickets.ticket_prices',
-                    'table_tickets.payment_links'
+                    'table_tickets.payment_links',
+                    'table_tickets.member_types'
                 )
                 ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
                 ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
@@ -308,6 +319,7 @@ public $guest_affiliated_event;
             $this->tickets = isset($data['tickets']) ? explode('_@_', $data['tickets']) : $this->tickets;
             $this->ticket_prices = isset($data['ticket_prices']) ? explode('_@_', $data['ticket_prices']) : $this->ticket_prices;
             $this->payment_links = isset($data['payment_links']) ? explode('_@_', $data['payment_links']) : $this->payment_links;
+            $this->member_types = isset($data['member_types']) ? explode('_@_', $data['member_types']) : $this->member_types;
         }
 
 
@@ -465,15 +477,18 @@ public $guest_affiliated_event;
         $ticketArrayNames = [];
         $ticketArrayPrice = [];
         $ticketArrayLink = [];
+        $memberTypeArray = [];
 
         foreach ($this->edit_tickets as $ticket) {
             array_push($ticketArrayNames, $ticket->ticket_names);
             array_push($ticketArrayPrice, $ticket->ticket_prices);
             array_push($ticketArrayLink, $ticket->payment_links);
+            array_push($memberTypeArray, $ticket->member_types);
         }
         $this->edit_ticket_names = $ticketArrayNames;
         $this->edit_ticket_prices = $ticketArrayPrice;
         $this->edit_payment_links = $ticketArrayLink;
+        $this->edit_member_types = $memberTypeArray;
         $this->ticketRows = count($this->edit_ticket_names);
 
         $this->editCookie();
@@ -584,6 +599,7 @@ public $guest_affiliated_event;
         $this->tickets[] = '';
         $this->ticket_prices[] = '';
         $this->payment_links[] = '';
+        $this->member_types[] = '';
 
     }
     public function searchUnfocused()
@@ -601,6 +617,7 @@ public $guest_affiliated_event;
             array_splice($this->tickets, $row_id, 1);
             array_splice($this->ticket_prices, $row_id, 1);
             array_splice($this->payment_links, $row_id, 1);
+            array_splice($this->member_types, $row_id, 1);
         }
 
     }
@@ -612,6 +629,7 @@ public $guest_affiliated_event;
             array_splice($this->edit_ticket_names, $row_id, 1);
             array_splice($this->edit_ticket_prices, $row_id, 1);
             array_splice($this->edit_payment_links, $row_id, 1);
+            array_splice($this->edit_member_types, $row_id, 1);
         }
 
     }
@@ -639,6 +657,7 @@ public $guest_affiliated_event;
             'edit_ticket_names',
             'edit_ticket_prices',
             'edit_payment_links',
+            'edit_member_types',
             'ticketRows',
             'edit_event_id'
         ]);
@@ -664,7 +683,8 @@ public $guest_affiliated_event;
             'ticketRows' => $this->ticketRows,
             'tickets' => implode('_@_', $this->tickets),
             'ticket_prices' => implode('_@_', $this->ticket_prices),
-            'payment_links' => implode('_@_', $this->payment_links)
+            'payment_links' => implode('_@_', $this->payment_links),
+            'member_types' => implode('_@_', $this->member_types)
         ];
 
         if ($this->event_poster) {
@@ -692,7 +712,8 @@ public $guest_affiliated_event;
             'ticketRows' => $this->ticketRows,
             'edit_ticket_names' => implode('_@_', $this->edit_ticket_names),
             'edit_ticket_prices' => implode('_@_', $this->edit_ticket_prices),
-            'edit_payment_links' => implode('_@_', $this->edit_payment_links)
+            'edit_payment_links' => implode('_@_', $this->edit_payment_links),
+            'edit_member_types' => implode('_@_', $this->edit_payment_links)
         ];
 
         if ($this->event_poster) {
@@ -726,6 +747,7 @@ public $guest_affiliated_event;
                 'ticket_names' => $this->edit_ticket_names[$i],
                 'ticket_prices' => $this->edit_ticket_prices[$i],
                 'payment_links' => $this->edit_payment_links[$i],
+                'member_types' => $this->member_types[$i],
             ]);
         }
 
@@ -752,16 +774,19 @@ public $guest_affiliated_event;
         $this->tickets;
         $this->ticket_prices;
         $this->payment_links;
+        $this->member_types;
 
         for ($i = count($this->tickets) - 1; $i >= 0; $i--) {
             if (
                 empty($this->tickets[$i]) &&
                 empty($this->ticket_prices[$i]) &&
-                empty($this->payment_links[$i])
+                empty($this->payment_links[$i]) &&
+                empty($this->member_types[$i])
             ) {
                 array_splice($this->tickets, $i, 1);
                 array_splice($this->ticket_prices, $i, 1);
                 array_splice($this->payment_links, $i, 1);
+                array_splice($this->member_types, $i, 1);
             }
         }
 
@@ -794,13 +819,14 @@ public $guest_affiliated_event;
                 'ticket_names' => $this->tickets[$i],
                 'ticket_prices' => $this->ticket_prices[$i],
                 'payment_links' => $this->payment_links[$i],
+                'member_types' => $this->member_types[$i],
             ]);
         }
 
         $this->activeSetTicket = false;
         $this->activeSetConfirm = false;
 
-        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster', 'tickets', 'ticket_prices', 'payment_links']);
+        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster', 'tickets', 'ticket_prices', 'payment_links', 'member_types']);
         $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
         Cookie::queue(Cookie::forget('adminCookie'));
 

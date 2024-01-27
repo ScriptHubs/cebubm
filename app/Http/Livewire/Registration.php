@@ -86,6 +86,7 @@ class Registration extends Component
                 'table_tickets.ticket_names',
                 'table_tickets.ticket_prices',
                 'table_tickets.payment_links',
+                'table_tickets.member_types',
                 'table_events.event_name',
                 'table_events.event_description',
                 'table_events.poster',
