@@ -78,7 +78,6 @@ class Registration extends Component
             ->orderBy('created_at', 'desc')
             ->limit(1)
             ->value('id');
-
         $events = Tickets::leftJoin('table_events', 'table_tickets.event_id', '=', 'table_events.id')
             ->where('table_tickets.event_id', '=', $latestEventId)
             ->get([
@@ -86,11 +85,11 @@ class Registration extends Component
                 'table_tickets.ticket_names',
                 'table_tickets.ticket_prices',
                 'table_tickets.payment_links',
+                'table_tickets.member_types',
                 'table_events.event_name',
                 'table_events.event_description',
                 'table_events.poster',
             ]);
-         
 
         $this->events = $events;
         $this->affiliated_event = $latestEventId;

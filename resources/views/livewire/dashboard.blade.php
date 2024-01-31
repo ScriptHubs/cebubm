@@ -138,6 +138,7 @@
                                                                 <td>{{ $ticket->ticket_names }}</td>
                                                                 <td>{{ $ticket->ticket_prices }}</td>
                                                                 <td>{{ $ticket->payment_links }}</td>
+                                                                <td>{{ $ticket->member_types }}</td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
@@ -442,6 +443,8 @@
                                             </td>
                                             <td colspan="5"> <input wire:model.lazy="payment_links.{{ $i }}" type="text"
                                                     id="ticket_link_{{ $i }}" class="form-control" /> </td>
+                                            <td colspan="5"> <input wire:model.lazy="member_types.{{ $i }}" type="text"
+                                                        id="member_type_{{ $i }}" class="form-control" /> </td>
 
                                             <td colspan="1"> <button class="btn"
                                                     wire:click='deleteTicketRow({{ $i }})'><i
@@ -495,6 +498,8 @@
                                                     <td>{{ $ticket_prices[$index] }}</td>
 
                                                     <td>{{ $payment_links[$index] }}</td>
+
+                                                    <td>{{ $member_types[$index] }}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

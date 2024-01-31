@@ -16,5 +16,6 @@ class Tickets extends Model
         'ticket_names',
         'ticket_prices',
         'payment_links',
+        'member_types',
     ];
 }

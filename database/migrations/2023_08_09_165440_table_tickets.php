@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('ticket_names');
         $table->string('ticket_prices');
         $table->text('payment_links');
+        $table->string('member_types');
         $table->timestamps();
 
         // Define foreign key constraint for event_id column

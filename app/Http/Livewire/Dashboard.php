@@ -33,6 +33,7 @@ class Dashboard extends Component
     public $tickets = [];
     public $payment_links = [];
     public $ticket_prices = [];
+    public $member_types = [];
     public $viewTickets;
     public $eventValue;
     public $ticketRows;
@@ -78,6 +79,7 @@ class Dashboard extends Component
                 'table_tickets.ticket_names',
                 'table_tickets.ticket_prices',
                 'table_tickets.payment_links',
+                'table_tickets.member_types',
                 'table_events.event_name',
                 'table_events.event_date_from',
                 'table_events.event_date_to',
@@ -140,6 +142,7 @@ class Dashboard extends Component
             $this->tickets = isset($data['tickets']) ? explode('_@_', $data['tickets']) : $this->tickets;
             $this->ticket_prices = isset($data['ticket_prices']) ? explode('_@_', $data['ticket_prices']) : $this->ticket_prices;
             $this->payment_links = isset($data['payment_links']) ? explode('_@_', $data['payment_links']) : $this->payment_links;
+            $this->member_types = isset($data['member_types']) ? explode('_@_', $data['member_types']) : $this->member_types;
         }
 
 
@@ -252,7 +255,7 @@ class Dashboard extends Component
     }
     public function clearAll()
     {
-        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links', 'ticket_prices']);
+        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster_file_name', 'tickets', 'payment_links', 'ticket_prices', 'member_types']);
         $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
         Cookie::queue(Cookie::forget('adminCookie'));
     }
@@ -262,15 +265,17 @@ class Dashboard extends Component
 
     public function deleteTicketRow($row_id)
     {
-        $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-        $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-        $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
+        $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links,$this->member_types);
+        $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links, $this->member_types);
+        $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links, $this->member_types);
+        $this->member_types = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links, $this->member_types);
 
         if ($this->ticketRows >= 2) {
             $this->ticketRows -= 1;
             array_splice($this->tickets, $row_id, 1);
             array_splice($this->ticket_prices, $row_id, 1);
             array_splice($this->payment_links, $row_id, 1);
+            array_splice($this->member_types, $row_id, 1);
         }
 
     }
@@ -279,9 +284,10 @@ class Dashboard extends Component
 
     public function saveCookie()
     {
-        $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-        $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
-        $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links);
+        $this->tickets = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links, $this->member_types);
+        $this->ticket_prices = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links, $this->member_types);
+        $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links, $this->member_types);
+        $this->payment_links = array_intersect($this->tickets, $this->ticket_prices, $this->payment_links, $this->member_types);
 
         $adminCookie = [
             'page' => $this->pageActive,
@@ -296,7 +302,8 @@ class Dashboard extends Component
             'ticketRows' => $this->ticketRows,
             'tickets' => implode('_@_', $this->tickets),
             'ticket_prices' => implode('_@_', $this->ticket_prices),
-            'payment_links' => implode('_@_', $this->payment_links)
+            'payment_links' => implode('_@_', $this->payment_links),
+            'member_types' => implode('_@_', $this->member_types)
         ];
 
         Cookie::queue('adminCookie', serialize($adminCookie), 365);
@@ -336,6 +343,7 @@ class Dashboard extends Component
                 'ticket_names' => $this->tickets[$i],
                 'ticket_prices' => $this->ticket_prices[$i],
                 'payment_links' => $this->payment_links[$i],
+                'member_types' => $this->member_types[$i],
             ]);
         }
 

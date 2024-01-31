@@ -65,7 +65,7 @@
                                     </div>
                                 @elseif($activePanel === 'name')
                                     <div id="name-panel" class="fade-in">
-                                        <h3 class="q-title fw-bold ps-1">Last Name </h3>
+                                        <h3 class="q-title fw-bold ps-1">Last Name *</h3>
                                         <div class="col-lg-8 col-12">
                                             <div class="input-group mb-3">
                                                 <input wire:model.lazy='name_last' name="name_last" type="text"
@@ -73,7 +73,7 @@
                                                     aria-label="Last Name" aria-describedby="">
                                             </div>
                                         </div>
-                                        <h3 class="q-title fw-bold ps-1">First Name</h3>
+                                        <h3 class="q-title fw-bold ps-1">First Name *</h3>
                                         <div class="col-lg-8 col-12">
                                             <div class="input-group mb-3">
                                                 <input wire:model.lazy='name_first' name="name_first" type="text"
@@ -385,19 +385,21 @@
                                         <br>
                                         <h4>Thank you.</h4>
                                         <br>
-
+                                            
                                         @foreach ($events as $event)
-                                            <div class="form-check">
-                                                <input wire:model.lazy="ticketLink"
-                                                    value="{{ $event->id }}"
-                                                    class="form-check-input radio-reference" type="radio"
-                                                    name="ticketChoices" id="ticket_{{ $event->id }}">
-                                                <label class="form-check-label" for="ticket_{{ $event->id }}">
-                                                    {{ $event->ticket_names }} ({{ $event->ticket_prices }})
-                                                </label>
-                                            </div>
+                                            @if ($event->member_types == $selectedMembership)
+                                                <div class="form-check">
+                                                    <input wire:model.lazy="ticketLink"
+                                                        value="{{ $event->id }}"
+                                                        class="form-check-input radio-reference" type="radio"
+                                                        name="ticketChoices" id="ticket_{{ $event->id }}">
+                                                    <label class="form-check-label" for="ticket_{{ $event->id }}">
+                                                        {{ $event->ticket_names }} ({{ $event->ticket_prices }})
+                                                    </label>
+                                                </div>
+                                            @endif
                                         @endforeach
-
+                                    
                                         <br>
                                         <button id="paymentWindowOpen" wire:click='saveGuest' type="button"
                                             class="btn btn-orange trigger-enter text-white fs-4">Proceed to

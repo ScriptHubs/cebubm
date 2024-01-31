@@ -139,8 +139,8 @@
                   <div class="form-outline mb-3">
                     <label class="form-label ps-1 mb-0" for="event_name">Event
                       Name</label>
-                    <input wire:model.lazy='event_name' type="text" id="event_name" class="form-control"
-                      wire:blur="saveCookie" />
+                      <input wire:model.lazy='event_name' type="text" id="event_name" class="form-control" wire:blur="saveCookie" />
+                      @error('event_name') <span class="text-danger">{{ $message }}</span> @enderror
                   </div>
                   <div class="row">
                     <div class="col">
@@ -148,11 +148,15 @@
                         From</label>
                       <input wire:model.lazy='event_from' type="date" id="event_from" class="form-control"
                         wire:blur="saveCookie" />
+                        @error('event_from') <span class="text-danger">{{ $message }}</span> @enderror
+
                     </div>
                     <div class="col">
                       <label class="form-label ps-1 mb-0" for="event_to">To</label>
                       <input wire:model.lazy='event_to' type="date" id="event_to" class="form-control"
                         wire:blur="saveCookie" />
+                        @error('event_to') <span class="text-danger">{{ $message }}</span> @enderror
+
                     </div>
                   </div>
                 </div>
@@ -160,6 +164,8 @@
                   <label class="form-label ps-1 mb-0" for="description">Description</label>
                   <textarea wire:model.lazy='event_description' type="text" id="description" rows="10" class="form-control"
                     style="white-space: pre-wrap;" wire:blur="saveCookie"></textarea>
+                    @error('event_description') <span class="text-danger">{{ $message }}</span> @enderror
+
                   <br>
 
                 </div>
@@ -171,7 +177,7 @@
                     Poster</label>
                   <input wire:model.lazy='event_poster' type="file" id="event_poster" class="form-control"
                     accept="image/*" wire:blur="saveCookie">
-
+                    @error('event_poster') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-lg-4 mt-3 mt-lg-0">
                   @if ($event_poster)
@@ -189,6 +195,7 @@
                     <th class="rounded-left" scope="col">Ticket Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Payment Link</th>
+                    <th scope="col">Member Type</th>
                     <th class="rounded-right" scope="col"></th>
                   </tr>
                 </thead>
@@ -209,6 +216,13 @@
 
                       <td> <input wire:model.lazy="payment_links.{{ $i }}" type="text"
                           id="ticket_link_{{ $i }}" class="form-control" wire:blur="saveCookie" />
+                      </td>
+
+                      <td>  
+                        <select wire:model.lazy="member_types.{{ $i }}" id="member_type_{{ $i }}" class="form-control" wire:blur="saveCookie" style="width: 150px;">
+                        <option value="CCCI (Cebu Chamber of Commerce and Industry)">CCCI (Cebu Chamber of Commerce and Industry)</option>
+                        <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu Chamber of Commerce and Industry) Member</option>
+                        </select>
                       </td>
 
                       <td> <button class="btn" wire:click='deleteTicketRow({{ $i }})'><i
@@ -357,6 +371,13 @@
                 <td> <input wire:model.lazy="edit_payment_links.{{ $i }}" type="text"
                     @if ($edit_event_id === '' || $edit_event_id === null) disabled @endif id="edit_payment_links{{ $i }}"
                     class="form-control" wire:blur="saveCookie" />
+                </td>
+
+                <td>  
+                  <select wire:model.lazy="edit_member_types.{{ $i }}" id="edit_member_type_{{ $i }}" class="form-control" wire:blur="saveCookie" style="width: 150px;" @if ($edit_event_id === '' || $edit_event_id === null) disabled @endif>
+                  <option value="type1">CCCI (Cebu Chamber of Commerce and Industry)</option>
+                  <option value="type2">Non CCCI (Cebu Chamber of Commerce and Industry) Member</option>
+                  </select>
                 </td>
 
                 <td> <button class="btn" wire:click='deleteEditTicketRow({{ $i }})'><i
