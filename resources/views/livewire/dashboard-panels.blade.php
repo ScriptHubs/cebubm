@@ -25,14 +25,14 @@
         </a>
         <span class="tooltip">Create New Event</span>
       </li>
-      <li class="mb-2" wire:click="component('editEvent')">
+      {{-- <li class="mb-2" wire:click="component('editEvent')">
         <a href="#" class="@if ($selectedComponent === 'editEvent') bg-info @endif">
           <i class="bx bx-edit @if ($selectedComponent === 'editEvent') text-white @endif"></i>
           <span class="links_name @if ($selectedComponent === 'editEvent') text-white @endif">Edit
             Event</span>
         </a>
         <span class="tooltip">Edit Event</span>
-      </li>
+      </li> --}}
 
       <li class="mb-2" wire:click="component('viewGuests')">
         <a href="#" class="@if ($selectedComponent === 'viewGuests') bg-info @endif">
@@ -62,7 +62,7 @@
   <section class="home-section pe-3 pb-5">
     <div class="container-fluid w-100  pt-5 ps-4">
       @if ($selectedComponent === 'viewEvents')
-        <h3 class="fw-bold">Events List</h3>
+        <h5 class="fw-bold">Events List</h5>
         <hr>
         <br>
         <div class="table-horizontal-scroll">
@@ -130,7 +130,7 @@
         </div>
       @elseif ($selectedComponent === 'createNewEvent')
         <section>
-          <h3 class="fw-bold">Create New Event</h3>
+          <h5 class="fw-bold">Create New Event</h5>
           <hr>
 
           <div class="row d-flex">
@@ -430,7 +430,7 @@
   <section>
     <div class="row align-items-center">
       <div class="col-auto align-content-end">
-        <h3 class="fw-bold">View by event</h3>
+        <h5 class="fw-bold">View by event</h5>
       </div>
       <div class="col col-lg-3 search-bar position-relative">
         <input wire:model="search_guest_event" wire:keydown.debounce.100ms="searchGuestEvent" type="text"
@@ -459,7 +459,7 @@
         @endif
       </div>
       <div class="col-auto align-content-end">
-        <h3 class="fw-bold">View by name</h3>
+        <h5 class="fw-bold">View by name</h5>
       </div>
       <div class="col col-lg-3 search-bar position-relative">
         <input wire:model="search_guest_name" wire:keydown.debounce.100ms="searchGuestName" type="text"
@@ -520,7 +520,7 @@
     <div class="row m-0">
       <div class="container">
         <div class="col-12">
-          <h4>Guest List</h4>
+          <h5>Guest List</h5>
           @if (isset($guestList) && count($guestList) > 0)
             <div class="table-responsive">
               <table class="table table-hover">
@@ -563,7 +563,7 @@
         <div class="col-12">
           <div class="row pt-4 pt-lg-4 mt-lg-0">
             @if ($guestNameFirst)
-              <h4>Details</h4>
+              <h5>Details</h5>
               <table class="table">
                 <tbody>
                   <tr>
