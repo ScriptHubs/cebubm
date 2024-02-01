@@ -89,7 +89,8 @@
                 <tr>
                   <td class="align-middle">
                     <div class="form-check">
-                      <input class="form-check-input event-checkbox" type="checkbox" value="{{ $event->id }}" id="flexCheckDefault">
+                      <input class="form-check-input event-checkbox" type="checkbox" value="{{ $event->id }}"
+                        id="flexCheckDefault">
                     </div>
                   </td>
                   <td class="align-middle" style="width: 100px">
@@ -139,8 +140,11 @@
                   <div class="form-outline mb-3">
                     <label class="form-label ps-1 mb-0" for="event_name">Event
                       Name</label>
-                      <input wire:model.lazy='event_name' type="text" id="event_name" class="form-control" wire:blur="saveCookie" />
-                      @error('event_name') <span class="text-danger">{{ $message }}</span> @enderror
+                    <input wire:model.lazy='event_name' type="text" id="event_name" class="form-control"
+                      wire:blur="saveCookie" />
+                    @error('event_name')
+                      <span class="text-danger">{{ $message }}</span>
+                    @enderror
                   </div>
                   <div class="row">
                     <div class="col">
@@ -148,14 +152,18 @@
                         From</label>
                       <input wire:model.lazy='event_from' type="date" id="event_from" class="form-control"
                         wire:blur="saveCookie" />
-                        @error('event_from') <span class="text-danger">{{ $message }}</span> @enderror
+                      @error('event_from')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
 
                     </div>
                     <div class="col">
                       <label class="form-label ps-1 mb-0" for="event_to">To</label>
                       <input wire:model.lazy='event_to' type="date" id="event_to" class="form-control"
                         wire:blur="saveCookie" />
-                        @error('event_to') <span class="text-danger">{{ $message }}</span> @enderror
+                      @error('event_to')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
 
                     </div>
                   </div>
@@ -164,7 +172,9 @@
                   <label class="form-label ps-1 mb-0" for="description">Description</label>
                   <textarea wire:model.lazy='event_description' type="text" id="description" rows="10" class="form-control"
                     style="white-space: pre-wrap;" wire:blur="saveCookie"></textarea>
-                    @error('event_description') <span class="text-danger">{{ $message }}</span> @enderror
+                  @error('event_description')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
 
                   <br>
 
@@ -177,7 +187,9 @@
                     Poster</label>
                   <input wire:model.lazy='event_poster' type="file" id="event_poster" class="form-control"
                     accept="image/*" wire:blur="saveCookie">
-                    @error('event_poster') <span class="text-danger">{{ $message }}</span> @enderror
+                  @error('event_poster')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
                 <div class="col-lg-4 mt-3 mt-lg-0">
                   @if ($event_poster)
@@ -218,10 +230,14 @@
                           id="ticket_link_{{ $i }}" class="form-control" wire:blur="saveCookie" />
                       </td>
 
-                      <td>  
-                        <select wire:model.lazy="member_types.{{ $i }}" id="member_type_{{ $i }}" class="form-control" wire:blur="saveCookie" style="width: 150px;">
-                        <option value="CCCI (Cebu Chamber of Commerce and Industry)">CCCI (Cebu Chamber of Commerce and Industry)</option>
-                        <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu Chamber of Commerce and Industry) Member</option>
+                      <td>
+                        <select wire:model.lazy="member_types.{{ $i }}"
+                          id="member_type_{{ $i }}" class="form-control" wire:blur="saveCookie"
+                          style="width: 150px;">
+                          <option value="CCCI (Cebu Chamber of Commerce and Industry)">CCCI (Cebu Chamber of Commerce
+                            and Industry)</option>
+                          <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu
+                            Chamber of Commerce and Industry) Member</option>
                         </select>
                       </td>
 
@@ -373,10 +389,14 @@
                     class="form-control" wire:blur="saveCookie" />
                 </td>
 
-                <td>  
-                  <select wire:model.lazy="edit_member_types.{{ $i }}" id="edit_member_type_{{ $i }}" class="form-control" wire:blur="saveCookie" style="width: 150px;" @if ($edit_event_id === '' || $edit_event_id === null) disabled @endif>
-                  <option value="type1">CCCI (Cebu Chamber of Commerce and Industry)</option>
-                  <option value="type2">Non CCCI (Cebu Chamber of Commerce and Industry) Member</option>
+                <td>
+                  <select wire:model.lazy="edit_member_types.{{ $i }}"
+                    id="edit_member_type_{{ $i }}" class="form-control" wire:blur="saveCookie"
+                    style="width: 150px;" @if ($edit_event_id === '' || $edit_event_id === null) disabled @endif>
+                    <option value="CCCI (Cebu Chamber of Commerce and Industry)">CCCI (Cebu Chamber of Commerce and
+                      Industry)</option>
+                    <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu Chamber of
+                      Commerce and Industry) Member</option>
                   </select>
                 </td>
 
@@ -472,91 +492,130 @@
     </div>
     <hr>
     <div class="row m-0">
-      <div class="col-12 col-lg-3 position-relative bg-white rounded-2 pt-3 ps-3 d-flex flex-column pb-3">
-        <h4>Guest Name</h4>
-        @if (isset($guestList))
-          @if (count($guestList) > 0)
-            @foreach ($guestList->items() as $guest)
-              <div id="{{ $guest->guest_id }}" wire:click="getGuest({{ $guest->guest_id }})"
-                class="w-100 cursor-pointer hover-highlight p-2 pt-3 rounded-3 text-nowrap">
-                <h6 class="small ps-3">{{ $guest->name_first }} {{ $guest->name_middle }}
-                  {{ $guest->name_last }}</h6>
-              </div>
-            @endforeach
-          @endif
-        @endif
-        <br>
-        @if (isset($eventGuestListing))
-          <div class="row mt-auto">
-            <div id="pagination-area ">
-              {{ $guestList->links('pagination::bootstrap-4') }}
+      <div class="container">
+        <div class="col-12">
+          <h4>Guest List</h4>
+          @if (isset($guestList) && count($guestList) > 0)
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Email</th>
+                    <th>Organization</th>
+                    <th>Member Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($guestList->items() as $guest)
+                    <tr id="{{ $guest->guest_id }}" wire:click="getGuest({{ $guest->guest_id }})"
+                      class="cursor-pointer hover-highlight">
+                      <td>{{ $guest->name_last }}</td>
+                      <td>{{ $guest->name_first }}</td>
+                      <td>{{ $guest->email_address }}</td>
+                      <td>{{ $guest->company }}</td>
+                      <td>{{ str_replace('(Cebu Chamber of Commerce and Industry)', '', $guest->selectedMembership) }}</td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
             </div>
-          </div>
-        @endif
-      </div>
+          @else
+            <p>No guests found.</p>
+          @endif
 
-      <div class="col-12 col-lg-9">
+          @if (isset($eventGuestListing))
+            <div class="row mt-auto">
+              <div id="pagination-area">
+                {{ $guestList->links('pagination::bootstrap-4') }}
+              </div>
+            </div>
+          @endif
+        </div>
 
-        <div class="container">
-          <div class="row  ps-lg-5 pt-4 pt-lg-4 mt-lg-0">
-
+        <div class="col-12">
+          <div class="row pt-4 pt-lg-4 mt-lg-0">
             @if ($guestNameFirst)
-
-              <h3 class="fw-bold">{{ $guestNameFirst }} {{ $guestMiddle }}
-                {{ $guestNameLast }}
-                <span class="fs-5 fw-normal text-muted"> {{ $guestEmail }}</span>
-              </h3>
-
-
-              <h5 class="fw-medium pb-1 pt-4 pt-lg-0">{{ $guestMembership }}</h5>
-              <hr>
-              <h5 class="fw-normal pb-1 text-muted mt-4 mt-lg-0">Company / Organization: <span
-                  class="text-dark fw-medium mt-4 mt-lg-0"> {{ $guestCompany }}</span></h5>
-              <h5 class="fw-normal pb-1 text-muted mt-4 mt-lg-0">Sector: <span class="text-dark fw-medium">
-                  {{ $guestSector }}</span></h5>
-              <h5 class="fw-normal pb-1 text-muted mt-4 mt-lg-0">Industry / Line of Business: <span
-                  class="text-dark fw-medium mt-4 mt-lg-0"> {{ $guestIndustry }}</span></h5>
-              <h5 class="fw-normal pb-1 text-muted mt-4 mt-lg-0">Heard about CBM through: <span
-                  class="text-dark fw-medium mt-4 mt-lg-0">
-                  @if ($guestReferenceText != '')
-                    {{ $guestReference }}
-                  @elseif($guestReference != '')
-                    {{ $guestReferenceText }}
-                  @elseif($guestReference != '' && $guestReferenceText != '')
-                    {{ $guestReference }} & {{ $guestReferenceText }}
-                  @else
-                    Didn't say.
+              <h4>Details</h4>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="fw-normal text-muted">Name</td>
+                    <td><span class="text-dark fw-medium">{{ $guestNameFirst }} {{ $guestMiddle }} {{ $guestNameLast }}</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal text-muted">Email</td>
+                    <td><span class="text-dark fw-medium">{{ $guestEmail }}</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal text-muted">Membership:</td>
+                    <td class="text-dark fw-medium">{{ $guestMembership }}</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal text-muted">Company / Organization:</td>
+                    <td class="text-dark fw-medium">{{ $guestCompany }}</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal text-muted">Sector:</td>
+                    <td class="text-dark fw-medium">{{ $guestSector }}</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal text-muted">Industry / Line of Business:</td>
+                    <td class="text-dark fw-medium">{{ $guestIndustry }}</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal text-muted">Heard about CBM through:</td>
+                    <td class="text-dark fw-medium">
+                      @if ($guestReferenceText != '')
+                        {{ $guestReference }}
+                      @elseif($guestReference != '')
+                        {{ $guestReferenceText }}
+                      @elseif($guestReference != '' && $guestReferenceText != '')
+                        {{ $guestReference }} & {{ $guestReferenceText }}
+                      @else
+                        Didn't say.
+                      @endif
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal text-muted">Want to connect / network with:</td>
+                    <td class="text-dark fw-medium">
+                      @if ($guestConnectText != '')
+                        {{ $guestConnect }}
+                      @elseif($guestConnect != '')
+                        {{ $guestConnectText }}
+                      @elseif($guestConnect != '' && $guestConnectText != '')
+                        {{ $guestConnect }} & {{ $guestConnectText }}
+                      @else
+                        Didn't say.
+                      @endif
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal text-muted">Looking forward for:</td>
+                    <td class="text-dark fw-medium">{{ $guestExpectation }}</td>
+                  </tr>
+                  @if ($guest_affiliated_event != null)
+                    <tr>
+                      <td class="fw-normal">Affiliated Event:</td>
+                      <td class="text-dark fw-medium">{{ $guest_affiliated_event }}</td>
+                    </tr>
                   @endif
-                </span>
-              </h5>
-
-              <h5 class="fw-normal pb-1 text-muted mt-4 mt-lg-0">Want to connect / network with:
-                <span class="text-dark fw-medium mt-4 mt-lg-0">
-                  @if ($guestConnectText != '')
-                    {{ $guestConnect }}
-                  @elseif($guestConnect != '')
-                    {{ $guestConnectText }}
-                  @elseif($guestConnect != '' && $guestConnectText != '')
-                    {{ $guestConnect }} & {{ $guestConnectText }}
-                  @else
-                    Didn't say.
-                  @endif
-                </span>
-              </h5>
-              <h5 class="fw-normal text-muted mt-4 mt-lg-0">Looking forward for:<span
-                  class="text-dark fw-medium mt-4 mt-lg-0"> {{ $guestExpectation }}</span></h5>
-              @if ($guest_affiliated_event != null)
-                <h5 class="fw-normal mt-4 pt-lg-5 mt-lg-0">Affiliated Event: <span class="text-dark fw-medium">
-                    {{ $guest_affiliated_event }}</span></h5>
-              @endif
-              </h5>
-              <h5 class="fw-normal mt-4 mt-lg-0">Ticket bought: <span class="text-dark fw-medium">
-                </span>{{ $guestTicketName }}</h5>
-
-              <h5 class="fw-normal mt-4 mt-lg-0">Payment link used: <span class="text-dark fw-medium">
-                </span>{{ $guestPaymentLink }}</h5>
-              <h5 class="fw-normal pb-5 mt-4 mt-lg-0">Register Date: <span class="text-dark fw-medium">
-                </span> {{ $guestRegistrationDate }}</h5>
+                  <tr>
+                    <td class="fw-normal">Ticket bought:</td>
+                    <td class="text-dark fw-medium">{{ $guestTicketName }}</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal">Payment link used:</td>
+                    <td class="text-dark fw-medium">{{ $guestPaymentLink }}</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-normal pb-5">Register Date:</td>
+                    <td class="text-dark fw-medium">{{ $guestRegistrationDate }}</td>
+                  </tr>
+                </tbody>
+              </table>
             @endif
           </div>
         </div>

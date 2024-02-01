@@ -198,11 +198,8 @@ public $guest_affiliated_event;
                 )
                 ->leftJoin('table_tickets', 'guests.tickets', '=', 'table_tickets.payment_links')
                 ->leftJoin('table_events', 'guests.affiliated_event', '=', 'table_events.id')
-                ->paginate(12);
+                ->paginate(5);
         } else {
-
-
-
             $eventGuests = DB::table('guests')
                 ->select(
                     'guests.id as guest_id',
@@ -238,8 +235,6 @@ public $guest_affiliated_event;
                 ->where('guests.affiliated_event', '=', $id)
                 ->orderBy('name_first', 'asc')
                 ->paginate(12);
-
-
 
             $events = Events::with('tickets')
                 ->where('id', $id)
