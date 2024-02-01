@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 
 class DashboardPanels extends Component
 {
@@ -821,5 +822,90 @@ public $guest_affiliated_event;
         return redirect(url('/admin'));
     }
 
-
+    public function exportGuestsToCsv()
+    {
+        // Modify the query based on your needs
+        $query = DB::table('guests')
+            ->select([
+                'name_first',
+                'name_last',
+                'name_middle',
+                'selectedMembership',
+                'affiliated_event',
+                'email_address',
+                'company',
+                'industry',
+                'expectation',
+                'reference',
+                'reference_text',
+                'connect_text',
+                'sectorBoxoption',
+                'connect',
+                'tickets',
+                'created_at', // Assuming you have a 'created_at' column
+            ])
+            ->get();
+    
+        $csvFileName = 'guests_export_' . now()->format('YmdHis') . '.csv';
+    
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$csvFileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+    
+        return Response::streamDownload(
+            function () use ($query) {
+                $handle = fopen('php://output', 'w');
+    
+                // Add CSV header
+                fputcsv($handle, [
+                    'First Name',
+                    'Last Name',
+                    'Middle Name',
+                    'Selected Membership',
+                    'Affiliated Event',
+                    'Email Address',
+                    'Company',
+                    'Industry',
+                    'Expectation',
+                    'Reference',
+                    'Reference Text',
+                    'Connect Text',
+                    'Sector Box Option',
+                    'Connect',
+                    'Tickets',
+                    'Created At',
+                ]);
+    
+                foreach ($query as $row) {
+                    // Adjust this line based on your actual data structure
+                    fputcsv($handle, [
+                        $row->name_first,
+                        $row->name_last,
+                        $row->name_middle,
+                        $row->selectedMembership,
+                        $row->affiliated_event,
+                        $row->email_address,
+                        $row->company,
+                        $row->industry,
+                        $row->expectation,
+                        $row->reference,
+                        $row->reference_text,
+                        $row->connect_text,
+                        $row->sectorBoxoption,
+                        $row->connect,
+                        $row->tickets,
+                        $row->created_at,
+                    ]);
+                }
+    
+                fclose($handle);
+            },
+            $csvFileName,
+            $headers
+        );
+    }
 }

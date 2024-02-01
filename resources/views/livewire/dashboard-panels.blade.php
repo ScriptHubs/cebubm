@@ -490,6 +490,33 @@
       </div>
     </div>
     <hr>
+    <button wire:click="exportGuestsToCsv" class="btn btn-primary mb-3">Export to CSV</button>
+
+    <!-- Filter Modal -->
+    <div wire:ignore.self class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Filter by Created Date</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">Start Date</label>
+                        <input wire:model.defer="startDate" type="date" class="form-control" id="startDate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label">End Date</label>
+                        <input wire:model.defer="endDate" type="date" class="form-control" id="endDate">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button wire:click="filterByDate" class="btn btn-primary">Apply Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row m-0">
       <div class="container">
         <div class="col-12">
