@@ -434,7 +434,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="ticket-table">
-                                        @for ($i = 0; $i < $ticketRows; $i++) <tr id="tr_ticket_{{ $i + 1 }}">
+                                        @for ($i = 0; $i < $ticketRows; $i++) <tr id="tr_ticket_{{ $i }}">
                                             <td colspan="5"> <input wire:model.lazy="tickets.{{ $i }}" type="text"
                                                     id="ticket_name_{{ $i }}" class="form-control" />
                                             </td>

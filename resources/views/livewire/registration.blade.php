@@ -1,4 +1,4 @@
-<form wire:submit.prevent="saveData">
+<form>
     @csrf
     <div class="vh-100">
         <section id="main-registration-container" class="container-fluid h-100">
@@ -385,7 +385,6 @@
                                         <br>
                                         <h4>Thank you.</h4>
                                         <br>
-                                            
                                         @foreach ($events as $event)
                                             @if ($event->member_types == $selectedMembership)
                                                 <div class="form-check">

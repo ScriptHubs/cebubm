@@ -555,7 +555,6 @@ public $guest_affiliated_event;
         $formattedTime = Carbon::parse($dateTimeString)->format('F j, Y - g:i A');
 
         $this->guestRegistrationDate = $formattedTime;
-
         $getLink = Tickets::find($guestInfo->tickets);
         if (isset($getLink->payment_links)) {
             $this->guestPaymentLink = $getLink->payment_links;
@@ -733,8 +732,6 @@ public $guest_affiliated_event;
         $eventU->event_description = $this->edit_event_description;
         $eventU->poster = $this->edit_event_poster;
 
-
-
         $numTickets = count($this->edit_ticket_names);
         for ($i = 0; $i < $numTickets; $i++) {
             Tickets::create([
@@ -745,24 +742,19 @@ public $guest_affiliated_event;
                 'member_types' => $this->edit_member_types[$i],
             ]);
         }
-
+    
         if ($this->edit_event_poster_update) {
             $path = $this->edit_event_poster_update->store('posters', 'public');
             $eventU['poster'] = $path;
         }
         $saveSuccess = $eventU->save();
-
+    
         if ($saveSuccess) {
-
             $this->clearEdit();
             return redirect(url('/admin'));
-        } else {
-
-
         }
-
-
     }
+    
     public function storeEvent()
     {
 

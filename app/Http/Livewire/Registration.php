@@ -50,7 +50,7 @@ class Registration extends Component
         'connect_text' => 'nullable|string|max:255',
         'sectorBoxoption' => 'nullable|string|max:255',
         'connect' => 'nullable|string|max:255',
-        'tickets' => 'nullable|string|max:255',
+        'tickets' => 'required_unless:selectedMembership,CBM 2023 SPONSOR|string|max:255',
     ];
     public $panels = [
         'intro',
@@ -269,7 +269,11 @@ class Registration extends Component
 
     public function saveGuest() 
     {
-        
+        if (empty($this->ticketLink) && $this->selectedMembership != "CBM 2023 SPONSOR") {
+            $this->render();
+            return redirect(url('/events/registration'));
+        }
+
         $data = [
             'name_first' => $this->name_first,
             'name_last' => $this->name_last,

@@ -217,7 +217,7 @@
                     <tr class="spacer">
                       <td colspan="100"></td>
                     </tr>
-                    <tr scope="row" class="rounded-2" id="tr_ticket_{{ $i + 1 }}">
+                    <tr scope="row" class="rounded-2" id="tr_ticket_{{ $i }}">
                       <td> <input wire:model.lazy="tickets.{{ $i }}" type="text"
                           id="ticket_name_{{ $i }}" class="form-control" wire:blur="saveCookie" />
                       </td>
@@ -234,8 +234,7 @@
                         <select wire:model.lazy="member_types.{{ $i }}"
                           id="member_type_{{ $i }}" class="form-control" wire:blur="saveCookie"
                           style="width: 150px;">
-                          <option value="CCCI (Cebu Chamber of Commerce and Industry)">CCCI (Cebu Chamber of Commerce
-                            and Industry)</option>
+                          <option value="CCCI (Cebu Chamber of Commerce and Industry) Member">CCCI (Cebu Chamber of Commerce and Industry) Member</option>
                           <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu
                             Chamber of Commerce and Industry) Member</option>
                         </select>
@@ -373,7 +372,7 @@
               <tr class="spacer">
                 <td colspan="100"></td>
               </tr>
-              <tr scope="row" class="rounded-2" id="tr_ticket_{{ $i + 1 }}">
+              <tr scope="row" class="rounded-2" id="tr_ticket_{{ $i }}">
                 <td> <input wire:model.lazy="edit_ticket_names.{{ $i }}" type="text"
                     @if ($edit_event_id === '' || $edit_event_id === null) disabled @endif id="edit_ticket_names{{ $i }}"
                     class="form-control" wire:blur="saveCookie" />
@@ -393,7 +392,7 @@
                   <select wire:model.lazy="edit_member_types.{{ $i }}"
                     id="edit_member_type_{{ $i }}" class="form-control" wire:blur="saveCookie"
                     style="width: 150px;" @if ($edit_event_id === '' || $edit_event_id === null) disabled @endif>
-                    <option value="CCCI (Cebu Chamber of Commerce and Industry)">CCCI (Cebu Chamber of Commerce and
+                    <option value="CCCI (Cebu Chamber of Commerce and Industry) Member">CCCI (Cebu Chamber of Commerce and
                       Industry)</option>
                     <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu Chamber of
                       Commerce and Industry) Member</option>
