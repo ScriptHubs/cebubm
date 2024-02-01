@@ -315,7 +315,8 @@ class Dashboard extends Component
 
     public function storeEvent()
     {
-    
+        $data['poster'] = '';
+
         $this->validate([
             'event_name' => 'required',
             'event_description' => 'required',

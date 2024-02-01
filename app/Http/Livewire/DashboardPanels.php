@@ -796,7 +796,7 @@ public $guest_affiliated_event;
             'event_description' => $this->event_description,
             'event_date_from' => $this->event_from,
             'event_date_to' => $this->event_to,
-            'poster' => $data['poster'],
+            'poster' => $data['poster'] ?? '',
             'active' => '1'
         ]);
 
@@ -804,10 +804,10 @@ public $guest_affiliated_event;
         for ($i = 0; $i < $numTickets; $i++) {
             Tickets::create([
                 'event_id' => $event->id,
-                'ticket_names' => $this->tickets[$i],
-                'ticket_prices' => $this->ticket_prices[$i],
-                'payment_links' => $this->payment_links[$i],
-                'member_types' => $this->member_types[$i],
+                'ticket_names' => $this->tickets[$i] ?? '',
+                'ticket_prices' => $this->ticket_prices[$i] ?? '',
+                'payment_links' => $this->payment_links[$i] ?? '',
+                'member_types' => $this->member_types[$i] ?? '',
             ]);
         }
 
