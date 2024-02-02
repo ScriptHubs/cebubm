@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
-    EventController,
+    EventsController,
     HomeController
 };
 use Illuminate\Support\Facades\Route;
@@ -17,15 +17,9 @@ use Illuminate\Support\Facades\Redirect;
 |
 */
 
-Route::get('/', function () {
-    return view('landing.index');
-})->name('index');
-Route::get('/about', function () {
-    return view('landing.about');
-})->name('about');
-Route::get('/events', function () {
-    return view('landing.events');
-})->name('landing-events');
+Route::get('/', [EventsController::class, 'showEventIndex'])->name('index');
+Route::get('/about', [EventsController::class, 'showEventAbout'])->name('about');
+Route::get('/events', [EventsController::class, 'showEventEvents'])->name('landing-events');
 Route::get('/gallery', function () {
     return view('landing.gallery');
 })->name('gallery');

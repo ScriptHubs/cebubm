@@ -374,16 +374,9 @@
                                     </div>
                                 @elseif($activePanel === 'ticket_type')
                                     <div id="final-window"class="fade-in">
-                                        <h2 class="q-title fw-bold">3-Day Pass (Summit & Expo Inclusions)</h2>
-                                        <h4>Your ticket includes full access to plenary talks and panel discussions at
-                                            the
-                                            main
-                                            stage, the tech expo and
-                                            networking areas with LUNCH MEAL per day. </h4>
+                                        <h2 class="q-title fw-bold">Thank you for showing interest in Cebu Business Month!</h2>
                                         <br>
-                                        <h4>Limited Seats Available on a First Come First Served Basis. </h4>
-                                        <br>
-                                        <h4>Thank you.</h4>
+                                        <h4>Kindly click the button below to proceed to payment and wait for confirmation</h4>
                                         <br>
                                         @foreach ($events as $event)
                                             @if ($event->member_types == $selectedMembership)

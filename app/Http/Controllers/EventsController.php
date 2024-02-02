@@ -1,8 +1,9 @@
-<?
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Models\Events;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class EventsController extends Controller
 {
@@ -18,6 +19,35 @@ class EventsController extends Controller
         }
 
         Events::create($data);
+    }
 
+    public function showEventAbout()
+    {
+        // Get the last event record from the database
+        $event = Events::where('active', true)
+            ->orderBy('event_date_from', 'desc')
+            ->first();
+
+        return view('landing.about', compact('event'));
+    }
+
+    public function showEventEvents()
+    {
+        // Get the last event record from the database
+        $event = Events::where('active', true)
+            ->orderBy('event_date_from', 'desc')
+            ->first();
+
+        return view('landing.events', compact('event'));
+    }
+
+    public function showEventIndex()
+    {
+        // Get the last event record from the database
+        $event = Events::where('active', true)
+            ->orderBy('event_date_from', 'desc')
+            ->first();
+
+        return view('landing.index', compact('event'));
     }
 }
