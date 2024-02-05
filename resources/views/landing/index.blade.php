@@ -20,8 +20,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="text-content position-absolute translate-middle-y text-left ps-5 carousel-header"
-        style="top:46%">
+      <div class="text-content position-absolute translate-middle-y text-left ps-5 carousel-header" style="top:46%">
         <h2>Take Your Business To<br>
           New Heights And Join The<br> Industry Leaders</h2>
         <div class="d-flex">
@@ -55,9 +54,16 @@
               @if (isset($event))
                 <h1>{{ $event->event_name }}</h1>
                 <p class="small">
-                  <span class="badge bg-primary-blue">{{ date('F j, Y', strtotime($event->event_date_from)) }}
-                    - {{ date('F j, Y', strtotime($event->event_date_to)) }}</span>
+                  <span class="badge bg-primary-blue">
+                    @if ($event->event_date_from == $event->event_date_to)
+                      {{ date('F j, Y', strtotime($event->event_date_from)) }}
+                    @else
+                      {{ date('F j, Y', strtotime($event->event_date_from)) }}
+                      - {{ date('F j, Y', strtotime($event->event_date_to)) }}
+                    @endif
+                  </span>
                 </p>
+
                 <br>
                 <h5>
                   {{ $event->event_description }}

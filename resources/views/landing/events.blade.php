@@ -52,8 +52,12 @@
                 @if (isset($event))
                   <h1>{{ $event->event_name }}</h1>
                   <p class="small">
-                    <span class="badge bg-primary-blue">{{ date('F j, Y', strtotime($event->event_date_from)) }}
-                      - {{ date('F j, Y', strtotime($event->event_date_to)) }}</span>
+                      @if($event->event_date_from == $event->event_date_to)
+                          <span class="badge bg-primary-blue">{{ date('F j, Y', strtotime($event->event_date_from)) }}</span>
+                      @else
+                          <span class="badge bg-primary-blue">{{ date('F j, Y', strtotime($event->event_date_from)) }}
+                              - {{ date('F j, Y', strtotime($event->event_date_to)) }}</span>
+                      @endif
                   </p>
                   <br>
                   <h5>
