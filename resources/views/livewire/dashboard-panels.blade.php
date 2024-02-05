@@ -593,41 +593,23 @@
                   <tr>
                     <td class="fw-normal text-muted">Heard about CBM through:</td>
                     <td class="text-dark fw-medium">
-                      @if ($guestReferenceText != '')
-                        {{ $guestReference }}
-                      @elseif($guestReference != '')
-                        {{ $guestReferenceText }}
-                      @elseif($guestReference != '' && $guestReferenceText != '')
-                        {{ $guestReference }} & {{ $guestReferenceText }}
-                      @else
-                        Didn't say.
-                      @endif
+                        {{ $guestReference }} {{ $guestReferenceText }}
                     </td>
                   </tr>
                   <tr>
                     <td class="fw-normal text-muted">Want to connect / network with:</td>
                     <td class="text-dark fw-medium">
-                      @if ($guestConnectText != '')
-                        {{ $guestConnect }}
-                      @elseif($guestConnect != '')
-                        {{ $guestConnectText }}
-                      @elseif($guestConnect != '' && $guestConnectText != '')
-                        {{ $guestConnect }} & {{ $guestConnectText }}
-                      @else
-                        Didn't say.
-                      @endif
+                        {{ $guestConnect }} {{ $guestConnectText }}
                     </td>
                   </tr>
                   <tr>
                     <td class="fw-normal text-muted">Looking forward for:</td>
                     <td class="text-dark fw-medium">{{ $guestExpectation }}</td>
                   </tr>
-                  @if ($guest_affiliated_event != null)
-                    <tr>
-                      <td class="fw-normal">Affiliated Event:</td>
-                      <td class="text-dark fw-medium">{{ $guest_affiliated_event }}</td>
-                    </tr>
-                  @endif
+                  <tr>
+                    <td class="fw-normal">Affiliated Event:</td>
+                    <td class="text-dark fw-medium">{{ $guest_affiliated_event }}</td>
+                  </tr>
                   <tr>
                     <td class="fw-normal">Ticket bought:</td>
                     <td class="text-dark fw-medium">{{ $guestTicketName }}</td>

@@ -533,10 +533,10 @@ public $guest_affiliated_event;
 
 
         $tempSector = explode('_@_', $guestInfo->sectorBoxoption);
-        $this->guestSector = implode(', ', $tempSector);
-
+        $this->guestSector = implode(', ', array_slice($tempSector, 1));
+        
         $tempConnect = explode('_@_', $guestInfo->connect);
-        $this->guestConnect = implode(', ', $tempConnect);
+        $this->guestConnect = implode(', ', array_slice($tempConnect, 1));        
 
         $this->guestNameFirst = $guestInfo->name_first;
         $this->guestNameLast = $guestInfo->name_last;
