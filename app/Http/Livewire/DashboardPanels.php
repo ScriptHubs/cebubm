@@ -123,8 +123,7 @@ public $guest_affiliated_event;
         'event_description' => 'required',
         'event_from' => 'required',
         'event_to' => 'required',
-    ];
-    
+    ];    
 
     public function render()
     {
@@ -594,9 +593,9 @@ public $guest_affiliated_event;
         $this->tickets[] = '';
         $this->ticket_prices[] = '';
         $this->payment_links[] = '';
-        $this->member_types[] = '';
-
+        $this->member_types[] = 'CCCI (Cebu Chamber of Commerce and Industry) Member';
     }
+
     public function searchUnfocused()
     {
         $this->searchIsFocused = false;
@@ -758,69 +757,101 @@ public $guest_affiliated_event;
     
     public function storeEvent()
     {
+        // Remove empty elements from arrays
+        $this->cleanUpArrays();
 
-        $this->tickets;
-        $this->ticket_prices;
-        $this->payment_links;
-        $this->member_types;
-
-        for ($i = count($this->tickets) - 1; $i >= 0; $i--) {
-            if (
-                empty($this->tickets[$i]) &&
-                empty($this->ticket_prices[$i]) &&
-                empty($this->payment_links[$i]) &&
-                empty($this->member_types[$i])
-            ) {
-                array_splice($this->tickets, $i, 1);
-                array_splice($this->ticket_prices, $i, 1);
-                array_splice($this->payment_links, $i, 1);
-                array_splice($this->member_types, $i, 1);
-            }
-        }
-
-
+        // Validate the basic event fields
         $this->validate([
             'event_name' => 'required',
             'event_description' => 'required',
             'event_from' => 'required',
+            'event_to' => 'required',
         ]);
 
+        // Validate ticket-related fields manually
+        $ticketRules = [];
+        $ticketMessages = [];
+
+        foreach ($this->tickets as $index => $ticket) {
+            $ticketRules["tickets.$index"] = 'required';
+            $ticketRules["ticket_prices.$index"] = 'required';
+            $ticketRules["payment_links.$index"] = 'required';
+            $ticketRules["member_types.$index"] = 'required';
+
+            $ticketMessages["tickets.$index.required"] = 'The ticket field is required';
+            $ticketMessages["ticket_prices.$index.required"] = 'The ticket price field is required';
+            $ticketMessages["payment_links.$index.required"] = 'The payment link field is required';
+            $ticketMessages["member_types.$index.required"] = 'The member type field is required';
+        }
+
+        $this->validate($ticketRules, $ticketMessages);
+
+        $data = [];
+
         if ($this->event_poster) {
+            // Store the event poster
             $path = $this->event_poster->store('posters', 'public');
             $data['poster'] = $path;
         }
 
-
+        // Create the event
         $event = Events::create([
             'event_name' => $this->event_name,
             'event_description' => $this->event_description,
             'event_date_from' => $this->event_from,
             'event_date_to' => $this->event_to,
             'poster' => $data['poster'] ?? '',
-            'active' => '1'
+            'active' => 1, // Assuming 'active' is a boolean column
         ]);
 
+        // Create tickets
         $numTickets = count($this->tickets);
+
         for ($i = 0; $i < $numTickets; $i++) {
             Tickets::create([
                 'event_id' => $event->id,
-                'ticket_names' => $this->tickets[$i] ?? '',
-                'ticket_prices' => $this->ticket_prices[$i] ?? '',
-                'payment_links' => $this->payment_links[$i] ?? '',
-                'member_types' => $this->member_types[$i] ?? '',
+                'ticket_names' => $this->tickets[$i],
+                'ticket_prices' => $this->ticket_prices[$i],
+                'payment_links' => $this->payment_links[$i],
+                'member_types' => $this->member_types[$i],
             ]);
         }
 
-        $this->activeSetTicket = false;
-        $this->activeSetConfirm = false;
+        // Reset Livewire properties
+        $this->resetProperties();
 
-        $this->reset(['event_name', 'event_description', 'event_from', 'event_to', 'event_poster', 'event_poster', 'tickets', 'ticket_prices', 'payment_links', 'member_types']);
         $this->emit('showToast', ['message' => 'Data saved successfully!', 'type' => 'success']);
         Cookie::queue(Cookie::forget('adminCookie'));
 
-        $this->render();
         return redirect(url('/admin'));
     }
+
+
+    private function cleanUpArrays()
+    {
+        // Remove empty elements from arrays
+        $this->tickets = array_filter($this->tickets);
+        $this->ticket_prices = array_filter($this->ticket_prices);
+        $this->payment_links = array_filter($this->payment_links);
+        $this->member_types = array_filter($this->member_types);
+    }
+
+    private function resetProperties()
+    {
+        // Reset Livewire properties
+        $this->event_name = '';
+        $this->event_description = '';
+        $this->event_from = '';
+        $this->event_to = '';
+        $this->event_poster = null;
+        $this->tickets = [];
+        $this->ticket_prices = [];
+        $this->payment_links = [];
+        $this->member_types = [];
+        $this->activeSetTicket = false;
+        $this->activeSetConfirm = false;
+    }
+
 
     public function exportGuestsToCsv()
     {

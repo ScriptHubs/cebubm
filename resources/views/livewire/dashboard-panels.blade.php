@@ -99,7 +99,7 @@
                     @endif
                   </td>
                   <td class="align-middle">{{ $event->event_name }}</td>
-                  <td class="align-middle">{{ $event->event_description }}</td>
+                  <td class="align-middle">{{ Illuminate\Support\Str::limit($event->event_description, 30) }}</td>
                   <td class="align-middle">{{ date('Y-m-d', strtotime($event->event_date_from)) }}</td>
                   <td class="align-middle">{{ date('Y-m-d', strtotime($event->event_date_to)) }}</td>
                   <td class="align-middle">{{ $event->guest_count ?? 0 }}</td>
@@ -214,38 +214,53 @@
                 <tbody>
 
                   @for ($i = 0; $i < $ticketRows; $i++)
-                    <tr class="spacer">
+
+                  <tr class="spacer">
                       <td colspan="100"></td>
-                    </tr>
-                    <tr scope="row" class="rounded-2" id="tr_ticket_{{ $i }}">
-                      <td> <input wire:model.lazy="tickets.{{ $i }}" type="text"
-                          id="ticket_name_{{ $i }}" class="form-control" wire:blur="saveCookie" />
-                      </td>
-
-                      <td> <input wire:model.lazy="ticket_prices.{{ $i }}" type="text"
-                          id="ticket_price_{{ $i }}" class="form-control" wire:blur="saveCookie" />
-                      </td>
-
-                      <td> <input wire:model.lazy="payment_links.{{ $i }}" type="text"
-                          id="ticket_link_{{ $i }}" class="form-control" wire:blur="saveCookie" />
-                      </td>
-
+                  </tr>
+                  <tr scope="row" class="rounded-2" id="tr_ticket_{{ $i }}">
                       <td>
-                        <select wire:model.lazy="member_types.{{ $i }}"
-                          id="member_type_{{ $i }}" class="form-control" wire:blur="saveCookie"
-                          style="width: 150px;">
-                          <option value="CCCI (Cebu Chamber of Commerce and Industry) Member">CCCI (Cebu Chamber of Commerce and Industry) Member</option>
-                          <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu
-                            Chamber of Commerce and Industry) Member</option>
-                        </select>
+                          <input wire:model.lazy="tickets.{{ $i }}" type="text" id="ticket_name_{{ $i }}"
+                              class="form-control" wire:blur="saveCookie" />
+                          @error("tickets.$i") <span class="text-danger">{{ $message }}</span> @enderror
                       </td>
+              
+                      <td>
+                          <input wire:model.lazy="ticket_prices.{{ $i }}" type="text" id="ticket_price_{{ $i }}"
+                              class="form-control" wire:blur="saveCookie" />
+                          @error("ticket_prices.$i") <span class="text-danger">{{ $message }}</span> @enderror
+                      </td>
+              
+                      <td>
+                          <input wire:model.lazy="payment_links.{{ $i }}" type="text" id="ticket_link_{{ $i }}"
+                              class="form-control" wire:blur="saveCookie" />
+                          @error("payment_links.$i") <span class="text-danger">{{ $message }}</span> @enderror
+                          @error("payment_links") <span class="text-danger">{{ $message }}</span> @enderror
+                      </td>
+              
+                      <td>
+                          <select wire:model.lazy="member_types.{{ $i }}" id="member_type_{{ $i }}"
+                              class="form-control" wire:blur="saveCookie" style="width: 150px;">
+                              <option selected value="CCCI (Cebu Chamber of Commerce and Industry) Member">CCCI (Cebu Chamber
+                                  of Commerce and Industry) Member</option>
+                              <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu
+                                  Chamber of Commerce and Industry) Member</option>
+                          </select>
+                          @error("member_types.$i") <span class="text-danger">{{ $message }}</span> @enderror
+                      </td>
+              
+                      <td>
+                          <button class="btn" wire:click='deleteTicketRow({{ $i }})'><i class="fa fa-trash"></i></button>
+                      </td>
+                  </tr>
+                  <tr>
+              @endfor
+              
+              @error('payment_links')
+                  <span class="text-danger">{{ $message }}</span>
+              @enderror
+              
 
-                      <td> <button class="btn" wire:click='deleteTicketRow({{ $i }})'><i
-                            class="fa fa-trash"></i></button> </td>
-                    </tr>
-
-                    <tr>
-                  @endfor
 
                 </tbody>
               </table>
@@ -392,8 +407,7 @@
                   <select wire:model.lazy="edit_member_types.{{ $i }}"
                     id="edit_member_type_{{ $i }}" class="form-control" wire:blur="saveCookie"
                     style="width: 150px;" @if ($edit_event_id === '' || $edit_event_id === null) disabled @endif>
-                    <option value="CCCI (Cebu Chamber of Commerce and Industry) Member">CCCI (Cebu Chamber of Commerce and
-                      Industry)</option>
+                    <option selected value="CCCI (Cebu Chamber of Commerce and Industry) Member">CCCI (Cebu Chamber of Commerce and Industry) Member</option>
                     <option value="Non CCCI (Cebu Chamber of Commerce and Industry) Member">Non CCCI (Cebu Chamber of
                       Commerce and Industry) Member</option>
                   </select>
